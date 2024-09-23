@@ -1,4 +1,4 @@
-package umc.everyones.lck.util.extension
+package umc.everyones.everyoneslckmanage.util.extension
 
 import android.app.Activity
 import android.content.Context

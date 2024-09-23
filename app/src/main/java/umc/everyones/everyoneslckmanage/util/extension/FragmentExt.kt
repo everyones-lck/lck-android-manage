@@ -1,28 +1,19 @@
-package umc.everyones.lck.util.extension
+package umc.everyones.everyoneslckmanage.util.extension
 
-import android.Manifest
-import android.content.pm.PackageManager
-import android.os.Build
-import android.util.DisplayMetrics
-import android.util.Log
 import android.view.View
-import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.TextView
 import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.coordinatorlayout.widget.CoordinatorLayout
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
-import androidx.core.view.setPadding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 
 import com.google.android.material.snackbar.Snackbar
-import umc.everyones.lck.R
+import umc.everyones.everyoneslckmanage.R
 
 
 fun Fragment.toast(message: String) {

@@ -1,4 +1,4 @@
-package umc.everyones.lck.util.extension
+package umc.everyones.everyoneslckmanage.util.extension
 
 // 카테고리 -> 포지션 확장함수
 fun String.toCategoryPosition(): Int{
