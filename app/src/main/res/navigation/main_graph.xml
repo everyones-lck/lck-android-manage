@@ -12,7 +12,7 @@
         tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_homeFragment_to_deleteCommunityContentFragment"
-            app:destination="@id/deleteCommunityContentFragment" />
+            app:destination="@id/deleteCommunityContentTab" />
         <action
             android:id="@+id/action_homeFragment_to_updateTeamInfoFragment"
             app:destination="@id/updateTeamInfoFragment" />
@@ -38,11 +38,6 @@
             android:id="@+id/action_homeFragment_to_deleteViewingPartyFragment"
             app:destination="@id/deleteViewingPartyFragment" />
     </fragment>
-    <fragment
-        android:id="@+id/deleteCommunityContentFragment"
-        android:name="umc.everyones.everyoneslckmanage.presentation.community.DeleteCommunityContentFragment"
-        android:label="DeleteCommunityContentFragment"
-        tools:layout="@layout/fragment_delete_community_content"/>
     <fragment
         android:id="@+id/deleteViewingPartyFragment"
         android:name="umc.everyones.everyoneslckmanage.presentation.party.DeleteViewingPartyFragment"
@@ -83,4 +78,24 @@
         android:name="umc.everyones.everyoneslckmanage.presentation.team.UpdateTeamInfoFragment"
         android:label="UpdateTeamInfoFragment"
         tools:layout="@layout/fragment_update_team_info"/>
+    <navigation android:id="@+id/deleteCommunityContentTab"
+        app:startDestination="@id/deleteCommunityContentFragment">
+        <fragment
+            android:id="@+id/deleteCommunityContentFragment"
+            android:name="umc.everyones.everyoneslckmanage.presentation.community.DeleteCommunityContentFragment"
+            android:label="DeleteCommunityContentFragment"
+            tools:layout="@layout/fragment_delete_community_content" >
+            <action
+                android:id="@+id/action_deleteCommunityContentFragment_to_readPostFragment"
+                app:destination="@id/readPostFragment" />
+        </fragment>
+        <fragment
+            android:id="@+id/readPostFragment"
+            android:name="umc.everyones.everyoneslckmanage.presentation.community.read.ReadPostFragment"
+            android:label="ReadPostFragment" >
+            <argument
+                android:name="postId"
+                app:argType="long" />
+        </fragment>
+    </navigation>
 </navigation>

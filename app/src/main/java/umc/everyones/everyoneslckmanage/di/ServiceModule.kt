@@ -5,6 +5,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
+import umc.everyones.everyoneslckmanage.data.service.CommunityService
 import umc.everyones.everyoneslckmanage.data.service.TestService
 import javax.inject.Named
 import javax.inject.Singleton
@@ -22,6 +23,10 @@ object ServiceModule {
         return retrofit.buildService()
     }
 
-
+    @Provides
+    @Singleton
+    fun provideCommunityService(retrofit: Retrofit): CommunityService {
+        return retrofit.buildService()
+    }
 
 }
