@@ -16,11 +16,15 @@
     <color name="bnk">#F8E52F</color>
     <color name="dplus_kia">#FFFFFF</color>
     <color name="t1">#E91B3B</color>
-    <color name="ok_brion">#FFFFFF</color>
+    <color name="ok_brion">#03492D</color>
     <color name="kt_rolster">#E91B3B</color>
     <color name="kwangdong_freecs">#E91B3B</color>
     <color name="drx">#0017E7</color>
+    <color name="ns">#E91B3B</color>
+    <color name="gray_indicator">#A2A2A2</color>
     <color name="white_rectangle">#ECECEC</color>
+    <color name="tab_unselected">#B6B6B6</color>
+    <color name="transparent">#00ff0000</color>
     <color name="white_20">#33FFFFFF</color>
     <color name="white_90">#E6FFFFFF</color>
     <color name="gray_detail">#9F9F9F</color>
@@ -28,9 +32,17 @@
     <color name="gray_line">#BBBBBB</color>
     <color name="gray_spinner_bg">#D9D9D9</color>
     <color name="gray_comment_et_bg">#33D9D9D9</color>
+    <color name="bronze">#966C00</color>
+    <color name="silver">#D7D7D7</color>
+    <color name="master">#AB71C6</color>
+    <color name="challenger">#5D6AAD</color>
     <color name="gold">#E0A50E</color>
     <color name="selected">#33FFFFFF</color>
     <color name="Transparency">#00FFFFFF</color>
     <color name="text_high_light">#9FA0A5</color>
     <color name="green">#32D892</color>
+    <color name="receiver_bg">#E2E3F1</color>
+    <color name="sender_bg">#EFEFEF</color>
+    <color name="nickname_gray">#8C8C8C</color>
+    <color name="gray_shimmer">#636363</color>
 </resources>

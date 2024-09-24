@@ -103,4 +103,8 @@ dependencies {
     // calender
     implementation ("com.github.prolificinteractive:material-calendarview:2.0.1")
     implementation ("com.jakewharton.threetenabp:threetenabp:1.2.1")
+
+    implementation ("androidx.paging:paging-runtime-ktx:3.1.1")
+    implementation ("com.jakewharton.timber:timber:5.0.1")
+    implementation("com.facebook.shimmer:shimmer:0.5.0")
 }

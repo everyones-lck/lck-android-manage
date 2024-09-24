@@ -7,8 +7,10 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.android.scopes.ViewModelScoped
+import umc.everyones.everyoneslckmanage.data.repositoryImpl.CommunityRepositoryImpl
 import umc.everyones.everyoneslckmanage.data.repositoryImpl.TestRepositoryImpl
 import umc.everyones.everyoneslckmanage.data.service.TestService
+import umc.everyones.everyoneslckmanage.domain.repository.CommunityRepository
 import umc.everyones.everyoneslckmanage.domain.repository.TestRepository
 import javax.inject.Singleton
 
@@ -29,4 +31,9 @@ object RepositoryModule {
         testService: TestService
     ): TestRepository = TestRepositoryImpl(testService)
 
+    @ViewModelScoped
+    @Provides
+    fun providesCommunityRepository(
+        communityRepositoryImpl: CommunityRepositoryImpl
+    ): CommunityRepository = communityRepositoryImpl
 }
