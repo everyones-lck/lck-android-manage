@@ -57,21 +57,6 @@ class ReadViewingPartyFragment : BaseFragment<FragmentReadViewingPartyBinding>(R
                 }
             }
         }
-
-        viewLifecycleOwner.repeatOnStarted {
-            viewModel.isWriter.collect{ isWriter ->
-                Timber.d("iSwrite", isWriter.toString())
-                if(!isWriter) {
-                    with(binding){
-                        groupReadWriterMenu.visibility = View.GONE
-                        tvReadParticipantCancelGuide.visibility = View.VISIBLE
-                    }
-                } else {
-                    binding.groupReadWriterMenu.visibility = View.VISIBLE
-                    deleteViewingParty()
-                }
-            }
-        }
     }
 
     @SuppressLint("SetTextI18n")
@@ -79,7 +64,7 @@ class ReadViewingPartyFragment : BaseFragment<FragmentReadViewingPartyBinding>(R
         when(event){
             is ReadViewingPartyViewModel.ReadViewingPartyEvent.ReadViewingParty -> {
                 with(binding){
-                    tvReadViewingPartyTitle.text = event.viewingParty.name
+                    tvReadViewingPartyPostTitle.text = event.viewingParty.name
                     tvReadQualify.text = "To. ${event.viewingParty.qualify}"
                     tvReadDate.text = event.viewingParty.partyDate
                     tvReadPlace.text = event.viewingParty.place
@@ -101,16 +86,6 @@ class ReadViewingPartyFragment : BaseFragment<FragmentReadViewingPartyBinding>(R
                 viewingPartyViewModel.setIsRefreshNeeded(true)
                 navigator.navigateUp()
             }
-            ReadViewingPartyViewModel.ReadViewingPartyEvent.JoinViewingParty -> {
-                showCustomSnackBar(binding.root, "뷰잉파티에 참여되었습니다!")
-                isParticipated = true
-            }
-
-            is ReadViewingPartyViewModel.ReadViewingPartyEvent.WriteDoneViewingParty -> {
-                if(event.isWriteDone){
-                    navigator.navigateUp()
-                }
-            }
 
             else -> Unit
         }
@@ -119,9 +94,10 @@ class ReadViewingPartyFragment : BaseFragment<FragmentReadViewingPartyBinding>(R
     override fun initView() {
         Timber.d("postId", postId.toString())
         viewModel.setPostId(postId)
-        binding.ivReadBackBtn.setOnSingleClickListener {
+        binding.ivReadViewingPartyBackBtn.setOnSingleClickListener {
             navigator.navigateUp()
         }
+        deleteViewingParty()
     }
     private fun deleteViewingParty(){
         binding.ivReadDeleteBtn.setOnSingleClickListener {

@@ -23,42 +23,30 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:paddingBottom="12dp">
 
-                <TextView
-                    android:id="@+id/tv_read_title"
-                    style="@style/TextAppearance.LCK.Bold.Title1_22sp"
+                <ImageView
+                    android:id="@+id/iv_read_viewing_party_back_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="30dp"
-                    android:text="Viewing Party"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginStart="38dp"
+                    android:layout_marginTop="28dp"
+                    android:src="@drawable/ic_back_btn"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"/>
 
                 <TextView
                     android:id="@+id/tv_read_viewing_party_title"
-                    style="@style/TextAppearance.LCK.Light.Body_14sp"
+                    style="@style/TextAppearance.LCK.Bold.Title1_22sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="16dp"
-                    android:textColor="@color/white"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="@id/tv_read_title"
-                    app:layout_constraintStart_toStartOf="@id/tv_read_title"
-                    app:layout_constraintTop_toBottomOf="@id/tv_read_title"
-                    tools:text="240514 홍대 뷰파" />
-
-                <ImageView
-                    android:id="@+id/iv_read_back_btn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="36dp"
-                    android:layout_marginTop="9dp"
-                    android:src="@drawable/ic_back_btn"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/tv_read_title" />
+                    android:text="뷰잉파티 상세보기"
+                    android:textSize="24sp"
+                    android:layout_marginStart="16dp"
+                    app:layout_constraintStart_toEndOf="@id/iv_read_viewing_party_back_btn"
+                    app:layout_constraintTop_toTopOf="@id/iv_read_viewing_party_back_btn"
+                    app:layout_constraintBottom_toBottomOf="@id/iv_read_viewing_party_back_btn"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -77,23 +65,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <androidx.constraintlayout.widget.Group
-                    android:id="@+id/group_read_writer_menu"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:visibility="invisible"
-                    app:constraint_referenced_ids="iv_read_delete_btn, iv_read_edit_btn" />
-
                 <androidx.cardview.widget.CardView
                     android:id="@+id/cv_read_profile_background"
                     android:layout_width="16dp"
                     android:layout_height="16dp"
-                    android:layout_marginStart="43dp"
-                    android:layout_marginTop="20dp"
                     app:cardCornerRadius="4dp"
                     app:cardElevation="0dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintStart_toStartOf="@id/tv_read_viewing_party_post_title"
+                    app:layout_constraintTop_toBottomOf="@id/tv_read_viewing_party_post_title">
 
                     <ImageView
                         android:id="@+id/iv_read_profile_image"
@@ -102,6 +82,18 @@
                         android:scaleType="centerCrop"
                         tools:src="@drawable/ic_t1" />
                 </androidx.cardview.widget.CardView>
+
+                <TextView
+                    android:id="@+id/tv_read_viewing_party_post_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginStart="43dp"
+                    android:layout_marginTop="20dp"
+                    android:textAppearance="@style/TextAppearance.LCK.Bold.List_14sp"
+                    />
 
                 <TextView
                     android:id="@+id/tv_read_writer"
@@ -117,23 +109,13 @@
 
                 <ImageView
                     android:id="@+id/iv_read_delete_btn"
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
-                    android:layout_marginEnd="33dp"
-                    android:src="@drawable/ic_delete_comment"
-                    app:layout_constraintBottom_toBottomOf="@id/tv_read_writer"
-                    app:layout_constraintEnd_toStartOf="@id/iv_read_edit_btn"
-                    app:layout_constraintTop_toTopOf="@id/tv_read_writer" />
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_delete"
+                    app:layout_constraintBottom_toBottomOf="@id/cv_read_profile_background"
+                    app:layout_constraintEnd_toEndOf="@id/layout_read_viewing_party_content"
+                    app:layout_constraintTop_toTopOf="@id/tv_read_viewing_party_post_title" />
 
-                <ImageView
-                    android:id="@+id/iv_read_edit_btn"
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
-                    android:layout_marginEnd="37dp"
-                    android:src="@drawable/ic_edit"
-                    app:layout_constraintBottom_toBottomOf="@id/tv_read_writer"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/tv_read_writer" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/layout_read_viewing_party_content"
@@ -307,22 +289,6 @@
                         app:layout_constraintEnd_toEndOf="parent" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <TextView
-                    android:id="@+id/tv_read_participant_cancel_guide"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="27dp"
-                    android:layout_marginBottom="25dp"
-                    android:text="Viewing Party 참여는 당일 취소가 불가합니다"
-                    android:textAppearance="@style/TextAppearance.LCK.Light.Body_14sp"
-                    android:textColor="@color/warning"
-                    android:visibility="gone"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/layout_read_viewing_party_content"
-                    app:layout_constraintVertical_bias="0" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

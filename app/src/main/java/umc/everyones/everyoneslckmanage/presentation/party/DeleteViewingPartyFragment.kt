@@ -14,6 +14,7 @@ import umc.everyones.everyoneslckmanage.databinding.FragmentInputMatchInfoBindin
 import umc.everyones.everyoneslckmanage.presentation.base.BaseFragment
 import umc.everyones.everyoneslckmanage.presentation.party.adapter.ViewingPartyRVA
 import umc.everyones.everyoneslckmanage.util.extension.repeatOnStarted
+import umc.everyones.everyoneslckmanage.util.extension.setOnSingleClickListener
 
 class DeleteViewingPartyFragment : BaseFragment<FragmentDeleteViewingPartyBinding>(R.layout.fragment_delete_viewing_party) {
     private var _viewIngPartyRVA: ViewingPartyRVA? = null
@@ -52,6 +53,9 @@ class DeleteViewingPartyFragment : BaseFragment<FragmentDeleteViewingPartyBindin
 
     override fun initView() {
         initViewingPartyRVAdapter()
+        binding.ivViewingPartyBackBtn.setOnSingleClickListener {
+            navigator.navigateUp()
+        }
     }
 
     private fun initViewingPartyRVAdapter(){
