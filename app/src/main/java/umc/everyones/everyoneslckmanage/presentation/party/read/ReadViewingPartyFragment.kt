@@ -101,6 +101,8 @@ class ReadViewingPartyFragment : BaseFragment<FragmentReadViewingPartyBinding>(R
     }
     private fun deleteViewingParty(){
         binding.ivReadDeleteBtn.setOnSingleClickListener {
+            val dialog = DeleteViewingPartyDialogFragment()
+            dialog.show(childFragmentManager, dialog.tag)
         }
     }
 

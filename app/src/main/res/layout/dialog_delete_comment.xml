@@ -15,7 +15,7 @@
             android:id="@+id/tv_delete_comment_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="커뮤니티 댓글\n삭제하시겠습니까?"
+            android:text="커뮤니티 댓글\n삭제 하시겠습니까?"
             android:textAppearance="@style/TextAppearance.LCK.Bold.List_14sp"
             android:textColor="@color/gray"
             android:textAlignment="center"
