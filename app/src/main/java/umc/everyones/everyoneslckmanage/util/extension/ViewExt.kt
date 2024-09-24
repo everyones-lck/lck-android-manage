@@ -1,4 +1,4 @@
-package umc.everyones.lck.util.extension
+package umc.everyones.everyoneslckmanage.util.extension
 
 import android.view.View
 

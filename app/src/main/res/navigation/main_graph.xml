@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_graph"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="umc.everyones.everyoneslckmanage.presentation.home.HomeFragment"
+        android:label="HomeFragment"
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_homeFragment_to_deleteCommunityContentFragment"
+            app:destination="@id/deleteCommunityContentFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_updateTeamInfoFragment"
+            app:destination="@id/updateTeamInfoFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_updateRankingFragment"
+            app:destination="@id/updateRankingFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_managePOGVoteTimeFragment"
+            app:destination="@id/managePOGVoteTimeFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_reportFragment"
+            app:destination="@id/reportFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_manageMatchPredictVoteTimeFragment"
+            app:destination="@id/manageMatchPredictVoteTimeFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_inputMatchResultFragment"
+            app:destination="@id/inputMatchResultFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_inputMatchInfoFragment"
+            app:destination="@id/inputMatchInfoFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_deleteViewingPartyFragment"
+            app:destination="@id/deleteViewingPartyFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/deleteCommunityContentFragment"
+        android:name="umc.everyones.everyoneslckmanage.presentation.community.DeleteCommunityContentFragment"
+        android:label="DeleteCommunityContentFragment"
+        tools:layout="@layout/fragment_delete_community_content"/>
+    <fragment
+        android:id="@+id/deleteViewingPartyFragment"
+        android:name="umc.everyones.everyoneslckmanage.presentation.party.DeleteViewingPartyFragment"
+        android:label="DeleteViewingPartyFragment"
+        tools:layout="@layout/fragment_delete_viewing_party"/>
+    <fragment
+        android:id="@+id/inputMatchInfoFragment"
+        android:name="umc.everyones.everyoneslckmanage.presentation.match.InputMatchInfoFragment"
+        android:label="InputMatchInfoFragment"
+        tools:layout="@layout/fragment_input_match_info"/>
+    <fragment
+        android:id="@+id/inputMatchResultFragment"
+        android:name="umc.everyones.everyoneslckmanage.presentation.match.InputMatchResultFragment"
+        android:label="InputMatchResultFragment"
+        tools:layout="@layout/fragment_input_match_result"/>
+    <fragment
+        android:id="@+id/manageMatchPredictVoteTimeFragment"
+        android:name="umc.everyones.everyoneslckmanage.presentation.vote.ManageMatchPredictVoteTimeFragment"
+        android:label="ManageMatchPredictVoteTimeFragment"
+        tools:layout="@layout/fragment_manage_match_predict_vote"/>
+    <fragment
+        android:id="@+id/managePOGVoteTimeFragment"
+        android:name="umc.everyones.everyoneslckmanage.presentation.vote.ManagePOGVoteTimeFragment"
+        android:label="ManagePOGVoteTimeFragment"
+        tools:layout="@layout/fragment_manage_pog_vote"/>
+    <fragment
+        android:id="@+id/reportFragment"
+        android:name="umc.everyones.everyoneslckmanage.presentation.report.ReportFragment"
+        android:label="ReportFragment"
+        tools:layout="@layout/fragment_report"/>
+    <fragment
+        android:id="@+id/updateRankingFragment"
+        android:name="umc.everyones.everyoneslckmanage.presentation.ranking.UpdateRankingFragment"
+        android:label="UpdateRankingFragment"
+        tools:layout="@layout/fragment_update_ranking"/>
+    <fragment
+        android:id="@+id/updateTeamInfoFragment"
+        android:name="umc.everyones.everyoneslckmanage.presentation.team.UpdateTeamInfoFragment"
+        android:label="UpdateTeamInfoFragment"
+        tools:layout="@layout/fragment_update_team_info"/>
+</navigation>
