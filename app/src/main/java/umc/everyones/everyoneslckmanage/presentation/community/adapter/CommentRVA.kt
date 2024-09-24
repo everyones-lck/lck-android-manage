@@ -13,8 +13,7 @@ import umc.everyones.everyoneslckmanage.domain.model.response.community.ReadComm
 import umc.everyones.everyoneslckmanage.util.extension.setOnSingleClickListener
 
 class CommentRVA(
-    val reportComment: (Long) -> Unit,
-    val deleteComment: (Long) -> Unit
+    val deleteComment: () -> Unit
 ) : ListAdapter<ReadCommunityResponseModel.CommentListElementModel, CommentRVA.CommentViewHolder>(DiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CommentViewHolder {
@@ -43,22 +42,9 @@ class CommentRVA(
                     .load(comment.profileUrl)
                     .into(ivCommentProfile)
 
-                if (comment.isWriter){
-                    ivCommentReportBtn.visibility = View.GONE
-                    ivCommentDeleteBtn.visibility = View.VISIBLE
-                } else {
-                    ivCommentReportBtn.visibility = View.VISIBLE
-                    ivCommentDeleteBtn.visibility = View.GONE
-                }
-
-                // 댓글 신고
-                ivCommentReportBtn.setOnSingleClickListener {
-                    reportComment(comment.commentId)
-                }
-
                 // 댓글 삭제
                 ivCommentDeleteBtn.setOnSingleClickListener {
-                    deleteComment(comment.commentId)
+                    deleteComment()
                 }
             }
         }

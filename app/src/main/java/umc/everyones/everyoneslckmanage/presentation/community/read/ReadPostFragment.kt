@@ -31,17 +31,11 @@ import umc.everyones.everyoneslckmanage.util.network.UiState
 class ReadPostFragment : BaseFragment<FragmentReadPostBinding>(R.layout.fragment_read_post) {
     private val viewModel: ReadPostViewModel by activityViewModels()
     private val commentRVA by lazy {
-        CommentRVA(
-            // 댓글 신고 기능
-            reportComment = { commentId ->
+        CommentRVA {
+            val dialog = DeleteCommentDialogFragment()
+            dialog.show(childFragmentManager, dialog.tag)
+        }
 
-            },
-
-            // 댓글 삭제 기능
-            deleteComment = { commentId ->
-
-            }
-        )
     }
 
     private val readMediaRVA by lazy {
@@ -121,7 +115,8 @@ class ReadPostFragment : BaseFragment<FragmentReadPostBinding>(R.layout.fragment
 
     private fun deletePost() {
         binding.ivDeletePostBtn.setOnSingleClickListener {
-            //viewModel.deleteCommunityPost()
+            val dialog = DeletePostDialogFragment()
+            dialog.show(childFragmentManager, dialog.tag)
         }
     }
 
