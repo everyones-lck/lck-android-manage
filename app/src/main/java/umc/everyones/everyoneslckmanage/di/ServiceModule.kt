@@ -6,8 +6,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import umc.everyones.everyoneslckmanage.data.service.CommunityService
-import umc.everyones.everyoneslckmanage.data.service.TestService
-import javax.inject.Named
+import umc.everyones.everyoneslckmanage.data.service.ViewingPartyService
 import javax.inject.Singleton
 
 @Module
@@ -19,13 +18,13 @@ object ServiceModule {
 
     @Provides
     @Singleton
-    fun provideTestService(retrofit: Retrofit): TestService {
+    fun provideCommunityService(retrofit: Retrofit): CommunityService {
         return retrofit.buildService()
     }
 
     @Provides
     @Singleton
-    fun provideCommunityService(retrofit: Retrofit): CommunityService {
+    fun provideViewingPartyService(retrofit: Retrofit): ViewingPartyService {
         return retrofit.buildService()
     }
 

@@ -1,4 +1,4 @@
-package umc.everyones.everyoneslckmanage.data.datasourceImpl
+package umc.everyones.everyoneslckmanage.data.datasourceImpl.community
 
 import umc.everyones.everyoneslckmanage.data.datasource.CommunityDataSource
 import umc.everyones.everyoneslckmanage.data.dto.BaseResponse

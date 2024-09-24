@@ -8,10 +8,9 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.android.scopes.ViewModelScoped
 import umc.everyones.everyoneslckmanage.data.repositoryImpl.CommunityRepositoryImpl
-import umc.everyones.everyoneslckmanage.data.repositoryImpl.TestRepositoryImpl
-import umc.everyones.everyoneslckmanage.data.service.TestService
+import umc.everyones.everyoneslckmanage.data.repositoryImpl.ViewingPartyRepositoryImpl
 import umc.everyones.everyoneslckmanage.domain.repository.CommunityRepository
-import umc.everyones.everyoneslckmanage.domain.repository.TestRepository
+import umc.everyones.everyoneslckmanage.domain.repository.ViewingPartyRepository
 import javax.inject.Singleton
 
 @Module
@@ -25,15 +24,16 @@ object RepositoryModule {
     // 스코프 애노테이션이 있음
     // 해당하는 Hilt 컴포넌트의 수명동안 매 요청에 동일 인스턴스를 반환
     // 다음의 경우 viewModel의 수명동안 동일 인스턴스를 반환
-    @ViewModelScoped
-    @Provides
-    fun providesTestRepository(
-        testService: TestService
-    ): TestRepository = TestRepositoryImpl(testService)
 
     @ViewModelScoped
     @Provides
     fun providesCommunityRepository(
         communityRepositoryImpl: CommunityRepositoryImpl
     ): CommunityRepository = communityRepositoryImpl
+
+    @ViewModelScoped
+    @Provides
+    fun providesViewingPartyRepository(
+        viewingPartyRepositoryImpl: ViewingPartyRepositoryImpl
+    ): ViewingPartyRepository = viewingPartyRepositoryImpl
 }
