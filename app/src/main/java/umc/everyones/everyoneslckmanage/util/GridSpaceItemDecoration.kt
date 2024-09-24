@@ -1,4 +1,4 @@
-package umc.everyones.lck.util
+package umc.everyones.everyoneslckmanage.util
 
 import android.graphics.Rect
 import android.view.View

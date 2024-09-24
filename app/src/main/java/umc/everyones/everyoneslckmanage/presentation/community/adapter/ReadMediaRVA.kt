@@ -1,4 +1,4 @@
-package umc.everyones.lck.presentation.community.adapter
+package umc.everyones.everyoneslckmanage.presentation.community.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -6,9 +6,10 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import umc.everyones.everyoneslckmanage.databinding.ItemMediaReadBinding
+import umc.everyones.everyoneslckmanage.util.extension.setOnSingleClickListener
 import umc.everyones.lck.data.dto.response.community.ReadCommunityResponseDto
-import umc.everyones.lck.databinding.ItemMediaReadBinding
-import umc.everyones.lck.util.extension.setOnSingleClickListener
+
 
 class ReadMediaRVA(val viewOriginalMedia: (String, Boolean) -> Unit // 미디어 원본 보기 위한 함수
  ) : ListAdapter<ReadCommunityResponseDto.File, ReadMediaRVA.ReadMediaViewHolder>(DiffCallback()) {

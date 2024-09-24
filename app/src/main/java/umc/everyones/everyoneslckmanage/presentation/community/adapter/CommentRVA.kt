@@ -1,4 +1,4 @@
-package umc.everyones.lck.presentation.community.adapter
+package umc.everyones.everyoneslckmanage.presentation.community.adapter
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
@@ -8,10 +8,9 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import umc.everyones.lck.databinding.ItemCommentBinding
-import umc.everyones.lck.domain.model.community.Comment
-import umc.everyones.lck.domain.model.response.community.ReadCommunityResponseModel
-import umc.everyones.lck.util.extension.setOnSingleClickListener
+import umc.everyones.everyoneslckmanage.databinding.ItemCommentBinding
+import umc.everyones.everyoneslckmanage.domain.model.response.community.ReadCommunityResponseModel
+import umc.everyones.everyoneslckmanage.util.extension.setOnSingleClickListener
 
 class CommentRVA(
     val reportComment: (Long) -> Unit,

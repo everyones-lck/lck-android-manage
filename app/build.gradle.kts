@@ -107,4 +107,8 @@ dependencies {
     implementation ("androidx.paging:paging-runtime-ktx:3.1.1")
     implementation ("com.jakewharton.timber:timber:5.0.1")
     implementation("com.facebook.shimmer:shimmer:0.5.0")
+
+    implementation ("com.google.android.exoplayer:exoplayer-core:2.18.2")
+    implementation ("com.google.android.exoplayer:exoplayer-dash:2.18.2")
+    implementation ("com.google.android.exoplayer:exoplayer-ui:2.18.2")
 }

@@ -4,6 +4,7 @@ import android.app.Activity
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import kotlinx.coroutines.flow.collectLatest
 import timber.log.Timber
@@ -11,6 +12,7 @@ import umc.everyones.everyoneslckmanage.R
 import umc.everyones.everyoneslckmanage.databinding.FragmentPostListBinding
 import umc.everyones.everyoneslckmanage.presentation.base.BaseFragment
 import umc.everyones.everyoneslckmanage.presentation.community.CommunityViewModel
+import umc.everyones.everyoneslckmanage.presentation.community.DeleteCommunityContentFragmentDirections
 import umc.everyones.everyoneslckmanage.presentation.community.adapter.PostListRVA
 import umc.everyones.everyoneslckmanage.util.extension.repeatOnStarted
 
@@ -54,7 +56,8 @@ class FreeAgentListFragment : BaseFragment<FragmentPostListBinding>(R.layout.fra
 
     private fun initPostListRVAdapter() {
         _postListRVA = PostListRVA { postId ->
-            //readResultLauncher.launch(ReadPostActivity.newIntent(requireContext(), postId))
+            val action = DeleteCommunityContentFragmentDirections.actionDeleteCommunityContentFragmentToReadPostFragment(postId)
+            findNavController().navigate(action)
         }
         binding.rvPostList.adapter = postListRVA
 

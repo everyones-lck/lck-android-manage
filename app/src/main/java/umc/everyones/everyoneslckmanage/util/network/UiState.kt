@@ -1,4 +1,4 @@
-package umc.everyones.lck.util.network
+package umc.everyones.everyoneslckmanage.util.network
 
 sealed interface UiState<out T> {
     data object Empty : UiState<Nothing>
