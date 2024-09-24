@@ -36,13 +36,8 @@
             app:destination="@id/inputMatchInfoFragment" />
         <action
             android:id="@+id/action_homeFragment_to_deleteViewingPartyFragment"
-            app:destination="@id/deleteViewingPartyFragment" />
+            app:destination="@id/deleteViewingPartyTab" />
     </fragment>
-    <fragment
-        android:id="@+id/deleteViewingPartyFragment"
-        android:name="umc.everyones.everyoneslckmanage.presentation.party.DeleteViewingPartyFragment"
-        android:label="DeleteViewingPartyFragment"
-        tools:layout="@layout/fragment_delete_viewing_party"/>
     <fragment
         android:id="@+id/inputMatchInfoFragment"
         android:name="umc.everyones.everyoneslckmanage.presentation.match.InputMatchInfoFragment"
@@ -93,6 +88,26 @@
             android:id="@+id/readPostFragment"
             android:name="umc.everyones.everyoneslckmanage.presentation.community.read.ReadPostFragment"
             android:label="ReadPostFragment" >
+            <argument
+                android:name="postId"
+                app:argType="long" />
+        </fragment>
+    </navigation>
+    <navigation android:id="@+id/deleteViewingPartyTab"
+        app:startDestination="@id/deleteViewingPartyFragment">
+        <fragment
+            android:id="@+id/deleteViewingPartyFragment"
+            android:name="umc.everyones.everyoneslckmanage.presentation.party.DeleteViewingPartyFragment"
+            android:label="DeleteViewingPartyFragment"
+            tools:layout="@layout/fragment_delete_viewing_party" >
+            <action
+                android:id="@+id/action_deleteViewingPartyFragment_to_readViewingPartyFragment"
+                app:destination="@id/readViewingPartyFragment" />
+        </fragment>
+        <fragment
+            android:id="@+id/readViewingPartyFragment"
+            android:name="umc.everyones.everyoneslckmanage.presentation.party.read.ReadViewingPartyFragment"
+            android:label="ReadViewingPartyFragment" >
             <argument
                 android:name="postId"
                 app:argType="long" />

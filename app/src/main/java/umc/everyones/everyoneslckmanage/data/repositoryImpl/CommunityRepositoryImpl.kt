@@ -6,7 +6,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import kotlinx.coroutines.flow.Flow
 import umc.everyones.everyoneslckmanage.data.datasource.CommunityDataSource
-import umc.everyones.everyoneslckmanage.data.datasourceImpl.CommunityListPagingSource
+import umc.everyones.everyoneslckmanage.data.datasourceImpl.community.CommunityListPagingSource
 import umc.everyones.everyoneslckmanage.data.service.CommunityService
 import umc.everyones.everyoneslckmanage.domain.model.response.community.CommunityListModel
 import umc.everyones.everyoneslckmanage.domain.model.response.community.ReadCommunityResponseModel

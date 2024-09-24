@@ -1,4 +1,4 @@
-package umc.everyones.everyoneslckmanage.data.datasourceImpl
+package umc.everyones.everyoneslckmanage.data.datasourceImpl.community
 
 import android.util.Log
 import androidx.paging.PagingSource
