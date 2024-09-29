@@ -8,17 +8,142 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/black">
 
         <TextView
-            android:id="@+id/tv"
+            android:id="@+id/tv_update_team_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="팀 업데이트"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:text="팀 정보 입력 및 업데이트"
+            android:textSize="28sp"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:layout_marginTop="35dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
 
+        <ImageView
+            android:id="@+id/iv_update_team_previous"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_arrow_previous_white"
+            android:layout_marginEnd="10dp"
+            app:layout_constraintTop_toTopOf="@id/tv_update_team_title"
+            app:layout_constraintBottom_toBottomOf="@id/tv_update_team_title"
+            app:layout_constraintEnd_toStartOf="@id/tv_update_team_title"/>
+
+        <TextView
+            android:id="@+id/tv_update_team_gen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Gen"
+            android:textSize="24sp"
+            android:textColor="@color/white"
+            android:layout_marginTop="50dp"
+            app:layout_constraintStart_toStartOf="@id/iv_update_team_previous"
+            app:layout_constraintTop_toBottomOf="@id/iv_update_team_previous"/>
+
+        <TextView
+            android:id="@+id/tv_update_team_t1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="T1"
+            android:textSize="24sp"
+            android:textColor="@color/white"
+            android:layout_marginTop="30dp"
+            app:layout_constraintStart_toStartOf="@id/tv_update_team_gen"
+            app:layout_constraintTop_toBottomOf="@id/tv_update_team_gen"/>
+
+        <TextView
+            android:id="@+id/tv_update_team_hle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="HLE"
+            android:textSize="24sp"
+            android:textColor="@color/white"
+            android:layout_marginTop="30dp"
+            app:layout_constraintStart_toStartOf="@id/tv_update_team_t1"
+            app:layout_constraintTop_toBottomOf="@id/tv_update_team_t1"/>
+
+        <TextView
+            android:id="@+id/tv_update_team_dk"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="DK"
+            android:textSize="24sp"
+            android:textColor="@color/white"
+            android:layout_marginTop="30dp"
+            app:layout_constraintStart_toStartOf="@id/tv_update_team_hle"
+            app:layout_constraintTop_toBottomOf="@id/tv_update_team_hle"/>
+
+        <TextView
+            android:id="@+id/tv_update_team_kt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="KT"
+            android:textSize="24sp"
+            android:textColor="@color/white"
+            android:layout_marginTop="30dp"
+            app:layout_constraintStart_toStartOf="@id/tv_update_team_dk"
+            app:layout_constraintTop_toBottomOf="@id/tv_update_team_dk"/>
+
+        <TextView
+            android:id="@+id/tv_update_team_drx"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="DRX"
+            android:textSize="24sp"
+            android:textColor="@color/white"
+            android:layout_marginTop="30dp"
+            app:layout_constraintStart_toStartOf="@id/tv_update_team_kt"
+            app:layout_constraintTop_toBottomOf="@id/tv_update_team_kt"/>
+
+        <TextView
+            android:id="@+id/tv_update_team_ns"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="NS"
+            android:textSize="24sp"
+            android:textColor="@color/white"
+            android:layout_marginTop="30dp"
+            app:layout_constraintStart_toStartOf="@id/tv_update_team_drx"
+            app:layout_constraintTop_toBottomOf="@id/tv_update_team_drx"/>
+
+        <TextView
+            android:id="@+id/tv_update_team_bro"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="BRO"
+            android:textSize="24sp"
+            android:textColor="@color/white"
+            android:layout_marginTop="30dp"
+            app:layout_constraintStart_toStartOf="@id/tv_update_team_ns"
+            app:layout_constraintTop_toBottomOf="@id/tv_update_team_ns"/>
+
+        <TextView
+            android:id="@+id/tv_update_team_kdf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="KDF"
+            android:textSize="24sp"
+            android:textColor="@color/white"
+            android:layout_marginTop="30dp"
+            app:layout_constraintStart_toStartOf="@id/tv_update_team_bro"
+            app:layout_constraintTop_toBottomOf="@id/tv_update_team_bro"/>
+
+        <TextView
+            android:id="@+id/tv_update_team_bnk"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="BNK"
+            android:textSize="24sp"
+            android:textColor="@color/white"
+            android:layout_marginTop="30dp"
+            app:layout_constraintStart_toStartOf="@id/tv_update_team_kdf"
+            app:layout_constraintTop_toBottomOf="@id/tv_update_team_kdf"/>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>
