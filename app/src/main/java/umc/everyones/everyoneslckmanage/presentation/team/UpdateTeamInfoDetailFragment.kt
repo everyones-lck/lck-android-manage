@@ -24,10 +24,11 @@ class UpdateTeamInfoDetailFragment : BaseFragment<FragmentUpdateTeamInfoDetailBi
         setupLckCoachNavigation()
         setupWinningHistoryNavigation()
         setupHistoryOfRoasterNavigation()
+        setupTournamentResultNavigation()
     }
 
     private fun setupBackButtonListener() {
-        binding.ivUpdateTeamDetailPrevious.setOnClickListener {
+        binding.ivUpdateTeamDetailPrevious.setOnSingleClickListener {
             val action = UpdateTeamInfoDetailFragmentDirections
                 .actionUpdateTeamInfoDetailToUpdateTeamInfoFragment()
             navigator.navigate(action)
@@ -40,7 +41,7 @@ class UpdateTeamInfoDetailFragment : BaseFragment<FragmentUpdateTeamInfoDetailBi
     }
 
     private fun setupLckRoasterNavigation() {
-        binding.tvUpdateTeamDetailLckRoaster.setOnClickListener {
+        binding.tvUpdateTeamDetailLckRoaster.setOnSingleClickListener  {
             val teamName = binding.tvUpdateTeamDetailTeamName.text.toString()
             val action = UpdateTeamInfoDetailFragmentDirections
                 .actionUpdateTeamInfoDetailToUpdateTeamInfoLckRoasterFragment(
@@ -53,7 +54,7 @@ class UpdateTeamInfoDetailFragment : BaseFragment<FragmentUpdateTeamInfoDetailBi
     }
 
     private fun setupLckClRoasterNavigation() {
-        binding.tvUpdateTeamDetailLckClRoaster.setOnClickListener {
+        binding.tvUpdateTeamDetailLckClRoaster.setOnSingleClickListener  {
             val teamName = binding.tvUpdateTeamDetailTeamName.text.toString()
             val action = UpdateTeamInfoDetailFragmentDirections
                 .actionUpdateTeamInfoDetailToUpdateTeamInfoLckClRoasterFragment(
@@ -66,7 +67,7 @@ class UpdateTeamInfoDetailFragment : BaseFragment<FragmentUpdateTeamInfoDetailBi
     }
 
     private fun setupLckCoachNavigation() {
-        binding.tvUpdateTeamDetailLckCoach.setOnClickListener {
+        binding.tvUpdateTeamDetailLckCoach.setOnSingleClickListener  {
             val teamName = binding.tvUpdateTeamDetailTeamName.text.toString()
             val action = UpdateTeamInfoDetailFragmentDirections
                 .actionUpdateTeamInfoDetailToUpdateTeamInfoLckCoachFragment(
@@ -79,7 +80,7 @@ class UpdateTeamInfoDetailFragment : BaseFragment<FragmentUpdateTeamInfoDetailBi
     }
 
     private fun setupWinningHistoryNavigation() {
-        binding.tvUpdateTeamDetailWinningHistory.setOnClickListener {
+        binding.tvUpdateTeamDetailWinningHistory.setOnSingleClickListener  {
             val teamName = binding.tvUpdateTeamDetailTeamName.text.toString()
             val action = UpdateTeamInfoDetailFragmentDirections
                 .actionUpdateTeamInfoDetailToUpdateTeamInfoWinningHistoryFragment(
@@ -90,10 +91,21 @@ class UpdateTeamInfoDetailFragment : BaseFragment<FragmentUpdateTeamInfoDetailBi
     }
 
     private fun setupHistoryOfRoasterNavigation() {
-        binding.tvUpdateTeamDetailHistoryOfRoaster.setOnClickListener {
+        binding.tvUpdateTeamDetailHistoryOfRoaster.setOnSingleClickListener  {
             val teamName = binding.tvUpdateTeamDetailTeamName.text.toString()
             val action = UpdateTeamInfoDetailFragmentDirections
                 .actionUpdateTeamInfoDetailToUpdateTeamInfoHistoryOfRoasterFragment(
+                    teamName = teamName
+                )
+            navigator.navigate(action)
+        }
+    }
+
+    private fun setupTournamentResultNavigation() {
+        binding.tvUpdateTeamDetailTournamentResult.setOnSingleClickListener  {
+            val teamName = binding.tvUpdateTeamDetailTeamName.text.toString()
+            val action = UpdateTeamInfoDetailFragmentDirections
+                .actionUpdateTeamInfoDetailToUpdateTeamInfoTournamentResultFragment(
                     teamName = teamName
                 )
             navigator.navigate(action)
