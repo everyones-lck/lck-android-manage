@@ -23,6 +23,7 @@ class UpdateTeamInfoDetailFragment : BaseFragment<FragmentUpdateTeamInfoDetailBi
         setupLckClRoasterNavigation()
         setupLckCoachNavigation()
         setupWinningHistoryNavigation()
+        setupHistoryOfRoasterNavigation()
     }
 
     private fun setupBackButtonListener() {
@@ -82,6 +83,17 @@ class UpdateTeamInfoDetailFragment : BaseFragment<FragmentUpdateTeamInfoDetailBi
             val teamName = binding.tvUpdateTeamDetailTeamName.text.toString()
             val action = UpdateTeamInfoDetailFragmentDirections
                 .actionUpdateTeamInfoDetailToUpdateTeamInfoWinningHistoryFragment(
+                    teamName = teamName
+                )
+            navigator.navigate(action)
+        }
+    }
+
+    private fun setupHistoryOfRoasterNavigation() {
+        binding.tvUpdateTeamDetailHistoryOfRoaster.setOnClickListener {
+            val teamName = binding.tvUpdateTeamDetailTeamName.text.toString()
+            val action = UpdateTeamInfoDetailFragmentDirections
+                .actionUpdateTeamInfoDetailToUpdateTeamInfoHistoryOfRoasterFragment(
                     teamName = teamName
                 )
             navigator.navigate(action)
