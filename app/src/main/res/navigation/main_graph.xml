@@ -149,6 +149,9 @@
                 android:id="@+id/action_updateTeamInfoDetail_to_updateTeamInfoLckCoachFragment"
                 app:destination="@id/updateTeamInfoLckCoachFragment" />
             <action
+                android:id="@+id/action_updateTeamInfoDetail_to_updateTeamInfoWinningHistoryFragment"
+                app:destination="@id/updateTeamInfoWinningHistoryFragment" />
+            <action
                 android:id="@+id/action_updateTeamInfoDetail_to_updateTeamInfoFragment"
                 app:destination="@id/updateTeamInfoFragment" />
         </fragment>
@@ -373,6 +376,20 @@
                 app:argType="string"
                 app:nullable="true"/>
         </fragment>
+        <fragment
+            android:id="@+id/updateTeamInfoWinningHistoryFragment"
+            android:name="umc.everyones.everyoneslckmanage.presentation.team.UpdateTeamInfoWinningHistoryFragment"
+            android:label="UpdateTeamInfoWinningHistoryFragment"
+            tools:layout="@layout/fragment_update_team_info_winning_history">
+            <action
+                android:id="@+id/action_updateTeamInfoWinningHistoryFragment_to_updateTeamInfoDetailFragment"
+                app:destination="@id/updateTeamInfoDetailFragment"/>
+            <argument
+                android:name="teamName"
+                app:argType="string"
+                app:nullable="true"/>
+        </fragment>
+
     </navigation>
 
 </navigation>
