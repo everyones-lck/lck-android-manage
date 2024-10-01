@@ -37,7 +37,7 @@ class UpdateTeamInfoLckCoachFragment : BaseFragment<FragmentUpdateTeamInfoLckCoa
         binding.ivUpdateTeamLckCoachPlayerAdd.setOnClickListener {
             val action = UpdateTeamInfoLckCoachFragmentDirections
                 .actionUpdateTeamInfoLckCoachFragmentToUpdateTeamInfoLckCoachAddFragment(
-                    playerId = null,
+                    playerId = -1,
                     playerName = null,
                     playerImageUrl = null
                 )
@@ -46,7 +46,7 @@ class UpdateTeamInfoLckCoachFragment : BaseFragment<FragmentUpdateTeamInfoLckCoa
 
         val newPlayer = arguments?.getSerializable("newPlayer") as? LckCoach
         newPlayer?.let {
-            viewModel.addPlayer(it)
+            viewModel.addPlayerToTeam(it)
         }
 
         val updatedRoaster = arguments?.getSerializable("updatedRoaster") as? LckCoach
@@ -57,8 +57,10 @@ class UpdateTeamInfoLckCoachFragment : BaseFragment<FragmentUpdateTeamInfoLckCoa
 
     override fun initObserver() {
         lifecycleScope.launchWhenStarted {
-            viewModel.lckCoachState.collect { list ->
-                lckCoachAdapter.submitList(list.toList())
+            viewModel.allCoaches.collect { allCoaches ->
+                val teamName = viewModel.teamName ?: "Unknown Team"
+                val teamCoachesList = viewModel.getCoachesForTeam(teamName)
+                lckCoachAdapter.submitList(teamCoachesList.toList())
             }
         }
     }

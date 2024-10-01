@@ -14,38 +14,48 @@ class UpdateTeamInfoLckCoachViewModel @Inject constructor() : ViewModel() {
 
     var teamName: String? = null
 
-    private val _lckCoachState = MutableStateFlow<List<LckCoach>>(emptyList())
-    val lckCoachState: StateFlow<List<LckCoach>> = _lckCoachState
+    private val _allCoaches = MutableStateFlow<List<LckCoach>>(emptyList())
+    val allCoaches: StateFlow<List<LckCoach>> = _allCoaches
 
     init {
-        _lckCoachState.value = listOf(
-            LckCoach("1", "Player 1",  "https://picsum.photos/400/400"),
-            LckCoach("2", "Player 2",  "https://picsum.photos/400/400"),
-            LckCoach("3", "Player 3",  "https://picsum.photos/400/400"),
-            LckCoach("4", "Player 4",  "https://picsum.photos/400/400"),
-            LckCoach("5", "Player 5", "https://picsum.photos/400/400")
-        )
+        initializeSampleData()
     }
 
-    fun addPlayer(player: LckCoach) {
-        val currentList = _lckCoachState.value.toMutableList()
+    private fun initializeSampleData() {
+        val sampleData = listOf(
+            LckCoach(1, "Player 1", "https://picsum.photos/400/400", "T1"),
+            LckCoach(2, "Player 2",  "https://picsum.photos/400/400", "T1"),
+            LckCoach(3, "Player 3",  "https://picsum.photos/400/400", "T1"),
+            LckCoach(4, "Player 4",  "https://picsum.photos/400/400", "DK"),
+            LckCoach(5, "Player 5",  "https://picsum.photos/400/400", "DK"),
+            LckCoach(6, "Player 6",  "https://picsum.photos/400/400", "Gen")
+        )
+
+        _allCoaches.value = sampleData
+    }
+    fun getCoachesForTeam(teamName: String): List<LckCoach> {
+        return _allCoaches.value.filter { it.teamName == teamName }
+    }
+
+    fun addPlayerToTeam(player: LckCoach) {
+        val currentList = _allCoaches.value.toMutableList()
         currentList.add(player)
-        _lckCoachState.value = currentList
+        _allCoaches.value = currentList
     }
 
     fun updatePlayer(updatedPlayer: LckCoach) {
-        val currentList = _lckCoachState.value.toMutableList()
+        val currentList = _allCoaches.value.toMutableList()
         val index = currentList.indexOfFirst { it.id == updatedPlayer.id }
         if (index != -1) {
             currentList[index] = updatedPlayer
-            _lckCoachState.value = currentList
+            _allCoaches.value = currentList
         }
     }
 
-    fun deletePlayer(playerId: String) {
-        val currentList = _lckCoachState.value.toMutableList()
+    fun deletePlayer(playerId: Int) {
+        val currentList = _allCoaches.value.toMutableList()
         val updatedList = currentList.filter { it.id != playerId }
-        _lckCoachState.value = updatedList
+        _allCoaches.value = updatedList
     }
 }
 

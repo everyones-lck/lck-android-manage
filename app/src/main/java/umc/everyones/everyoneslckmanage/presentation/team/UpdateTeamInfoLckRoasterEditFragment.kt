@@ -20,7 +20,7 @@ class UpdateTeamInfoLckRoasterEditFragment: BaseFragment<FragmentUpdateTeamInfoL
     private var playerId: Int? = null
     private var selectedImageUri: String? = null
 
-    private val viewModel: UpdateTeamInfoLckClRoasterEditViewModel by activityViewModels()
+    private val viewModel: UpdateTeamInfoLckRoasterEditViewModel by activityViewModels()
     private val viewModel_team: UpdateTeamInfoLckRoasterViewModel by activityViewModels()
 
     private val navigator by lazy {

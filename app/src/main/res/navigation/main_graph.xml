@@ -353,8 +353,7 @@
                 app:destination="@id/updateTeamInfoLckCoachFragment"/>
             <argument
                 android:name="playerId"
-                app:argType="string"
-                app:nullable="true"/>
+                app:argType="integer"/>
             <argument
                 android:name="playerName"
                 app:argType="string"
@@ -375,8 +374,7 @@
                 app:destination="@id/updateTeamInfoLckCoachFragment"/>
             <argument
                 android:name="playerId"
-                app:argType="string"
-                app:nullable="true"/>
+                app:argType="integer"/>
             <argument
                 android:name="playerName"
                 app:argType="string"
