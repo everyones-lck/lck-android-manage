@@ -1,5 +1,6 @@
 package umc.everyones.everyoneslckmanage.presentation.team
 
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -11,7 +12,16 @@ import umc.everyones.everyoneslckmanage.util.extension.setOnSingleClickListener
 
 class UpdateTeamInfoWinningHistoryFragment : BaseFragment<FragmentUpdateTeamInfoWinningHistoryBinding>(R.layout.fragment_update_team_info_winning_history) {
 
-    private val viewModel: UpdateTeamInfoWinningHistoryViewModel by viewModels()
+    private val viewModel: UpdateTeamInfoWinningHistoryViewModel by activityViewModels()
+
+    private val winningHistoryAdapter by lazy {
+        WinningHistoryRVA(
+            onAddWinningHistory = { newHistory -> viewModel.addWinningHistory(newHistory) },
+            onSaveWinningHistory = { updatedHistory -> viewModel.updateWinningHistory(updatedHistory) },
+            onDeleteWinningHistory = { historyToDelete -> viewModel.deleteWinningHistory(historyToDelete) },
+            viewModel = viewModel
+        )
+    }
 
     private val navigator by lazy {
         findNavController()
@@ -20,8 +30,10 @@ class UpdateTeamInfoWinningHistoryFragment : BaseFragment<FragmentUpdateTeamInfo
 
     override fun initObserver() {
         lifecycleScope.launchWhenStarted {
-            viewModel.winningHistoryList.collect { list ->
-                (binding.rvUpdateTeamWinningHistory.adapter as WinningHistoryRVA).submitList(list)
+            viewModel.winningHistoryList.collect { allCoaches ->
+                val teamName = viewModel.teamName ?: "Unknown Team"
+                val teamCoachList = viewModel.getWinningHistoryForTeam(teamName)
+                winningHistoryAdapter.submitList(teamCoachList.toList())
             }
         }
     }
@@ -38,17 +50,7 @@ class UpdateTeamInfoWinningHistoryFragment : BaseFragment<FragmentUpdateTeamInfo
 
     private fun setupRecyclerView() {
         binding.rvUpdateTeamWinningHistory.layoutManager = LinearLayoutManager(context)
-        binding.rvUpdateTeamWinningHistory.adapter = WinningHistoryRVA(
-            onAddWinningHistory = { newHistory ->
-                viewModel.addWinningHistory(newHistory)
-            },
-            onSaveWinningHistory = { updatedHistory ->
-                viewModel.updateWinningHistory(updatedHistory)
-            },
-            onDeleteWinningHistory = { historyToDelete ->
-                viewModel.deleteWinningHistory(historyToDelete)
-            }
-        )
+        binding.rvUpdateTeamWinningHistory.adapter = winningHistoryAdapter
     }
 
     private fun setupBackButtonListener(teamName: String) {

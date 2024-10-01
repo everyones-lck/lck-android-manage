@@ -1,5 +1,6 @@
 package umc.everyones.everyoneslckmanage.presentation.team
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,9 +19,13 @@ class UpdateTeamInfoWinningHistoryViewModel @Inject constructor() : ViewModel() 
 
     init {
         _winningHistoryList.value = listOf(
-            WinningHistory(1, 2018, "LCK Summer"),
-            WinningHistory(2, 2019, "LCK Spring")
+            WinningHistory(100, 2018, "Lck Summer","DK"),
+            WinningHistory(200, 2019, "Lck Summer","T1")
         )
+    }
+
+    fun getWinningHistoryForTeam(teamName: String): List<WinningHistory> {
+        return _winningHistoryList.value.filter { it.teamName == teamName }
     }
 
     fun addWinningHistory(newHistory: WinningHistory) {
@@ -44,3 +49,4 @@ class UpdateTeamInfoWinningHistoryViewModel @Inject constructor() : ViewModel() 
         _winningHistoryList.value = currentList
     }
 }
+

@@ -5,15 +5,19 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.AppCompatButton
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.RecyclerView
 import umc.everyones.everyoneslckmanage.R
 import umc.everyones.everyoneslckmanage.databinding.ItemUpdateTeamInfoWinningHistoryBinding
+import umc.everyones.everyoneslckmanage.util.extension.setOnSingleClickListener
+import java.util.UUID
 
 
 class WinningHistoryRVA(
     private val onAddWinningHistory: (WinningHistory) -> Unit,
     private val onSaveWinningHistory: (WinningHistory) -> Unit,
-    private val onDeleteWinningHistory: (WinningHistory) -> Unit
+    private val onDeleteWinningHistory: (WinningHistory) -> Unit,
+    private val viewModel: UpdateTeamInfoWinningHistoryViewModel
 ) : RecyclerView.Adapter<WinningHistoryRVA.WinningHistoryViewHolder>() {
 
     private var winningHistoryList: MutableList<WinningHistory> = mutableListOf()
@@ -120,11 +124,13 @@ class WinningHistoryRVA(
                 ivUpdateTeamInfoWinningHistoryEdit.visibility = View.GONE
                 ivUpdateTeamInfoWinningHistoryDelete.visibility = View.GONE
 
-                ivUpdateTeamInfoWinningHistorySave.setOnClickListener {
+                ivUpdateTeamInfoWinningHistorySave.setOnSingleClickListener {
+                    val teamName = viewModel.teamName ?: "Unknown Team"
                     val newWinningHistory = WinningHistory(
-                        id = winningHistoryList.size + 1,
+                        id = UUID.randomUUID().hashCode(),
                         year = etUpdateTeamInfoWinningHistoryYear.text.toString().toInt(),
-                        seasonName = etUpdateTeamInfoWinningHistorySeason.text.toString()
+                        seasonName = etUpdateTeamInfoWinningHistorySeason.text.toString(),
+                        teamName = teamName
                     )
                     onAddWinningHistory(newWinningHistory)
                     exitAddMode()
