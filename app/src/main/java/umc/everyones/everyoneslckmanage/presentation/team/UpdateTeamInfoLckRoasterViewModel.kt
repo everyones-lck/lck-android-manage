@@ -14,38 +14,48 @@ class UpdateTeamInfoLckRoasterViewModel @Inject constructor() : ViewModel() {
 
     var teamName: String? = null
 
-    private val _lckRoasterState = MutableStateFlow<List<LckRoaster>>(emptyList())
-    val lckRoasterState: StateFlow<List<LckRoaster>> = _lckRoasterState
+    private val _allRoasters = MutableStateFlow<List<LckRoaster>>(emptyList())
+    val allRoasters: StateFlow<List<LckRoaster>> = _allRoasters
 
     init {
-        _lckRoasterState.value = listOf(
-            LckRoaster("1", "Player 1", "미드", "https://picsum.photos/400/400"),
-            LckRoaster("2", "Player 2", "서폿", "https://picsum.photos/400/400"),
-            LckRoaster("3", "Player 3", "탑", "https://picsum.photos/400/400"),
-            LckRoaster("4", "Player 4", "원딜", "https://picsum.photos/400/400"),
-            LckRoaster("5", "Player 5", "정글", "https://picsum.photos/400/400")
-        )
+        initializeSampleData()
     }
 
-    fun addPlayer(player: LckRoaster) {
-        val currentList = _lckRoasterState.value.toMutableList()
+    private fun initializeSampleData() {
+        val sampleData = listOf(
+            LckRoaster(1, "Player 1", "미드", "https://picsum.photos/400/400", "T1"),
+            LckRoaster(2, "Player 2", "서폿", "https://picsum.photos/400/400", "T1"),
+            LckRoaster(3, "Player 3", "탑", "https://picsum.photos/400/400", "T1"),
+            LckRoaster(4, "Player 4", "원딜", "https://picsum.photos/400/400", "DK"),
+            LckRoaster(5, "Player 5", "정글", "https://picsum.photos/400/400", "DK"),
+            LckRoaster(6, "Player 6", "탑", "https://picsum.photos/400/400", "Gen")
+        )
+
+        _allRoasters.value = sampleData
+    }
+    fun getRoasterForTeam(teamName: String): List<LckRoaster> {
+        return _allRoasters.value.filter { it.teamName == teamName }
+    }
+
+    fun addPlayerToTeam(player: LckRoaster) {
+        val currentList = _allRoasters.value.toMutableList()
         currentList.add(player)
-        _lckRoasterState.value = currentList
+        _allRoasters.value = currentList
     }
 
     fun updatePlayer(updatedPlayer: LckRoaster) {
-        val currentList = _lckRoasterState.value.toMutableList()
+        val currentList = _allRoasters.value.toMutableList()
         val index = currentList.indexOfFirst { it.id == updatedPlayer.id }
         if (index != -1) {
             currentList[index] = updatedPlayer
-            _lckRoasterState.value = currentList
+            _allRoasters.value = currentList
         }
     }
 
-    fun deletePlayer(playerId: String) {
-        val currentList = _lckRoasterState.value.toMutableList()
+    fun deletePlayer(playerId: Int) {
+        val currentList = _allRoasters.value.toMutableList()
         val updatedList = currentList.filter { it.id != playerId }
-        _lckRoasterState.value = updatedList
+        _allRoasters.value = updatedList
     }
 }
 

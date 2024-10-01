@@ -1,11 +1,6 @@
 package umc.everyones.everyoneslckmanage.presentation.team
 
-import android.os.Bundle
-import android.util.Log
-import android.view.View
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -33,10 +28,10 @@ class UpdateTeamInfoLckRoasterFragment : BaseFragment<FragmentUpdateTeamInfoLckR
         initLckRoasterRVAdapter()
         setupBackButtonListener(teamName)
 
-        binding.ivUpdateTeamLckRoasterPlayerAdd.setOnClickListener {
+        binding.ivUpdateTeamLckRoasterPlayerAdd.setOnSingleClickListener {
             val action = UpdateTeamInfoLckRoasterFragmentDirections
                 .actionUpdateTeamInfoLckRoasterFragmentToUpdateTeamInfoLckRoasterAddFragment(
-                    playerId = null,
+                    playerId = -1,
                     playerName = null,
                     playerPosition = null,
                     playerImageUrl = null
@@ -46,7 +41,7 @@ class UpdateTeamInfoLckRoasterFragment : BaseFragment<FragmentUpdateTeamInfoLckR
 
         val newPlayer = arguments?.getSerializable("newPlayer") as? LckRoaster
         newPlayer?.let {
-            viewModel.addPlayer(it)
+            viewModel.addPlayerToTeam(it)
         }
 
         val updatedRoaster = arguments?.getSerializable("updatedRoaster") as? LckRoaster
@@ -57,8 +52,10 @@ class UpdateTeamInfoLckRoasterFragment : BaseFragment<FragmentUpdateTeamInfoLckR
 
     override fun initObserver() {
         lifecycleScope.launchWhenStarted {
-            viewModel.lckRoasterState.collect { list ->
-                lckRoasterAdapter.submitList(list.toList())
+            viewModel.allRoasters.collect { allRoasters ->
+                val teamName = viewModel.teamName ?: "Unknown Team"
+                val teamRoasterList = viewModel.getRoasterForTeam(teamName)
+                lckRoasterAdapter.submitList(teamRoasterList.toList())
             }
         }
     }
@@ -66,8 +63,9 @@ class UpdateTeamInfoLckRoasterFragment : BaseFragment<FragmentUpdateTeamInfoLckR
     private fun setTeamName(teamName: String) {
         binding.tvUpdateTeamLckRoasterTeamName.text = teamName
     }
+
     private fun setupBackButtonListener(teamName: String) {
-        binding.ivUpdateTeamLckRoasterPrevious.setOnSingleClickListener  {
+        binding.ivUpdateTeamLckRoasterPrevious.setOnSingleClickListener {
             val action = UpdateTeamInfoLckRoasterFragmentDirections
                 .actionUpdateTeamInfoLckRoasterFragmentToUpdateTeamInfoDetailFragment(
                     teamName = teamName

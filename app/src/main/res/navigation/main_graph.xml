@@ -199,8 +199,7 @@
                 app:destination="@id/updateTeamInfoLckRoasterFragment"/>
             <argument
                 android:name="playerId"
-                app:argType="string"
-                app:nullable="true"/>
+                app:argType="integer"/>
             <argument
                 android:name="playerName"
                 app:argType="string"
@@ -225,8 +224,7 @@
                 app:destination="@id/updateTeamInfoLckRoasterFragment"/>
             <argument
                 android:name="playerId"
-                app:argType="string"
-                app:nullable="true"/>
+                app:argType="integer"/>
             <argument
                 android:name="playerName"
                 app:argType="string"
@@ -278,16 +276,19 @@
                 app:destination="@id/updateTeamInfoLckClRoasterFragment"/>
             <argument
                 android:name="playerId"
-                app:argType="string" />
+                app:argType="integer"/>
             <argument
                 android:name="playerName"
-                app:argType="string" />
+                app:argType="string"
+                app:nullable="true"/>
             <argument
                 android:name="playerPosition"
-                app:argType="string" />
+                app:argType="string"
+                app:nullable="true"/>
             <argument
                 android:name="playerImageUrl"
-                app:argType="string" />
+                app:argType="string"
+                app:nullable="true"/>
         </fragment>
 
         <fragment
@@ -300,16 +301,19 @@
                 app:destination="@id/updateTeamInfoLckClRoasterFragment"/>
             <argument
                 android:name="playerId"
-                app:argType="string" />
+                app:argType="integer"/>
             <argument
                 android:name="playerName"
-                app:argType="string" />
+                app:argType="string"
+                app:nullable="true"/>
             <argument
                 android:name="playerPosition"
-                app:argType="string" />
+                app:argType="string"
+                app:nullable="true"/>
             <argument
                 android:name="playerImageUrl"
-                app:argType="string" />
+                app:argType="string"
+                app:nullable="true"/>
         </fragment>
 
         <fragment

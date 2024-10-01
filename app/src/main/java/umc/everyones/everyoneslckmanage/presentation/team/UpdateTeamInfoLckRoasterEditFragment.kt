@@ -1,20 +1,27 @@
 package umc.everyones.everyoneslckmanage.presentation.team
 
+import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
+import kotlinx.coroutines.launch
 import umc.everyones.everyoneslckmanage.R
+import umc.everyones.everyoneslckmanage.databinding.FragmentUpdateTeamInfoLckClRoasterEditBinding
 import umc.everyones.everyoneslckmanage.databinding.FragmentUpdateTeamInfoLckRoasterEditBinding
 import umc.everyones.everyoneslckmanage.presentation.base.BaseFragment
 import umc.everyones.everyoneslckmanage.util.extension.setOnSingleClickListener
 
 class UpdateTeamInfoLckRoasterEditFragment: BaseFragment<FragmentUpdateTeamInfoLckRoasterEditBinding>(R.layout.fragment_update_team_info_lck_roaster_edit) {
 
-    private var playerId: String? = null
+    private var playerId: Int? = null
     private var selectedImageUri: String? = null
 
-    private val viewModel: UpdateTeamInfoLckRoasterViewModel by activityViewModels()
+    private val viewModel: UpdateTeamInfoLckClRoasterEditViewModel by activityViewModels()
+    private val viewModel_team: UpdateTeamInfoLckRoasterViewModel by activityViewModels()
 
     private val navigator by lazy {
         findNavController()
@@ -27,18 +34,38 @@ class UpdateTeamInfoLckRoasterEditFragment: BaseFragment<FragmentUpdateTeamInfoL
         }
     }
     override fun initObserver() {
+        playerId?.let { id ->
+            lifecycleScope.launchWhenStarted {
+                viewModel.playerWinningCareers.collect { winningCareerMap ->
+                    val careerList = viewModel.getWinningCareerForPlayer(id)
+                    (binding.rvUpdateTeamLckRoasterEditWinningCareer.adapter as WinningCareerRVA).submitList(careerList.toList())
 
+                }
+            }
+        }
+        playerId?.let { id ->
+            lifecycleScope.launchWhenStarted {
+                viewModel.playerHistoryOfTeam.collect { historyOfTeamMap ->
+                    val historyTeamList = viewModel.getHistoryTeamsForPlayer(id)
+                    (binding.rvUpdateTeamLckRoasterEditHistoryOfTeam.adapter as HistoryOfTeamRVA).submitList(historyTeamList.toList())
+
+                }
+            }
+        }
     }
 
     override fun initView() {
+        playerId = arguments?.getInt("playerId")
         setupInitialData()
-        setupCheckBoxListeners()
+        setupRecyclerView()
+        setupHistoryTeamRecyclerView()
+        setupAddButton()
         setupSaveButtonListener()
         setupNoButtonListener()
         setupBackButtonListener()
         setTeamName()
 
-        binding.ivUpdateTeamLckRoasterEditPhoto.setOnSingleClickListener  {
+        binding.ivUpdateTeamLckRoasterEditGallery.setOnSingleClickListener  {
             openGallery()
         }
     }
@@ -48,8 +75,86 @@ class UpdateTeamInfoLckRoasterEditFragment: BaseFragment<FragmentUpdateTeamInfoL
     }
 
     private fun setTeamName() {
-        val teamName = viewModel.teamName ?: "Unknown Team"
+        val teamName = viewModel_team.teamName ?: "Unknown Team"
         binding.tvUpdateTeamLckRoasterEditTeamName.text = teamName
+    }
+
+    private fun setupRecyclerView() {
+        val adapter = WinningCareerRVA(
+            onAddWinningCareer = { newCareer ->
+                playerId?.let { id ->
+                    viewModel.addWinningCareerToPlayer(id, newCareer)
+                    updateRecyclerView(id)
+                }
+            },
+            onSaveWinningCareer = { updatedCareer ->
+                playerId?.let { id ->
+                    viewModel.updateWinningCareerForPlayer(id, updatedCareer)
+                    updateRecyclerView(id)
+                }
+            },
+            onDeleteWinningCareer = { careerId ->
+                playerId?.let { id ->
+                    viewModel.deleteWinningCareerFromPlayer(id, careerId)
+                    updateRecyclerView(id)
+                }
+            }
+        )
+
+        binding.rvUpdateTeamLckRoasterEditWinningCareer.layoutManager = LinearLayoutManager(context)
+        binding.rvUpdateTeamLckRoasterEditWinningCareer.adapter = adapter
+
+        playerId?.let { id ->
+            updateRecyclerView(id)
+        }
+    }
+
+    private fun updateRecyclerView(playerId: Int) {
+        val careerList = viewModel.getWinningCareerForPlayer(playerId)
+        (binding.rvUpdateTeamLckRoasterEditWinningCareer.adapter as WinningCareerRVA).submitList(careerList.toList())
+
+    }
+    private fun setupHistoryTeamRecyclerView() {
+        val adapter = HistoryOfTeamRVA(
+            onAddHistoryTeam = { newTeam ->
+                playerId?.let { id ->
+                    viewModel.addHistoryTeamToPlayer(id, newTeam)
+                    updateHistoryTeamRecyclerView(id)
+                }
+            },
+            onSaveHistoryTeam = { updatedTeam ->
+                playerId?.let { id ->
+                    viewModel.updateHistoryTeamForPlayer(id, updatedTeam)
+                    updateHistoryTeamRecyclerView(id)
+                }
+            },
+            onDeleteHistoryTeam = { teamId ->
+                playerId?.let { id ->
+                    viewModel.deleteHistoryTeamFromPlayer(id, teamId.id)
+                    updateHistoryTeamRecyclerView(id)
+                }
+            }
+        )
+
+        binding.rvUpdateTeamLckRoasterEditHistoryOfTeam.layoutManager = LinearLayoutManager(context)
+        binding.rvUpdateTeamLckRoasterEditHistoryOfTeam.adapter = adapter
+
+        playerId?.let { id ->
+            updateHistoryTeamRecyclerView(id)
+        }
+    }
+
+    private fun updateHistoryTeamRecyclerView(playerId: Int) {
+        val teamList = viewModel.getHistoryTeamsForPlayer(playerId)
+        (binding.rvUpdateTeamLckRoasterEditHistoryOfTeam.adapter as HistoryOfTeamRVA).submitList(teamList.toList())
+    }
+    private fun setupAddButton() {
+        binding.ivUpdateTeamLckRoasterEditWinningCareerAdd.setOnSingleClickListener {
+            (binding.rvUpdateTeamLckRoasterEditWinningCareer.adapter as WinningCareerRVA).enterAddMode()
+        }
+        binding.ivUpdateTeamLckRoasterEditHistoryOfTeamAdd.setOnSingleClickListener {
+            (binding.rvUpdateTeamLckRoasterEditHistoryOfTeam.adapter as HistoryOfTeamRVA).enterAddMode()
+        }
     }
     private fun setupBackButtonListener() {
         binding.ivUpdateTeamLckRoasterEditPrevious.setOnSingleClickListener  {
@@ -65,9 +170,10 @@ class UpdateTeamInfoLckRoasterEditFragment: BaseFragment<FragmentUpdateTeamInfoL
 
     private fun setupNoButtonListener() {
         binding.ivUpdateTeamLckRoasterEditNo.setOnSingleClickListener {
-            playerId?.let {
-                viewModel.deletePlayer(it)
+            playerId?.let { id ->
+                viewModel_team.deletePlayer(id)
             }
+
             val action = UpdateTeamInfoLckRoasterEditFragmentDirections
                 .actionUpdateTeamInfoLckRoasterEditFragmentToUpdateTeamInfoLckRoasterFragment(
                     newPlayer = null,
@@ -79,79 +185,46 @@ class UpdateTeamInfoLckRoasterEditFragment: BaseFragment<FragmentUpdateTeamInfoL
     }
 
     private fun setupInitialData() {
-        playerId = arguments?.getString("playerId")
+        playerId = arguments?.getInt("playerId")
         val playerName = arguments?.getString("playerName")
         val playerPosition = arguments?.getString("playerPosition")
         val playerImageUrl = arguments?.getString("playerImageUrl")
 
-        binding.edUpdateTeamLckRoasterEditName.setText(playerName)
-
-        when (playerPosition) {
-            "탑" -> binding.cbUpdateTeamLckRoasterEditPositionTop.isChecked = true
-            "미드" -> binding.cbUpdateTeamLckRoasterEditPositionMid.isChecked = true
-            "정글" -> binding.cbUpdateTeamLckRoasterEditPositionJungle.isChecked = true
-            "원딜" -> binding.cbUpdateTeamLckRoasterEditPositionBot.isChecked = true
-            "서폿" -> binding.cbUpdateTeamLckRoasterEditPositionSupport.isChecked = true
-        }
+        binding.etUpdateTeamLckRoasterEditName.setText(playerName)
+        binding.etUpdateTeamLckRoasterEditPosition.setText(playerPosition)
 
         Glide.with(binding.ivUpdateTeamLckRoasterEditPhoto.context)
             .load(playerImageUrl)
             .into(binding.ivUpdateTeamLckRoasterEditPhoto)
     }
 
-    private fun setupCheckBoxListeners() {
-        val checkBoxes = listOf(
-            binding.cbUpdateTeamLckRoasterEditPositionTop,
-            binding.cbUpdateTeamLckRoasterEditPositionMid,
-            binding.cbUpdateTeamLckRoasterEditPositionJungle,
-            binding.cbUpdateTeamLckRoasterEditPositionBot,
-            binding.cbUpdateTeamLckRoasterEditPositionSupport
-        )
-
-        checkBoxes.forEach { checkBox ->
-            checkBox.setOnCheckedChangeListener { _, isChecked ->
-                if (isChecked) {
-                    checkBoxes.forEach { otherCheckBox ->
-                        if (otherCheckBox != checkBox) {
-                            otherCheckBox.isChecked = false
-                        }
-                    }
-                }
-            }
-        }
-    }
-
     private fun setupSaveButtonListener() {
-        binding.ivUpdateTeamLckRoasterEditCheck.setOnClickListener {
-            val updatedName = binding.edUpdateTeamLckRoasterEditName.text.toString()
-            val updatedPosition = getSelectedPosition()
+        binding.ivUpdateTeamLckRoasterEditCheck.setOnSingleClickListener {
+            val updatedName = binding.etUpdateTeamLckRoasterEditName.text.toString()
+            val updatedPosition = binding.etUpdateTeamLckRoasterEditPosition.text.toString()
             val updatedImageUrl = selectedImageUri ?: arguments?.getString("playerImageUrl") ?: ""
 
-            val updatedRoaster = LckRoaster(
-                id = playerId ?: "",
-                name = updatedName,
-                position = updatedPosition,
-                imageUrl = updatedImageUrl
-            )
+            val teamName = arguments?.getString("teamName") ?: viewModel_team.teamName ?: "Unknown Team"
 
-            val action = UpdateTeamInfoLckRoasterEditFragmentDirections
-                .actionUpdateTeamInfoLckRoasterEditFragmentToUpdateTeamInfoLckRoasterFragment(
-                    newPlayer = null,
-                    updatedRoaster = updatedRoaster,
-                    teamName = null
+            playerId?.let { id ->
+                val updatedRoaster = LckRoaster(
+                    id = id,
+                    name = updatedName,
+                    position = updatedPosition,
+                    imageUrl = updatedImageUrl,
+                    teamName = teamName
                 )
-            navigator.navigate(action)
-        }
-    }
 
-    private fun getSelectedPosition(): String {
-        return when {
-            binding.cbUpdateTeamLckRoasterEditPositionTop.isChecked -> "탑"
-            binding.cbUpdateTeamLckRoasterEditPositionMid.isChecked -> "미드"
-            binding.cbUpdateTeamLckRoasterEditPositionJungle.isChecked -> "정글"
-            binding.cbUpdateTeamLckRoasterEditPositionBot.isChecked -> "원딜"
-            binding.cbUpdateTeamLckRoasterEditPositionSupport.isChecked -> "서폿"
-            else -> ""
+                viewModel_team.updatePlayer(updatedRoaster)
+
+                val action = UpdateTeamInfoLckRoasterEditFragmentDirections
+                    .actionUpdateTeamInfoLckRoasterEditFragmentToUpdateTeamInfoLckRoasterFragment(
+                        newPlayer = null,
+                        updatedRoaster = updatedRoaster,
+                        teamName = teamName
+                    )
+                navigator.navigate(action)
+            }
         }
     }
 }
