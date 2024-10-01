@@ -9,12 +9,14 @@ import androidx.recyclerview.widget.RecyclerView
 import umc.everyones.everyoneslckmanage.R
 import umc.everyones.everyoneslckmanage.databinding.ItemUpdateTeamInfoHistoryOfRoasterBinding
 import umc.everyones.everyoneslckmanage.databinding.ItemUpdateTeamInfoWinningHistoryBinding
+import java.util.UUID
 
 
 class HistoryOfRoasterRVA(
-    private val onAddWinningHistory: (HistoryOfRoaster) -> Unit,
-    private val onSaveWinningHistory: (HistoryOfRoaster) -> Unit,
-    private val onDeleteWinningHistory: (HistoryOfRoaster) -> Unit
+    private val onAddHistoryOfRoaster: (HistoryOfRoaster) -> Unit,
+    private val onSaveHistoryOfRoaster: (HistoryOfRoaster) -> Unit,
+    private val onDeleteHistoryOfRoaster: (HistoryOfRoaster) -> Unit,
+    private val viewModel: UpdateTeamInfoHistoryOfRoasterViewModel
 ) : RecyclerView.Adapter<HistoryOfRoasterRVA.HistoryOfRoasterViewHolder>() {
 
     private var historyOfRoasterList: MutableList<HistoryOfRoaster> = mutableListOf()
@@ -96,13 +98,13 @@ class HistoryOfRoasterRVA(
                         year = etUpdateTeamInfoHistoryOfRoasterYear.text.toString().toInt(),
                         seasonName = etUpdateTeamInfoHistoryOfRoasterSeason.text.toString()
                     )
-                    onSaveWinningHistory(updatedWinningHistory)
+                    onSaveHistoryOfRoaster(updatedWinningHistory)
                     editModePosition = -1
                     notifyDataSetChanged()
                 }
 
                 ivUpdateTeamInfoHistoryOfRoasterDelete.setOnClickListener {
-                    onDeleteWinningHistory(historyOfRoaster)
+                    onDeleteHistoryOfRoaster(historyOfRoaster)
                 }
             }
         }
@@ -122,12 +124,14 @@ class HistoryOfRoasterRVA(
                 ivUpdateTeamInfoHistoryOfRoasterDelete.visibility = View.GONE
 
                 ivUpdateTeamInfoHistoryOfRoasterSave.setOnClickListener {
+                    val teamName = viewModel.teamName ?: "Unknown Team"
                     val newHistoryOfRoaster = HistoryOfRoaster(
-                        id = historyOfRoasterList.size + 1,
+                        id = UUID.randomUUID().hashCode(),
                         year = etUpdateTeamInfoHistoryOfRoasterYear.text.toString().toInt(),
-                        seasonName = etUpdateTeamInfoHistoryOfRoasterSeason.text.toString()
+                        seasonName = etUpdateTeamInfoHistoryOfRoasterSeason.text.toString(),
+                        teamName = teamName
                     )
-                    onAddWinningHistory(newHistoryOfRoaster)
+                    onAddHistoryOfRoaster(newHistoryOfRoaster)
                     exitAddMode()
                 }
             }

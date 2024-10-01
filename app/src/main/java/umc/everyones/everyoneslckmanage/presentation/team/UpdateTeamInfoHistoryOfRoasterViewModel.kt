@@ -18,18 +18,21 @@ class UpdateTeamInfoHistoryOfRoasterViewModel @Inject constructor() : ViewModel(
 
     init {
         _historyOfRoasterList.value = listOf(
-            HistoryOfRoaster(1, 2018, "LCK Summer"),
-            HistoryOfRoaster(2, 2019, "LCK Spring")
+            HistoryOfRoaster(1, 2018, "PerfecrT  Pyosik  Bdd  Deft  BeryL","DK"),
+            HistoryOfRoaster(2, 2019, "PerfecrT  Pyosik  Bdd  Deft  BeryL","HLE")
         )
     }
+    fun getHistoryOfRoasterForTeam(teamName: String): List<HistoryOfRoaster> {
+        return _historyOfRoasterList.value.filter { it.teamName == teamName }
+    }
 
-    fun addWinningHistory(newHistory: HistoryOfRoaster) {
+    fun addHistoryOfRoaster(newHistory: HistoryOfRoaster) {
         val currentList = _historyOfRoasterList.value.toMutableList()
         currentList.add(newHistory)
         _historyOfRoasterList.value = currentList
     }
 
-    fun updateWinningHistory(updatedHistory: HistoryOfRoaster) {
+    fun updateHistoryOfRoaster(updatedHistory: HistoryOfRoaster) {
         val currentList = _historyOfRoasterList.value.toMutableList()
         val index = currentList.indexOfFirst { it.id == updatedHistory.id }
         if (index != -1) {
@@ -38,7 +41,7 @@ class UpdateTeamInfoHistoryOfRoasterViewModel @Inject constructor() : ViewModel(
         }
     }
 
-    fun deleteWinningHistory(historyToDelete: HistoryOfRoaster) {
+    fun deleteHistoryOfRoaster(historyToDelete: HistoryOfRoaster) {
         val currentList = _historyOfRoasterList.value.toMutableList()
         currentList.remove(historyToDelete)
         _historyOfRoasterList.value = currentList
