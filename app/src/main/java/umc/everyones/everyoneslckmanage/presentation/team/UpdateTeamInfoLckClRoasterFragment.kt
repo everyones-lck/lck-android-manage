@@ -25,16 +25,23 @@ class UpdateTeamInfoLckClRoasterFragment : BaseFragment<FragmentUpdateTeamInfoLc
         viewModel.teamName = teamName
         setTeamName(teamName)
 
-        initLckRoasterRVAdapter()
+        initLckClRoasterRVAdapter()
         setupBackButtonListener(teamName)
 
-        binding.ivUpdateTeamLckClRoasterPlayerAdd.setOnClickListener {
-            navigator.navigate(R.id.action_updateTeamInfoLckClRoasterFragment_to_updateTeamInfoLckClRoasterAddFragment)
+        binding.ivUpdateTeamLckClRoasterPlayerAdd.setOnSingleClickListener {
+            val action = UpdateTeamInfoLckClRoasterFragmentDirections
+                .actionUpdateTeamInfoLckClRoasterFragmentToUpdateTeamInfoLckClRoasterAddFragment(
+                    playerId = -1,
+                    playerName = null,
+                    playerPosition = null,
+                    playerImageUrl = null
+                )
+            navigator.navigate(action)
         }
 
         val newPlayer = arguments?.getSerializable("newPlayer") as? LckClRoaster
         newPlayer?.let {
-            viewModel.addPlayer(it)
+            viewModel.addPlayerToTeam(it)
         }
 
         val updatedRoaster = arguments?.getSerializable("updatedRoaster") as? LckClRoaster
@@ -45,8 +52,10 @@ class UpdateTeamInfoLckClRoasterFragment : BaseFragment<FragmentUpdateTeamInfoLc
 
     override fun initObserver() {
         lifecycleScope.launchWhenStarted {
-            viewModel.lckClRoasterState.collect { list ->
-                lckClRoasterAdapter.submitList(list.toList())
+            viewModel.allClRoasters.collect { allClRoasters ->
+                val teamName = viewModel.teamName ?: "Unknown Team"
+                val teamRoasterList = viewModel.getRoasterForTeam(teamName)
+                lckClRoasterAdapter.submitList(teamRoasterList.toList())
             }
         }
     }
@@ -64,7 +73,7 @@ class UpdateTeamInfoLckClRoasterFragment : BaseFragment<FragmentUpdateTeamInfoLc
         }
     }
 
-    private fun initLckRoasterRVAdapter() {
+    private fun initLckClRoasterRVAdapter() {
         lckClRoasterAdapter = LckClRoasterRVA { roaster ->
             val action = UpdateTeamInfoLckClRoasterFragmentDirections
                 .actionUpdateTeamInfoLckClRoasterFragmentToUpdateTeamInfoLckClRoasterEditFragment(
