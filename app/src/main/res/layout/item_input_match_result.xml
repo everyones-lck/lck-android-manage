@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        >
+
+        <TextView
+            android:id="@+id/tv_match_result_match_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/TextAppearance.LCK.Light"
+            android:textSize="14sp"
+            android:text="LCK Summer Match"
+            android:layout_marginStart="48dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/tv_match_result_match_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/TextAppearance.LCK.Light"
+            android:textSize="14sp"
+            android:text="2024.01.01"
+            android:layout_marginStart="40dp"
+            app:layout_constraintStart_toEndOf="@id/tv_match_result_match_title"
+            app:layout_constraintTop_toTopOf="@id/tv_match_result_match_title"/>
+
+        <TextView
+            android:id="@+id/tv_match_result_match_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/TextAppearance.LCK.Light"
+            android:textSize="14sp"
+            android:text="17:00"
+            android:layout_marginStart="5dp"
+            app:layout_constraintStart_toEndOf="@id/tv_match_result_match_date"
+            app:layout_constraintTop_toTopOf="@id/tv_match_result_match_date"/>
+        
+        <TextView
+            android:id="@+id/tv_match_result_win"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/TextAppearance.LCK.Light"
+            android:text="WIN"
+            android:textSize="14sp"
+            android:layout_marginTop="15dp"
+            app:layout_constraintTop_toBottomOf="@id/tv_match_result_match_title"
+            app:layout_constraintStart_toStartOf="@id/tv_match_result_match_title"/>
+        
+        <RadioGroup
+            android:id="@+id/rg_match_result_winner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toEndOf="@id/tv_match_result_win"
+            app:layout_constraintTop_toTopOf="@id/tv_match_result_win"
+            app:layout_constraintBottom_toBottomOf="@id/tv_match_result_win"
+            android:layout_marginStart="50dp">
+            
+            <RadioButton
+                android:id="@+id/btn_match_result_team1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="T1"
+                style="@style/TextAppearance.LCK.Light"/>
+
+            <RadioButton
+                android:id="@+id/btn_match_result_team2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="GEN"
+                style="@style/TextAppearance.LCK.Light"
+                android:layout_marginStart="30dp"/>
+
+        </RadioGroup>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="1dp"
+            android:background="#BBBBBB"
+            android:alpha="0.4"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rg_match_result_winner"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

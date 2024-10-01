@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -8,7 +9,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_gradient_color">
 
         <ImageView
             android:id="@+id/iv_match_result_back_btn"
@@ -31,6 +33,16 @@
             app:layout_constraintStart_toEndOf="@id/iv_match_result_back_btn"
             app:layout_constraintTop_toTopOf="@id/iv_match_result_back_btn"
             app:layout_constraintTop_toBottomOf="@id/iv_match_result_back_btn"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_match_result_container"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="60dp"
+            tools:listitem="@layout/item_input_match_result"
+            app:layout_constraintTop_toBottomOf="@+id/iv_match_result_back_btn"/>
+
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
