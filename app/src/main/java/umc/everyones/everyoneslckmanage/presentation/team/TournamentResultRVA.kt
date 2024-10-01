@@ -9,12 +9,14 @@ import androidx.recyclerview.widget.RecyclerView
 import umc.everyones.everyoneslckmanage.R
 import umc.everyones.everyoneslckmanage.databinding.ItemUpdateTeamInfoTournamentResultBinding
 import umc.everyones.everyoneslckmanage.databinding.ItemUpdateTeamInfoWinningHistoryBinding
+import java.util.UUID
 
 
 class TournamentResultRVA(
-    private val onAddWinningHistory: (TournamentResult) -> Unit,
-    private val onSaveWinningHistory: (TournamentResult) -> Unit,
-    private val onDeleteWinningHistory: (TournamentResult) -> Unit
+    private val onAddTournamentResult: (TournamentResult) -> Unit,
+    private val onSaveTournamentResult: (TournamentResult) -> Unit,
+    private val onDeleteTournamentResult: (TournamentResult) -> Unit,
+    private val viewModel: UpdateTeamInfoTournamentResultViewmodel
 ) : RecyclerView.Adapter<TournamentResultRVA.TournamentResultViewHolder>() {
 
     private var tournamentResultList: MutableList<TournamentResult> = mutableListOf()
@@ -96,13 +98,13 @@ class TournamentResultRVA(
                         year = etUpdateTeamInfoTournamentResultYear.text.toString().toInt(),
                         seasonName = etUpdateTeamInfoTournamentResultPlayer.text.toString()
                     )
-                    onSaveWinningHistory(updatedTournamentResult)
+                    onSaveTournamentResult(updatedTournamentResult)
                     editModePosition = -1
                     notifyDataSetChanged()
                 }
 
                 ivUpdateTeamInfoTournamentResultDelete.setOnClickListener {
-                    onDeleteWinningHistory(tournamentResult)
+                    onDeleteTournamentResult(tournamentResult)
                 }
             }
         }
@@ -122,12 +124,14 @@ class TournamentResultRVA(
                 ivUpdateTeamInfoTournamentResultDelete.visibility = View.GONE
 
                 ivUpdateTeamInfoTournamentResultSave.setOnClickListener {
+                    val teamName = viewModel.teamName ?: "Unknown Team"
                     val newTournamentResult = TournamentResult(
-                        id = tournamentResultList.size + 1,
+                        id = UUID.randomUUID().hashCode(),
                         year = etUpdateTeamInfoTournamentResultYear.text.toString().toInt(),
-                        seasonName = etUpdateTeamInfoTournamentResultPlayer.text.toString()
+                        seasonName = etUpdateTeamInfoTournamentResultPlayer.text.toString(),
+                        teamName = teamName
                     )
-                    onAddWinningHistory(newTournamentResult)
+                    onAddTournamentResult(newTournamentResult)
                     exitAddMode()
                 }
             }

@@ -33,7 +33,7 @@
             android:textColorHint="@color/gray"
             android:textSize="20sp"
             android:background="@null"
-            android:layout_marginStart="30dp"
+            android:layout_marginStart="25dp"
             android:layout_marginTop="25dp"
             android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
@@ -44,28 +44,30 @@
             android:id="@+id/tv_update_team_info_tournament_result_player"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="PerfecrT  Pyosik  Bdd  Deft  BeryL"
+            android:text="Lck Summer"
             android:textSize="20sp"
             android:textColor="@color/white"
-            android:layout_marginTop="15dp"
+            android:layout_marginStart="25dp"
             android:visibility="visible"
-            app:layout_constraintStart_toStartOf="@id/tv_update_team_info_tournament_result_year"
-            app:layout_constraintTop_toBottomOf="@+id/tv_update_team_info_tournament_result_year"/>
+            app:layout_constraintStart_toEndOf="@id/tv_update_team_info_tournament_result_year"
+            app:layout_constraintTop_toTopOf="@+id/tv_update_team_info_tournament_result_year"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_update_team_info_tournament_result_year"/>
 
 
         <EditText
             android:id="@+id/et_update_team_info_tournament_result_player"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="name name name name name"
+            android:hint="Title"
             android:textSize="20sp"
             android:textColor="@color/gray"
             android:textColorHint="@color/gray"
             android:background="@null"
-            android:layout_marginTop="15dp"
+            android:layout_marginStart="25dp"
             android:visibility="gone"
-            app:layout_constraintStart_toStartOf="@id/et_update_team_info_tournament_result_year"
-            app:layout_constraintTop_toBottomOf="@+id/et_update_team_info_tournament_result_year" />
+            app:layout_constraintStart_toEndOf="@id/et_update_team_info_tournament_result_year"
+            app:layout_constraintTop_toTopOf="@+id/et_update_team_info_tournament_result_year"
+            app:layout_constraintBottom_toBottomOf="@+id/et_update_team_info_tournament_result_year" />
 
 
         <ImageView

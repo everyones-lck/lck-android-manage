@@ -18,18 +18,22 @@ class UpdateTeamInfoTournamentResultViewmodel @Inject constructor() : ViewModel(
 
     init {
         _tournamentResultList.value = listOf(
-            TournamentResult(1, 2018, "PerfecrT  Pyosik  Bdd  Deft  BeryL"),
-            TournamentResult(2, 2019, "PerfecrT  Pyosik  Bdd  Deft  BeryL")
+            TournamentResult(1, 2018, "Lck Summer","T1"),
+            TournamentResult(2, 2019, "Lck Spring","T1")
         )
     }
 
-    fun addWinningHistory(newHistory: TournamentResult) {
+    fun getTournamentResultForTeam(teamName: String): List<TournamentResult> {
+        return _tournamentResultList.value.filter { it.teamName == teamName }
+    }
+
+    fun addTournamentResult(newHistory: TournamentResult) {
         val currentList = _tournamentResultList.value.toMutableList()
         currentList.add(newHistory)
         _tournamentResultList.value = currentList
     }
 
-    fun updateWinningHistory(updatedHistory: TournamentResult) {
+    fun updateTournamentResult(updatedHistory: TournamentResult) {
         val currentList = _tournamentResultList.value.toMutableList()
         val index = currentList.indexOfFirst { it.id == updatedHistory.id }
         if (index != -1) {
@@ -38,7 +42,7 @@ class UpdateTeamInfoTournamentResultViewmodel @Inject constructor() : ViewModel(
         }
     }
 
-    fun deleteWinningHistory(historyToDelete: TournamentResult) {
+    fun deleteTournamentResult(historyToDelete: TournamentResult) {
         val currentList = _tournamentResultList.value.toMutableList()
         currentList.remove(historyToDelete)
         _tournamentResultList.value = currentList

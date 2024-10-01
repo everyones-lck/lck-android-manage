@@ -14,6 +14,15 @@ class UpdateTeamInfoTournamentResultFragment : BaseFragment<FragmentUpdateTeamIn
 
     private val viewModel: UpdateTeamInfoTournamentResultViewmodel by viewModels()
 
+    private val tournamentResultAdapter by lazy {
+        TournamentResultRVA(
+            onAddTournamentResult = { newHistory -> viewModel.addTournamentResult(newHistory) },
+            onSaveTournamentResult = { updatedHistory -> viewModel.updateTournamentResult(updatedHistory) },
+            onDeleteTournamentResult = { historyToDelete -> viewModel.deleteTournamentResult(historyToDelete) },
+            viewModel = viewModel
+        )
+    }
+
     private val navigator by lazy {
         findNavController()
     }
@@ -21,8 +30,10 @@ class UpdateTeamInfoTournamentResultFragment : BaseFragment<FragmentUpdateTeamIn
 
     override fun initObserver() {
         lifecycleScope.launchWhenStarted {
-            viewModel.tournamentResultList.collect { list ->
-                (binding.rvUpdateTeamTournamentResult.adapter as TournamentResultRVA).submitList(list)
+            viewModel.tournamentResultList.collect { allCoaches ->
+                val teamName = viewModel.teamName ?: "Unknown Team"
+                val teamCoachList = viewModel.getTournamentResultForTeam(teamName)
+                tournamentResultAdapter.submitList(teamCoachList.toList())
             }
         }
     }
@@ -39,17 +50,7 @@ class UpdateTeamInfoTournamentResultFragment : BaseFragment<FragmentUpdateTeamIn
 
     private fun setupRecyclerView() {
         binding.rvUpdateTeamTournamentResult.layoutManager = LinearLayoutManager(context)
-        binding.rvUpdateTeamTournamentResult.adapter = TournamentResultRVA(
-            onAddWinningHistory = { newHistory ->
-                viewModel.addWinningHistory(newHistory)
-            },
-            onSaveWinningHistory = { updatedHistory ->
-                viewModel.updateWinningHistory(updatedHistory)
-            },
-            onDeleteWinningHistory = { historyToDelete ->
-                viewModel.deleteWinningHistory(historyToDelete)
-            }
-        )
+        binding.rvUpdateTeamTournamentResult.adapter = tournamentResultAdapter
     }
 
     private fun setupBackButtonListener(teamName: String) {
