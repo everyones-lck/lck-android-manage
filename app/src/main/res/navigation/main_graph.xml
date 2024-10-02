@@ -18,7 +18,7 @@
             app:destination="@id/updateTeamInfoFragment" />
         <action
             android:id="@+id/action_homeFragment_to_updateRankingFragment"
-            app:destination="@id/updateRankingFragment" />
+            app:destination="@id/updateRankingTab" />
         <action
             android:id="@+id/action_homeFragment_to_managePOGVoteTimeFragment"
             app:destination="@id/managePOGVoteTimeFragment" />
@@ -64,11 +64,6 @@
         android:label="ReportFragment"
         tools:layout="@layout/fragment_report"/>
     <fragment
-        android:id="@+id/updateRankingFragment"
-        android:name="umc.everyones.everyoneslckmanage.presentation.ranking.UpdateRankingFragment"
-        android:label="UpdateRankingFragment"
-        tools:layout="@layout/fragment_update_ranking"/>
-    <fragment
         android:id="@+id/updateTeamInfoFragment"
         android:name="umc.everyones.everyoneslckmanage.presentation.team.UpdateTeamInfoFragment"
         android:label="UpdateTeamInfoFragment"
@@ -113,4 +108,38 @@
                 app:argType="long" />
         </fragment>
     </navigation>
+    <navigation android:id="@+id/updateRankingTab"
+        app:startDestination="@id/updateRankingFragment">
+        <fragment
+            android:id="@+id/updateRankingFragment"
+            android:name="umc.everyones.everyoneslckmanage.presentation.ranking.UpdateRankingFragment"
+            android:label="UpdateRankingFragment"
+            tools:layout="@layout/fragment_update_ranking">
+            <action
+                android:id="@+id/action_updateRankingFragment_to_updateRankingEditFragment"
+                app:destination="@id/updateRankingEditFragment" />
+            <action
+                android:id="@+id/action_updateRankingFragment_to_homeFragment"
+                app:destination="@id/homeFragment"/>
+        </fragment>
+
+        <fragment
+            android:id="@+id/updateRankingEditFragment"
+            android:name="umc.everyones.everyoneslckmanage.presentation.ranking.UpdateRankingEditFragment"
+            android:label="UpdateRankingEditFragment"
+            tools:layout="@layout/fragment_update_ranking_edit">
+            <action
+                android:id="@+id/action_updateRankingEditFragment_to_updateRankingFragment"
+                app:destination="@id/updateRankingFragment" />
+            <argument
+                android:name="rank"
+                app:argType="integer" />
+            <argument
+                android:name="teamName"
+                app:argType="string"
+                app:nullable="true"/>
+        </fragment>
+    </navigation>
+
+
 </navigation>
