@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/delete_post_graph"
+    app:startDestination="@id/deleteCommunityPostContentFragment2">
+
+    <fragment
+        android:id="@+id/deleteCommunityPostContentFragment2"
+        android:name="umc.everyones.everyoneslckmanage.presentation.community.DeleteCommunityPostContentFragment"
+        android:label="DeleteCommunityPostContentFragment" >
+        <action
+            android:id="@+id/action_deleteCommunityPostContentFragment_to_readPostFragment"
+            app:destination="@id/readPostFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/readPostFragment2"
+        android:name="umc.everyones.everyoneslckmanage.presentation.community.read.ReadPostFragment"
+        android:label="ReadPostFragment" >
+        <argument
+            android:name="postId"
+            app:argType="long" />
+        <action
+            android:id="@+id/action_readPostFragment2_to_postReportReasonFragment"
+            app:destination="@id/postReportReasonFragment" />
+        <action
+            android:id="@+id/action_readPostFragment2_to_commentReportReasonFragment2"
+            app:destination="@id/commentReportReasonFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/postReportReasonFragment"
+        android:name="umc.everyones.everyoneslckmanage.presentation.community.read.PostReportReasonFragment"
+        android:label="PostReportReasonFragment" />
+    <fragment
+        android:id="@+id/commentReportReasonFragment2"
+        android:name="umc.everyones.everyoneslckmanage.presentation.community.read.CommentReportReasonFragment"
+        android:label="CommentReportReasonFragment" />
+</navigation>

@@ -1,4 +1,4 @@
-package umc.everyones.everyoneslckmanage.presentation.community.list
+package umc.everyones.everyoneslckmanage.presentation.community.commentlist
 
 import android.app.Activity
 import androidx.activity.result.contract.ActivityResultContracts
@@ -12,20 +12,21 @@ import umc.everyones.everyoneslckmanage.R
 import umc.everyones.everyoneslckmanage.databinding.FragmentPostListBinding
 import umc.everyones.everyoneslckmanage.presentation.base.BaseFragment
 import umc.everyones.everyoneslckmanage.presentation.community.CommunityViewModel
+import umc.everyones.everyoneslckmanage.presentation.community.DeleteCommunityCommentContentFragmentDirections
 import umc.everyones.everyoneslckmanage.presentation.community.DeleteCommunityPostContentFragmentDirections
-import umc.everyones.everyoneslckmanage.presentation.community.adapter.PostListRVA
+import umc.everyones.everyoneslckmanage.presentation.community.adapter.CommentListRVA
 import umc.everyones.everyoneslckmanage.util.extension.repeatOnStarted
 
-class ReviewListFragment  : BaseFragment<FragmentPostListBinding>(R.layout.fragment_post_list) {
+class QuestionCommentListFragment : BaseFragment<FragmentPostListBinding>(R.layout.fragment_post_list) {
     private val viewModel: CommunityViewModel by activityViewModels()
-    private var _postListRVA: PostListRVA? = null
-    private val postListRVA
-        get() = _postListRVA
+    private var _commentListRVA: CommentListRVA? = null
+    private val commentListRVA
+        get() = _commentListRVA
 
     private var readResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){ result ->
         if (result.resultCode == Activity.RESULT_OK){
             if(result.data?.getBooleanExtra("isReadMenuDone", false) == true){
-                _postListRVA?.refresh()
+                _commentListRVA?.refresh()
                 binding.rvPostList.scrollToPosition(0)
             }
         }
@@ -33,16 +34,16 @@ class ReviewListFragment  : BaseFragment<FragmentPostListBinding>(R.layout.fragm
 
     override fun initObserver() {
         viewLifecycleOwner.repeatOnStarted {
-            viewModel.reviewListPage.collectLatest { data ->
-                postListRVA?.submitData(data)
+            viewModel.questionListPage.collectLatest { data ->
+                commentListRVA?.submitData(data)
             }
         }
 
         viewLifecycleOwner.repeatOnStarted {
             viewModel.categoryNeedsRefresh.collect { categoryNeedsRefresh ->
-                Timber.d("Review", categoryNeedsRefresh)
+                Timber.d("Question", categoryNeedsRefresh)
                 if (categoryNeedsRefresh == CATEGORY) {
-                    postListRVA?.refresh()
+                    commentListRVA?.refresh()
                     binding.rvPostList.scrollToPosition(0)
                 }
             }
@@ -50,17 +51,17 @@ class ReviewListFragment  : BaseFragment<FragmentPostListBinding>(R.layout.fragm
     }
 
     override fun initView() {
-        initPostListRVAdapter()
+        initCommentListRVAdapter()
     }
 
-    private fun initPostListRVAdapter() {
-        _postListRVA = PostListRVA { postId ->
-            val action = DeleteCommunityPostContentFragmentDirections.actionDeleteCommunityPostContentFragmentToReadPostFragment(postId)
+    private fun initCommentListRVAdapter() {
+        _commentListRVA = CommentListRVA { postId ->
+            val action = DeleteCommunityCommentContentFragmentDirections.actionDeleteCommunityCommentContentFragmentToReadPostFragmentByComment(postId)
             findNavController().navigate(action)
         }
-        binding.rvPostList.adapter = postListRVA
+        binding.rvPostList.adapter = commentListRVA
 
-        _postListRVA?.addLoadStateListener { combinedLoadStates ->
+        _commentListRVA?.addLoadStateListener { combinedLoadStates ->
             with(binding){
                 layoutShimmer.isVisible = combinedLoadStates.source.refresh is LoadState.Loading
                 rvPostList.isVisible = combinedLoadStates.source.refresh is LoadState.NotLoading
@@ -77,10 +78,10 @@ class ReviewListFragment  : BaseFragment<FragmentPostListBinding>(R.layout.fragm
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _postListRVA = null
+        _commentListRVA = null
     }
 
     companion object {
-        private const val CATEGORY = "후기"
+        private const val CATEGORY = "질문"
     }
 }

@@ -6,20 +6,21 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import dagger.hilt.android.AndroidEntryPoint
 import umc.everyones.everyoneslckmanage.R
-import umc.everyones.everyoneslckmanage.databinding.FragmentDeleteCommunityContentBinding
+import umc.everyones.everyoneslckmanage.databinding.FragmentDeleteCommunityCommentContentBinding
+import umc.everyones.everyoneslckmanage.databinding.FragmentDeleteCommunityPostContentBinding
 import umc.everyones.everyoneslckmanage.presentation.base.BaseFragment
-import umc.everyones.everyoneslckmanage.util.extension.toCategoryPosition
+import umc.everyones.everyoneslckmanage.presentation.community.adapter.CommentListVPA
 import umc.everyones.everyoneslckmanage.presentation.community.adapter.PostListVPA
 import umc.everyones.everyoneslckmanage.util.extension.setOnSingleClickListener
+import umc.everyones.everyoneslckmanage.util.extension.toCategoryPosition
 
-@AndroidEntryPoint
-class DeleteCommunityContentFragment: BaseFragment<FragmentDeleteCommunityContentBinding>(R.layout.fragment_delete_community_content) {
+class DeleteCommunityCommentContentFragment: BaseFragment<FragmentDeleteCommunityCommentContentBinding>(
+    R.layout.fragment_delete_community_comment_content) {
     private val communityViewModel: CommunityViewModel by activityViewModels()
 
-    private var _postListVPA: PostListVPA? = null
-    private val postListVPA get() = _postListVPA
+    private var _commentListVPA: CommentListVPA? = null
+    private val commentListVPA get() = _commentListVPA
 
     // 글 작성 시 선택한 카테고리 화면으로 이동
     private val resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){ result ->
@@ -37,16 +38,16 @@ class DeleteCommunityContentFragment: BaseFragment<FragmentDeleteCommunityConten
     }
 
     override fun initView() {
-        initPostListVPAdapter()
+        initCommentListVPAdapter()
         binding.ivReadBackBtn.setOnSingleClickListener {
             findNavController().navigateUp()
         }
     }
 
-    private fun initPostListVPAdapter(){
-        _postListVPA = PostListVPA(this)
+    private fun initCommentListVPAdapter(){
+        _commentListVPA = CommentListVPA(this)
         with(binding){
-            vpCommunityPostList.adapter = postListVPA
+            vpCommunityPostList.adapter = commentListVPA
 
             TabLayoutMediator(tabCommunityCategory, vpCommunityPostList) { tab, position ->
                 tab.text = tabTitles[position]
@@ -71,7 +72,7 @@ class DeleteCommunityContentFragment: BaseFragment<FragmentDeleteCommunityConten
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _postListVPA = null
+        _commentListVPA = null
     }
 
     companion object {

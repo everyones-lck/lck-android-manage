@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -8,7 +9,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:background="@color/black">
 
         <ImageView
             android:id="@+id/iv_viewing_party_back_btn"
@@ -18,19 +20,51 @@
             android:layout_marginTop="28dp"
             android:src="@drawable/ic_back_btn"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/tv_viewing_party_title"
             style="@style/TextAppearance.LCK.Bold.Title1_22sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
             android:text="뷰잉파티 삭제"
             android:textSize="24sp"
-            android:layout_marginStart="16dp"
+            app:layout_constraintBottom_toBottomOf="@id/iv_viewing_party_back_btn"
             app:layout_constraintStart_toEndOf="@id/iv_viewing_party_back_btn"
-            app:layout_constraintTop_toTopOf="@id/iv_viewing_party_back_btn"
-            app:layout_constraintBottom_toBottomOf="@id/iv_viewing_party_back_btn"/>
+            app:layout_constraintTop_toTopOf="@id/iv_viewing_party_back_btn" />
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/cg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
+            android:layout_marginEnd="46dp"
+            app:singleSelection="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_viewing_party_title">
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_date_sort"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="날짜순"
+                android:textColor="@color/sel_chip_text"
+                app:chipBackgroundColor="@color/sel_chip_bg"
+                app:closeIconVisible="false" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_report_sort"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/sel_chip_text"
+                app:chipBackgroundColor="@color/sel_chip_bg"
+                android:text="신고순"
+                app:closeIconVisible="false" />
+
+        </com.google.android.material.chip.ChipGroup>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_viewing_party"
@@ -45,7 +79,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_viewing_party_title"
+            app:layout_constraintTop_toBottomOf="@id/cg"
             app:layout_constraintVertical_bias="0" />
 
         <com.facebook.shimmer.ShimmerFrameLayout
@@ -57,7 +91,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_viewing_party_title"
+            app:layout_constraintTop_toBottomOf="@id/cg"
             app:layout_constraintVertical_bias="0">
 
             <LinearLayout

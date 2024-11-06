@@ -30,11 +30,23 @@ import umc.everyones.everyoneslckmanage.util.network.UiState
 @AndroidEntryPoint
 class ReadPostFragment : BaseFragment<FragmentReadPostBinding>(R.layout.fragment_read_post) {
     private val viewModel: ReadPostViewModel by activityViewModels()
+    private val navigator by lazy {
+        findNavController()
+    }
+
     private val commentRVA by lazy {
-        CommentRVA {
-            val dialog = DeleteCommentDialogFragment()
-            dialog.show(childFragmentManager, dialog.tag)
-        }
+        CommentRVA(
+            deleteComment = {
+                val dialog = DeleteCommentDialogFragment()
+                dialog.show(childFragmentManager, dialog.tag)
+            },
+            showReportReason = {
+                when (navigator.currentDestination?.id) {
+                    R.id.readPostFragment2 -> navigator.navigate(R.id.action_readPostFragment2_to_commentReportReasonFragment2)
+                    R.id.readPostFragmentByComment -> navigator.navigate(R.id.action_readPostFragmentByComment_to_commentReportReasonFragment)
+                }
+            }
+        )
 
     }
 
@@ -103,7 +115,7 @@ class ReadPostFragment : BaseFragment<FragmentReadPostBinding>(R.layout.fragment
         viewModel.setPostId(postId)
         initCommentRVAdapter()
         initReadMediaRVAdapter()
-
+        goToPostReportReason()
         deletePost()
         viewModel.fetchCommunityPost()
 
@@ -111,6 +123,15 @@ class ReadPostFragment : BaseFragment<FragmentReadPostBinding>(R.layout.fragment
             findNavController().navigateUp()
         }
         Timber.d("postId", postId.toString())
+    }
+
+    private fun goToPostReportReason() {
+        binding.ivReportCount.setOnSingleClickListener {
+            when (navigator.currentDestination?.id) {
+                R.id.readPostFragment2 -> navigator.navigate(R.id.action_readPostFragment2_to_postReportReasonFragment)
+                R.id.readPostFragmentByComment -> navigator.navigate(R.id.action_readPostFragmentByComment_to_postReportReasonFragment2)
+            }
+        }
     }
 
     private fun deletePost() {

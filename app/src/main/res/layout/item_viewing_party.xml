@@ -23,6 +23,18 @@
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginTop="18dp"
             android:layout_marginStart="12dp"/>
+
+        <TextView
+            android:id="@+id/tv_report_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="3"
+            android:textSize="12sp"
+            android:textColor="@color/warning"
+            android:textStyle="bold"
+            android:layout_marginStart="4dp"
+            app:layout_constraintBaseline_toBaselineOf="@id/tv_viewing_party_title"
+            app:layout_constraintStart_toEndOf="@id/tv_viewing_party_title"/>
         
         <androidx.cardview.widget.CardView
             android:id="@+id/cv_viewing_party_profile_bg"

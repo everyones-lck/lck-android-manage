@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:background="@color/black">
+
+        <ImageView
+            android:id="@+id/iv_comment_report_back_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="38dp"
+            android:layout_marginTop="28dp"
+            android:src="@drawable/ic_back_btn"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_comment_report_title"
+            style="@style/TextAppearance.LCK.Bold.Title1_22sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="댓글 신고사유"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toBottomOf="@id/iv_comment_report_back_btn"
+            app:layout_constraintStart_toEndOf="@id/iv_comment_report_back_btn"
+            app:layout_constraintTop_toTopOf="@id/iv_comment_report_back_btn" />
+
+        <TextView
+            android:id="@+id/tv_comment_report"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="댓글 신고사유"
+            android:textStyle="bold"
+            android:textColor="@color/warning"
+            android:textSize="12sp"
+            android:layout_marginTop="44dp"
+            app:layout_constraintStart_toStartOf="@id/iv_comment_report_back_btn"
+            app:layout_constraintTop_toBottomOf="@id/iv_comment_report_back_btn"
+            />
+
+        <TextView
+            android:id="@+id/tv_comment_report_reason"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="10sp"
+            android:textColor="@color/white"
+            android:layout_marginTop="28dp"
+            app:layout_constraintStart_toStartOf="@id/iv_comment_report_back_btn"
+            app:layout_constraintTop_toBottomOf="@id/tv_comment_report"
+            tools:text="댓글이 어쩌구 저쩌구해서 신고 했습니다" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

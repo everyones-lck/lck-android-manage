@@ -69,7 +69,7 @@ class ReadPostViewModel @Inject constructor(
                 _readCommunityEvent.value = UiState.Success(ReadCommunityEvent.ReadPost(response))
                 _isWriter.emit(spf.getString("nickName", "") == response.writerInfo.split("|")[0].trim())
             }.onFailure {
-                Timber.d("fetchCommunityPost error", it.stackTraceToString())
+                Log.d("fetchCommunityPost error", it.stackTraceToString())
                 _readCommunityEvent.value = UiState.Failure("커뮤니티 게시글 상세조회에 실패했습니다")
             }
         }

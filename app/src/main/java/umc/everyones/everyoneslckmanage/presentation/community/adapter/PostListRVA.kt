@@ -1,5 +1,6 @@
 package umc.everyones.everyoneslckmanage.presentation.community.adapter
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -34,13 +35,14 @@ class PostListRVA(val readPost: (Long) -> Unit) : PagingDataAdapter<CommunityLis
 
     inner class PostViewHolder(private val binding: ItemCommunityPostBinding) :
         RecyclerView.ViewHolder(binding.root) {
+            @SuppressLint("SetTextI18n")
             fun bind(postListItem: CommunityListModel.CommunityListElementModel){
                 with(binding){
                     tvPostTitle.text = postListItem.postTitle
                     tvPostDate.text = postListItem.postCreatedAt
                     tvPostNickname.text = postListItem.userNickname
                     tvPostFavoriteTeam.text = postListItem.supportTeamName
-                    tvPostComment.text = postListItem.commentCounts.toString()
+                    tvPostComment.text = postListItem.commentCounts.toString() + " / "
 
                     Glide.with(ivProfileImage.context)
                         .load(postListItem.userProfilePicture)

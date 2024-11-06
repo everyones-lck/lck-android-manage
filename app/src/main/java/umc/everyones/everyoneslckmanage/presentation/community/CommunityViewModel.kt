@@ -40,6 +40,7 @@ class CommunityViewModel @Inject constructor(
     }
 
     fun refreshCategoryPage(category: String){
+        Log.d("category", category)
         _categoryNeedsRefresh.value = ""
         _categoryNeedsRefresh.value = category
     }

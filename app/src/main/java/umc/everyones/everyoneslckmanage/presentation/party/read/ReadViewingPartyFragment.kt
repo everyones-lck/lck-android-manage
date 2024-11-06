@@ -98,7 +98,15 @@ class ReadViewingPartyFragment : BaseFragment<FragmentReadViewingPartyBinding>(R
             navigator.navigateUp()
         }
         deleteViewingParty()
+        goToReportReason()
     }
+
+    private fun goToReportReason(){
+        binding.ivReportCount.setOnSingleClickListener {
+            navigator.navigate(R.id.action_readViewingPartyFragment_to_viewingPartyReportReasonFragment)
+        }
+    }
+
     private fun deleteViewingParty(){
         binding.ivReadDeleteBtn.setOnSingleClickListener {
             val dialog = DeleteViewingPartyDialogFragment()

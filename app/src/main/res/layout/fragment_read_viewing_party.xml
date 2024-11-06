@@ -11,7 +11,8 @@
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/layout_read_coordinator"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:background="@color/black">
 
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
@@ -34,19 +35,19 @@
                     android:layout_marginTop="28dp"
                     android:src="@drawable/ic_back_btn"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"/>
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/tv_read_viewing_party_title"
                     style="@style/TextAppearance.LCK.Bold.Title1_22sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
                     android:text="뷰잉파티 상세보기"
                     android:textSize="24sp"
-                    android:layout_marginStart="16dp"
+                    app:layout_constraintBottom_toBottomOf="@id/iv_read_viewing_party_back_btn"
                     app:layout_constraintStart_toEndOf="@id/iv_read_viewing_party_back_btn"
-                    app:layout_constraintTop_toTopOf="@id/iv_read_viewing_party_back_btn"
-                    app:layout_constraintBottom_toBottomOf="@id/iv_read_viewing_party_back_btn"/>
+                    app:layout_constraintTop_toTopOf="@id/iv_read_viewing_party_back_btn" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -69,9 +70,9 @@
                     android:id="@+id/cv_read_profile_background"
                     android:layout_width="16dp"
                     android:layout_height="16dp"
+                    android:layout_marginTop="8dp"
                     app:cardCornerRadius="4dp"
                     app:cardElevation="0dp"
-                    android:layout_marginTop="8dp"
                     app:layout_constraintStart_toStartOf="@id/tv_read_viewing_party_post_title"
                     app:layout_constraintTop_toBottomOf="@id/tv_read_viewing_party_post_title">
 
@@ -87,13 +88,12 @@
                     android:id="@+id/tv_read_viewing_party_post_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text=""
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
                     android:layout_marginStart="43dp"
                     android:layout_marginTop="20dp"
+                    android:text=""
                     android:textAppearance="@style/TextAppearance.LCK.Bold.List_14sp"
-                    />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/tv_read_writer"
@@ -106,6 +106,29 @@
                     app:layout_constraintStart_toEndOf="@id/cv_read_profile_background"
                     app:layout_constraintTop_toTopOf="@id/cv_read_profile_background"
                     tools:text="Perfect 조아 | KT" />
+
+                <TextView
+                    android:id="@+id/tv_report_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="7dp"
+                    android:text="3"
+                    android:textColor="@color/warning"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="@id/iv_read_delete_btn"
+                    app:layout_constraintEnd_toStartOf="@id/iv_report_count"
+                    app:layout_constraintTop_toTopOf="@id/iv_read_delete_btn" />
+
+                <ImageView
+                    android:id="@+id/iv_report_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="5dp"
+                    android:src="@drawable/img_report"
+                    app:layout_constraintBottom_toBottomOf="@id/iv_read_delete_btn"
+                    app:layout_constraintEnd_toStartOf="@id/iv_read_delete_btn"
+                    app:layout_constraintTop_toTopOf="@id/iv_read_delete_btn" />
 
                 <ImageView
                     android:id="@+id/iv_read_delete_btn"

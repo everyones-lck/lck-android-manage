@@ -12,7 +12,7 @@ import umc.everyones.everyoneslckmanage.R
 import umc.everyones.everyoneslckmanage.databinding.FragmentPostListBinding
 import umc.everyones.everyoneslckmanage.presentation.base.BaseFragment
 import umc.everyones.everyoneslckmanage.presentation.community.CommunityViewModel
-import umc.everyones.everyoneslckmanage.presentation.community.DeleteCommunityContentFragmentDirections
+import umc.everyones.everyoneslckmanage.presentation.community.DeleteCommunityPostContentFragmentDirections
 import umc.everyones.everyoneslckmanage.presentation.community.adapter.PostListRVA
 import umc.everyones.everyoneslckmanage.util.extension.repeatOnStarted
 
@@ -56,7 +56,7 @@ class TradeListFragment : BaseFragment<FragmentPostListBinding>(R.layout.fragmen
 
     private fun initPostListRVAdapter() {
         _postListRVA = PostListRVA { postId ->
-            val action = DeleteCommunityContentFragmentDirections.actionDeleteCommunityContentFragmentToReadPostFragment(postId)
+            val action = DeleteCommunityPostContentFragmentDirections.actionDeleteCommunityPostContentFragmentToReadPostFragment(postId)
             findNavController().navigate(action)
         }
         binding.rvPostList.adapter = postListRVA

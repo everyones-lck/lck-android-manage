@@ -5,14 +5,20 @@
     android:id="@+id/main_graph"
     app:startDestination="@id/homeFragment">
 
+    <include app:graph="@navigation/delete_post_graph"/>
+    <include app:graph="@navigation/delete_comment_graph"/>
+
     <fragment
         android:id="@+id/homeFragment"
         android:name="umc.everyones.everyoneslckmanage.presentation.home.HomeFragment"
         android:label="HomeFragment"
         tools:layout="@layout/fragment_home">
         <action
-            android:id="@+id/action_homeFragment_to_deleteCommunityContentFragment"
-            app:destination="@id/deleteCommunityContentTab" />
+            android:id="@+id/action_homeFragment_to_delete_comment_graph"
+            app:destination="@id/delete_comment_graph" />
+        <action
+            android:id="@+id/action_homeFragment_to_delete_post_graph"
+            app:destination="@id/delete_post_graph" />
         <action
             android:id="@+id/action_homeFragment_to_updateTeamInfoFragment"
             app:destination="@id/updateTeamInfoFragment" />
@@ -42,64 +48,45 @@
         android:id="@+id/inputMatchInfoFragment"
         android:name="umc.everyones.everyoneslckmanage.presentation.match.InputMatchInfoFragment"
         android:label="InputMatchInfoFragment"
-        tools:layout="@layout/fragment_input_match_info"/>
+        tools:layout="@layout/fragment_input_match_info" />
     <fragment
         android:id="@+id/inputMatchResultFragment"
         android:name="umc.everyones.everyoneslckmanage.presentation.match.InputMatchResultFragment"
         android:label="InputMatchResultFragment"
-        tools:layout="@layout/fragment_input_match_result"/>
+        tools:layout="@layout/fragment_input_match_result" />
     <fragment
         android:id="@+id/manageMatchPredictVoteTimeFragment"
         android:name="umc.everyones.everyoneslckmanage.presentation.vote.ManageMatchPredictVoteTimeFragment"
         android:label="ManageMatchPredictVoteTimeFragment"
-        tools:layout="@layout/fragment_manage_match_predict_vote"/>
+        tools:layout="@layout/fragment_manage_match_predict_vote" />
     <fragment
         android:id="@+id/managePOGVoteTimeFragment"
         android:name="umc.everyones.everyoneslckmanage.presentation.vote.ManagePOGVoteTimeFragment"
         android:label="ManagePOGVoteTimeFragment"
-        tools:layout="@layout/fragment_manage_pog_vote"/>
+        tools:layout="@layout/fragment_manage_pog_vote" />
     <fragment
         android:id="@+id/reportFragment"
         android:name="umc.everyones.everyoneslckmanage.presentation.report.ReportFragment"
         android:label="ReportFragment"
-        tools:layout="@layout/fragment_report"/>
+        tools:layout="@layout/fragment_report" />
     <fragment
         android:id="@+id/updateRankingFragment"
         android:name="umc.everyones.everyoneslckmanage.presentation.ranking.UpdateRankingFragment"
         android:label="UpdateRankingFragment"
-        tools:layout="@layout/fragment_update_ranking"/>
+        tools:layout="@layout/fragment_update_ranking" />
     <fragment
         android:id="@+id/updateTeamInfoFragment"
         android:name="umc.everyones.everyoneslckmanage.presentation.team.UpdateTeamInfoFragment"
         android:label="UpdateTeamInfoFragment"
-        tools:layout="@layout/fragment_update_team_info"/>
-    <navigation android:id="@+id/deleteCommunityContentTab"
-        app:startDestination="@id/deleteCommunityContentFragment">
-        <fragment
-            android:id="@+id/deleteCommunityContentFragment"
-            android:name="umc.everyones.everyoneslckmanage.presentation.community.DeleteCommunityContentFragment"
-            android:label="DeleteCommunityContentFragment"
-            tools:layout="@layout/fragment_delete_community_content" >
-            <action
-                android:id="@+id/action_deleteCommunityContentFragment_to_readPostFragment"
-                app:destination="@id/readPostFragment" />
-        </fragment>
-        <fragment
-            android:id="@+id/readPostFragment"
-            android:name="umc.everyones.everyoneslckmanage.presentation.community.read.ReadPostFragment"
-            android:label="ReadPostFragment" >
-            <argument
-                android:name="postId"
-                app:argType="long" />
-        </fragment>
-    </navigation>
-    <navigation android:id="@+id/deleteViewingPartyTab"
+        tools:layout="@layout/fragment_update_team_info" />
+    <navigation
+        android:id="@+id/deleteViewingPartyTab"
         app:startDestination="@id/deleteViewingPartyFragment">
         <fragment
             android:id="@+id/deleteViewingPartyFragment"
             android:name="umc.everyones.everyoneslckmanage.presentation.party.DeleteViewingPartyFragment"
             android:label="DeleteViewingPartyFragment"
-            tools:layout="@layout/fragment_delete_viewing_party" >
+            tools:layout="@layout/fragment_delete_viewing_party">
             <action
                 android:id="@+id/action_deleteViewingPartyFragment_to_readViewingPartyFragment"
                 app:destination="@id/readViewingPartyFragment" />
@@ -107,10 +94,17 @@
         <fragment
             android:id="@+id/readViewingPartyFragment"
             android:name="umc.everyones.everyoneslckmanage.presentation.party.read.ReadViewingPartyFragment"
-            android:label="ReadViewingPartyFragment" >
+            android:label="ReadViewingPartyFragment">
             <argument
                 android:name="postId"
                 app:argType="long" />
+            <action
+                android:id="@+id/action_readViewingPartyFragment_to_viewingPartyReportReasonFragment"
+                app:destination="@id/viewingPartyReportReasonFragment" />
         </fragment>
+        <fragment
+            android:id="@+id/viewingPartyReportReasonFragment"
+            android:name="umc.everyones.everyoneslckmanage.presentation.party.read.ViewingPartyReportReasonFragment"
+            android:label="ViewingPartyReportReasonFragment" />
     </navigation>
 </navigation>

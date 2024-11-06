@@ -56,6 +56,10 @@ class DeleteViewingPartyFragment : BaseFragment<FragmentDeleteViewingPartyBindin
         binding.ivViewingPartyBackBtn.setOnSingleClickListener {
             navigator.navigateUp()
         }
+        binding.cg.setOnCheckedStateChangeListener { group, checkedIds ->
+
+        }
+
     }
 
     private fun initViewingPartyRVAdapter(){

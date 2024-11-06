@@ -13,7 +13,8 @@ import umc.everyones.everyoneslckmanage.domain.model.response.community.ReadComm
 import umc.everyones.everyoneslckmanage.util.extension.setOnSingleClickListener
 
 class CommentRVA(
-    val deleteComment: () -> Unit
+    val deleteComment: () -> Unit,
+    val showReportReason: (Long) -> Unit
 ) : ListAdapter<ReadCommunityResponseModel.CommentListElementModel, CommentRVA.CommentViewHolder>(DiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CommentViewHolder {
@@ -45,6 +46,9 @@ class CommentRVA(
                 // 댓글 삭제
                 ivCommentDeleteBtn.setOnSingleClickListener {
                     deleteComment()
+                }
+                ivReportCount.setOnSingleClickListener {
+                    showReportReason(comment.commentId)
                 }
             }
         }
