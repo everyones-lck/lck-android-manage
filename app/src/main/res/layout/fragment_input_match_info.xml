@@ -46,6 +46,21 @@
             app:layout_constraintStart_toStartOf="@+id/iv_match_info_back_btn"
             app:layout_constraintTop_toBottomOf="@id/iv_match_info_back_btn"/>
 
+        <TextView
+            android:id="@+id/tv_match_info_select_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_rect_4_gray_fill"
+            style="@style/TextAppearance.LCK.Light"
+            android:text="날짜 선택"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:layout_marginStart="20dp"
+            android:padding="3dp"
+            app:layout_constraintStart_toEndOf="@+id/tv_match_info_date"
+            app:layout_constraintTop_toTopOf="@+id/tv_match_info_date"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_match_info_date"/>
+
         <ImageView
             android:id="@+id/iv_match_info_add_btn"
             android:layout_width="25dp"
