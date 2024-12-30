@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_gradient_color">
+
+        <ImageView
+            android:id="@+id/iv_set_result_back_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="38dp"
+            android:layout_marginTop="28dp"
+            android:src="@drawable/ic_back_btn"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            android:id="@+id/tv_set_result_title"
+            style="@style/TextAppearance.LCK.Bold.Title1_22sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="세트 결과 입력"
+            android:textSize="24sp"
+            android:layout_marginStart="16dp"
+            app:layout_constraintStart_toEndOf="@id/iv_set_result_back_btn"
+            app:layout_constraintTop_toTopOf="@id/iv_set_result_back_btn"
+            app:layout_constraintTop_toBottomOf="@id/iv_set_result_back_btn"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_set_result_container"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="50dp"
+            tools:listitem="@layout/item_input_set_result"
+            app:layout_constraintTop_toBottomOf="@+id/tv_set_result_title"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

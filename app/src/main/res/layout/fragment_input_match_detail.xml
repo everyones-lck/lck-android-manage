@@ -111,7 +111,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/TextAppearance.LCK.Light"
-            android:background="null"
+            android:background="@color/transparent"
             android:textSize="14sp"
             android:hint="5"
             android:textColorHint="@color/gray"
