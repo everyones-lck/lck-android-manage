@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/black">
+
+        <TextView
+            android:id="@+id/tv_update_team_winning_history_team_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="팀 이름"
+            android:textSize="28sp"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:layout_marginTop="35dp"
+            android:layout_marginStart="70dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            android:id="@+id/tv_update_team_winning_history_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="우승 이력"
+            android:textSize="28sp"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:layout_marginTop="35dp"
+            android:layout_marginStart="10dp"
+            app:layout_constraintStart_toEndOf="@id/tv_update_team_winning_history_team_name"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <ImageView
+            android:id="@+id/iv_update_team_winning_history_previous"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_arrow_previous_white"
+            android:layout_marginEnd="10dp"
+            app:layout_constraintTop_toTopOf="@id/tv_update_team_winning_history_team_name"
+            app:layout_constraintBottom_toBottomOf="@id/tv_update_team_winning_history_team_name"
+            app:layout_constraintEnd_toStartOf="@id/tv_update_team_winning_history_team_name"/>
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_update_team_winning_history"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            app:layout_constraintTop_toBottomOf="@id/tv_update_team_winning_history_title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <ImageView
+            android:id="@+id/iv_update_team_winning_history_add"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_update_team_add"
+            android:layout_marginTop="35dp"
+            android:layout_marginStart="35dp"
+            app:layout_constraintTop_toBottomOf="@id/rv_update_team_winning_history"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

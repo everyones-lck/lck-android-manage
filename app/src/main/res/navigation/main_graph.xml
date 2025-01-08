@@ -15,7 +15,7 @@
             app:destination="@id/deleteCommunityContentTab" />
         <action
             android:id="@+id/action_homeFragment_to_updateTeamInfoFragment"
-            app:destination="@id/updateTeamInfoFragment" />
+            app:destination="@id/updateTeamInfoTab" />
         <action
             android:id="@+id/action_homeFragment_to_updateRankingFragment"
             app:destination="@id/updateRankingFragment" />
@@ -113,4 +113,317 @@
                 app:argType="long" />
         </fragment>
     </navigation>
+
+    <navigation android:id="@+id/updateTeamInfoTab"
+        app:startDestination="@id/updateTeamInfoFragment">
+        <fragment
+            android:id="@+id/updateTeamInfoFragment"
+            android:name="umc.everyones.everyoneslckmanage.presentation.team.UpdateTeamInfoFragment"
+            android:label="UpdateTeamInfoFragment"
+            tools:layout="@layout/fragment_update_team_info">
+            <action
+                android:id="@+id/action_updateTeamInfoFragment_to_homeFragment"
+                app:destination="@id/homeFragment"/>
+            <action
+                android:id="@+id/action_updateTeamInfoFragment_to_updateTeamInfoDetailFragment"
+                app:destination="@id/updateTeamInfoDetailFragment" />
+
+        </fragment>
+
+        <fragment
+            android:id="@+id/updateTeamInfoDetailFragment"
+            android:name="umc.everyones.everyoneslckmanage.presentation.team.UpdateTeamInfoDetailFragment"
+            android:label="UpdateTeamInfoDetailFragment"
+            tools:layout="@layout/fragment_update_team_info_detail">
+            <argument
+                android:name="teamName"
+                app:argType="string"
+                app:nullable="true"/>
+            <action
+                android:id="@+id/action_updateTeamInfoDetail_to_updateTeamInfoLckRoasterFragment"
+                app:destination="@id/updateTeamInfoLckRoasterFragment" />
+            <action
+                android:id="@+id/action_updateTeamInfoDetail_to_updateTeamInfoLckClRoasterFragment"
+                app:destination="@id/updateTeamInfoLckClRoasterFragment" />
+            <action
+                android:id="@+id/action_updateTeamInfoDetail_to_updateTeamInfoLckCoachFragment"
+                app:destination="@id/updateTeamInfoLckCoachFragment" />
+            <action
+                android:id="@+id/action_updateTeamInfoDetail_to_updateTeamInfoWinningHistoryFragment"
+                app:destination="@id/updateTeamInfoWinningHistoryFragment" />
+            <action
+                android:id="@+id/action_updateTeamInfoDetail_to_updateTeamInfoHistoryOfRoasterFragment"
+                app:destination="@id/updateTeamInfoHistoryOfRoasterFragment" />
+            <action
+                android:id="@+id/action_updateTeamInfoDetail_to_updateTeamInfoTournamentResultFragment"
+                app:destination="@id/updateTeamInfoTournamentResultFragment" />
+            <action
+                android:id="@+id/action_updateTeamInfoDetail_to_updateTeamInfoFragment"
+                app:destination="@id/updateTeamInfoFragment" />
+        </fragment>
+
+        <fragment
+            android:id="@+id/updateTeamInfoLckRoasterFragment"
+            android:name="umc.everyones.everyoneslckmanage.presentation.team.UpdateTeamInfoLckRoasterFragment"
+            android:label="UpdateTeamInfoLckRoasterFragment"
+            tools:layout="@layout/fragment_update_team_info_lck_roaster">
+            <action
+                android:id="@+id/action_updateTeamInfoLckRoasterFragment_to_updateTeamInfoDetailFragment"
+                app:destination="@id/updateTeamInfoDetailFragment"/>
+            <action
+                android:id="@+id/action_updateTeamInfoLckRoasterFragment_to_updateTeamInfoLckRoasterAddFragment"
+                app:destination="@id/updateTeamInfoLckRoasterAddFragment"/>
+            <action
+                android:id="@+id/action_updateTeamInfoLckRoasterFragment_to_updateTeamInfoLckRoasterEditFragment"
+                app:destination="@id/updateTeamInfoLckRoasterEditFragment"/>
+            <argument
+                android:name="newPlayer"
+                app:argType="umc.everyones.everyoneslckmanage.presentation.team.LckRoaster"
+                app:nullable="true"/>
+            <argument
+                android:name="updatedRoaster"
+                app:argType="umc.everyones.everyoneslckmanage.presentation.team.LckRoaster"
+                app:nullable="true"/>
+            <argument
+                android:name="teamName"
+                app:argType="string"
+                app:nullable="true"/>
+        </fragment>
+        <fragment
+            android:id="@+id/updateTeamInfoLckRoasterAddFragment"
+            android:name="umc.everyones.everyoneslckmanage.presentation.team.UpdateTeamInfoLckRoasterAddFragment"
+            android:label="UpdateTeamInfoLckRoasterAddFragment"
+            tools:layout="@layout/fragment_update_team_info_lck_roaster_add" >
+            <action
+                android:id="@+id/action_updateTeamInfoLckRoasterAddFragment_to_updateTeamInfoLckRoasterFragment"
+                app:destination="@id/updateTeamInfoLckRoasterFragment"/>
+            <argument
+                android:name="playerId"
+                app:argType="integer"/>
+            <argument
+                android:name="playerName"
+                app:argType="string"
+                app:nullable="true"/>
+            <argument
+                android:name="playerPosition"
+                app:argType="string"
+                app:nullable="true"/>
+            <argument
+                android:name="playerImageUrl"
+                app:argType="string"
+                app:nullable="true"/>
+        </fragment>
+
+        <fragment
+            android:id="@+id/updateTeamInfoLckRoasterEditFragment"
+            android:name="umc.everyones.everyoneslckmanage.presentation.team.UpdateTeamInfoLckRoasterEditFragment"
+            android:label="UpdateTeamInfoLckRoasterEditFragment"
+            tools:layout="@layout/fragment_update_team_info_lck_roaster_edit">
+            <action
+                android:id="@+id/action_updateTeamInfoLckRoasterEditFragment_to_updateTeamInfoLckRoasterFragment"
+                app:destination="@id/updateTeamInfoLckRoasterFragment"/>
+            <argument
+                android:name="playerId"
+                app:argType="integer"/>
+            <argument
+                android:name="playerName"
+                app:argType="string"
+                app:nullable="true"/>
+            <argument
+                android:name="playerPosition"
+                app:argType="string"
+                app:nullable="true"/>
+            <argument
+                android:name="playerImageUrl"
+                app:argType="string"
+                app:nullable="true"/>
+        </fragment>
+
+        <fragment
+            android:id="@+id/updateTeamInfoLckClRoasterFragment"
+            android:name="umc.everyones.everyoneslckmanage.presentation.team.UpdateTeamInfoLckClRoasterFragment"
+            android:label="UpdateTeamInfoLckClRoasterFragment"
+            tools:layout="@layout/fragment_update_team_info_lck_cl_roaster">
+            <action
+                android:id="@+id/action_updateTeamInfoLckClRoasterFragment_to_updateTeamInfoDetailFragment"
+                app:destination="@id/updateTeamInfoDetailFragment"/>
+            <action
+                android:id="@+id/action_updateTeamInfoLckClRoasterFragment_to_updateTeamInfoLckClRoasterAddFragment"
+                app:destination="@id/updateTeamInfoLckClRoasterAddFragment"/>
+            <action
+                android:id="@+id/action_updateTeamInfoLckClRoasterFragment_to_updateTeamInfoLckClRoasterEditFragment"
+                app:destination="@id/updateTeamInfoLckClRoasterEditFragment"/>
+            <argument
+                android:name="newPlayer"
+                app:argType="umc.everyones.everyoneslckmanage.presentation.team.LckClRoaster"
+                app:nullable="true" />
+            <argument
+                android:name="updatedRoaster"
+                app:argType="umc.everyones.everyoneslckmanage.presentation.team.LckClRoaster"
+                app:nullable="true" />
+            <argument
+                android:name="teamName"
+                app:argType="string"
+                app:nullable="true"/>
+        </fragment>
+        <fragment
+            android:id="@+id/updateTeamInfoLckClRoasterAddFragment"
+            android:name="umc.everyones.everyoneslckmanage.presentation.team.UpdateTeamInfoLckClRoasterAddFragment"
+            android:label="UpdateTeamInfoLckClRoasterAddFragment"
+            tools:layout="@layout/fragment_update_team_info_lck_cl_roaster_add" >
+            <action
+                android:id="@+id/action_updateTeamInfoLckClRoasterAddFragment_to_updateTeamInfoLckClRoasterFragment"
+                app:destination="@id/updateTeamInfoLckClRoasterFragment"/>
+            <argument
+                android:name="playerId"
+                app:argType="integer"/>
+            <argument
+                android:name="playerName"
+                app:argType="string"
+                app:nullable="true"/>
+            <argument
+                android:name="playerPosition"
+                app:argType="string"
+                app:nullable="true"/>
+            <argument
+                android:name="playerImageUrl"
+                app:argType="string"
+                app:nullable="true"/>
+        </fragment>
+
+        <fragment
+            android:id="@+id/updateTeamInfoLckClRoasterEditFragment"
+            android:name="umc.everyones.everyoneslckmanage.presentation.team.UpdateTeamInfoLckClRoasterEditFragment"
+            android:label="UpdateTeamInfoLckClRoasterEditFragment"
+            tools:layout="@layout/fragment_update_team_info_lck_cl_roaster_edit">
+            <action
+                android:id="@+id/action_updateTeamInfoLckClRoasterEditFragment_to_updateTeamInfoLckClRoasterFragment"
+                app:destination="@id/updateTeamInfoLckClRoasterFragment"/>
+            <argument
+                android:name="playerId"
+                app:argType="integer"/>
+            <argument
+                android:name="playerName"
+                app:argType="string"
+                app:nullable="true"/>
+            <argument
+                android:name="playerPosition"
+                app:argType="string"
+                app:nullable="true"/>
+            <argument
+                android:name="playerImageUrl"
+                app:argType="string"
+                app:nullable="true"/>
+        </fragment>
+
+        <fragment
+            android:id="@+id/updateTeamInfoLckCoachFragment"
+            android:name="umc.everyones.everyoneslckmanage.presentation.team.UpdateTeamInfoLckCoachFragment"
+            android:label="UpdateTeamInfoLckCoachFragment"
+            tools:layout="@layout/fragment_update_team_info_lck_coach">
+            <action
+                android:id="@+id/action_updateTeamInfoLckCoachFragment_to_updateTeamInfoDetailFragment"
+                app:destination="@id/updateTeamInfoDetailFragment"/>
+            <action
+                android:id="@+id/action_updateTeamInfoLckCoachFragment_to_updateTeamInfoLckCoachAddFragment"
+                app:destination="@id/updateTeamInfoLckCoachAddFragment"/>
+            <action
+                android:id="@+id/action_updateTeamInfoLckCoachFragment_to_updateTeamInfoLckCoachEditFragment"
+                app:destination="@id/updateTeamInfoLckCoachEditFragment"/>
+            <argument
+                android:name="newPlayer"
+                app:argType="umc.everyones.everyoneslckmanage.presentation.team.LckCoach"
+                app:nullable="true"/>
+            <argument
+                android:name="updatedRoaster"
+                app:argType="umc.everyones.everyoneslckmanage.presentation.team.LckCoach"
+                app:nullable="true"/>
+            <argument
+                android:name="teamName"
+                app:argType="string"
+                app:nullable="true"/>
+        </fragment>
+        <fragment
+            android:id="@+id/updateTeamInfoLckCoachAddFragment"
+            android:name="umc.everyones.everyoneslckmanage.presentation.team.UpdateTeamInfoLckCoachAddFragment"
+            android:label="UpdateTeamInfoLckCoachAddFragment"
+            tools:layout="@layout/fragment_update_team_info_lck_coach_add" >
+            <action
+                android:id="@+id/action_updateTeamInfoLckCoachAddFragment_to_updateTeamInfoLckCoachFragment"
+                app:destination="@id/updateTeamInfoLckCoachFragment"/>
+            <argument
+                android:name="playerId"
+                app:argType="integer"/>
+            <argument
+                android:name="playerName"
+                app:argType="string"
+                app:nullable="true"/>
+            <argument
+                android:name="playerImageUrl"
+                app:argType="string"
+                app:nullable="true"/>
+        </fragment>
+
+        <fragment
+            android:id="@+id/updateTeamInfoLckCoachEditFragment"
+            android:name="umc.everyones.everyoneslckmanage.presentation.team.UpdateTeamInfoLckCoachEditFragment"
+            android:label="UpdateTeamInfoLckCoachEditFragment"
+            tools:layout="@layout/fragment_update_team_info_lck_coach_edit">
+            <action
+                android:id="@+id/action_updateTeamInfoLckCoachEditFragment_to_updateTeamInfoLckCoachFragment"
+                app:destination="@id/updateTeamInfoLckCoachFragment"/>
+            <argument
+                android:name="playerId"
+                app:argType="integer"/>
+            <argument
+                android:name="playerName"
+                app:argType="string"
+                app:nullable="true"/>
+            <argument
+                android:name="playerImageUrl"
+                app:argType="string"
+                app:nullable="true"/>
+        </fragment>
+        <fragment
+            android:id="@+id/updateTeamInfoWinningHistoryFragment"
+            android:name="umc.everyones.everyoneslckmanage.presentation.team.UpdateTeamInfoWinningHistoryFragment"
+            android:label="UpdateTeamInfoWinningHistoryFragment"
+            tools:layout="@layout/fragment_update_team_info_winning_history">
+            <action
+                android:id="@+id/action_updateTeamInfoWinningHistoryFragment_to_updateTeamInfoDetailFragment"
+                app:destination="@id/updateTeamInfoDetailFragment"/>
+            <argument
+                android:name="teamName"
+                app:argType="string"
+                app:nullable="true"/>
+        </fragment>
+        <fragment
+            android:id="@+id/updateTeamInfoHistoryOfRoasterFragment"
+            android:name="umc.everyones.everyoneslckmanage.presentation.team.UpdateTeamInfoHistoryOfRoasterFragment"
+            android:label="UpdateTeamInfoHistoryOfRoasterFragment"
+            tools:layout="@layout/fragment_update_team_info_history_of_roaster">
+            <action
+                android:id="@+id/action_updateTeamInfoHistoryOfRoasterFragment_to_updateTeamInfoDetailFragment"
+                app:destination="@id/updateTeamInfoDetailFragment"/>
+            <argument
+                android:name="teamName"
+                app:argType="string"
+                app:nullable="true"/>
+        </fragment>
+        <fragment
+            android:id="@+id/updateTeamInfoTournamentResultFragment"
+            android:name="umc.everyones.everyoneslckmanage.presentation.team.UpdateTeamInfoTournamentResultFragment"
+            android:label="UpdateTeamInfoTournamentResultFragment"
+            tools:layout="@layout/fragment_update_team_info_tournament_result">
+            <action
+                android:id="@+id/action_updateTeamInfoTournamentResultFragment_to_updateTeamInfoDetailFragment"
+                app:destination="@id/updateTeamInfoDetailFragment"/>
+            <argument
+                android:name="teamName"
+                app:argType="string"
+                app:nullable="true"/>
+        </fragment>
+
+    </navigation>
+
 </navigation>
