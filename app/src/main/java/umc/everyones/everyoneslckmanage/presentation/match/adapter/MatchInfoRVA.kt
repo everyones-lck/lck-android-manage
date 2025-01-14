@@ -28,6 +28,7 @@ class MatchInfoRVA (
     inner class ViewHolder(private val binding: ItemMatchInfoBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: LckMatchDetailsModel.LckMatchDetailsElementModel) {
+            binding.tvMatchInfoMatchTitle.text = "LCK ${item.season}"
             binding.tvMatchInfoMatchTime.text = item.matchTime.dropLast(3)
             binding.tvMatchInfoMatchTeam1.text = item.team1.teamName
             binding.tvMatchInfoMatchTeam2.text = item.team2.teamName
