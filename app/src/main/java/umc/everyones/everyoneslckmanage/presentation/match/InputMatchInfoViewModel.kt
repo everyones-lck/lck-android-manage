@@ -23,15 +23,24 @@ class InputMatchInfoViewModel @Inject constructor(
     private val _matchDetails = MutableStateFlow<LckMatchDetailsModel?>(null)
     val matchDetails: StateFlow<LckMatchDetailsModel?> get() = _matchDetails
 
+    private val _selectedDate = MutableStateFlow<String?>(null) // 선택한 날짜를 저장
+    val selectedDate: StateFlow<String?> get() = _selectedDate
+
     fun fetchLckMatchDetails(searchDate: String){
         viewModelScope.launch{
             val result = repository.fetchLckMatchDetails(searchDate)
 
             result.onSuccess { response ->
                 _matchDetails.value = response
+                Timber.d("MatchDetail %s", response.toString())
             }.onFailure { exception ->
                 Timber.e(exception, "fetchLckMatchDetails API 호출 실패")
             }
         }
     }
+
+    fun updateSelectedDate(date: String) {
+        _selectedDate.value = date
+    }
+
 }

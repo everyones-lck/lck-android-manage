@@ -4,6 +4,7 @@ import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import timber.log.Timber
 import umc.everyones.everyoneslckmanage.R
@@ -17,6 +18,7 @@ import umc.everyones.everyoneslckmanage.util.extension.repeatOnStarted
 import umc.everyones.everyoneslckmanage.util.extension.setOnSingleClickListener
 import java.util.Calendar
 
+@AndroidEntryPoint
 class InputMatchInfoFragment : BaseFragment<FragmentInputMatchInfoBinding>(R.layout.fragment_input_match_info) {
     private val viewModel: InputMatchInfoViewModel by activityViewModels()
     private lateinit var adapter: MatchInfoRVA
@@ -122,6 +124,8 @@ class InputMatchInfoFragment : BaseFragment<FragmentInputMatchInfoBinding>(R.lay
         binding.tvMatchInfoDate.text = formattedDate
         isSelectedByCalendar = true
         viewModel.fetchLckMatchDetails(formattedDate)
+        viewModel.updateSelectedDate(formattedDate)
+
     }
 
 

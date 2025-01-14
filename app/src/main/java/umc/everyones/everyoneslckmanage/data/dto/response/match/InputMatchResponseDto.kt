@@ -5,8 +5,9 @@ import umc.everyones.everyoneslckmanage.domain.model.response.match.CommonRespon
 
 data class InputMatchResponseDto (
     val message: String,
+    val data: Any? = null,
     val success: Boolean
 ) {
     fun toCommonResponseModel() =
-        CommonResponseModel(message, success)
+        CommonResponseModel(message, data, success)
 }
