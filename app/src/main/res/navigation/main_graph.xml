@@ -33,16 +33,30 @@
             app:destination="@id/inputMatchResultFragment" />
         <action
             android:id="@+id/action_homeFragment_to_inputMatchInfoFragment"
-            app:destination="@id/inputMatchInfoFragment" />
+            app:destination="@id/inputMatchInfoTab" />
         <action
             android:id="@+id/action_homeFragment_to_deleteViewingPartyFragment"
             app:destination="@id/deleteViewingPartyTab" />
     </fragment>
-    <fragment
-        android:id="@+id/inputMatchInfoFragment"
-        android:name="umc.everyones.everyoneslckmanage.presentation.match.InputMatchInfoFragment"
-        android:label="InputMatchInfoFragment"
-        tools:layout="@layout/fragment_input_match_info"/>
+    <navigation
+        android:id="@+id/inputMatchInfoTab"
+        app:startDestination="@+id/inputMatchInfoFragment">
+        <fragment
+            android:id="@+id/inputMatchInfoFragment"
+            android:name="umc.everyones.everyoneslckmanage.presentation.match.InputMatchInfoFragment"
+            android:label="InputMatchInfoFragment"
+            tools:layout="@layout/fragment_input_match_info">
+            <action
+                android:id="@+id/action_inputMatchInfoFragment_to_inputMatchDetailFragment"
+                app:destination="@+id/inputMatchDetailFragment"/>
+        </fragment>
+        <fragment
+            android:id="@+id/inputMatchDetailFragment"
+            android:name="umc.everyones.everyoneslckmanage.presentation.match.InputMatchDetailFragment"
+            android:label="InputMatchDetailFragment"
+            tools:layout="@layout/fragment_input_match_detail"/>
+    </navigation>
+
     <fragment
         android:id="@+id/inputMatchResultFragment"
         android:name="umc.everyones.everyoneslckmanage.presentation.match.InputMatchResultFragment"

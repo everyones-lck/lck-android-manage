@@ -13,7 +13,7 @@
         android:background="@drawable/bg_gradient_color">
 
         <ImageView
-            android:id="@+id/iv_manage_prediction_back_btn"
+            android:id="@+id/iv_set_result_back_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="38dp"
@@ -23,30 +23,25 @@
             app:layout_constraintTop_toTopOf="parent"/>
 
         <TextView
-            android:id="@+id/tv_manage_prediction_title"
+            android:id="@+id/tv_set_result_title"
             style="@style/TextAppearance.LCK.Bold.Title1_22sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="투표 시간 관리 (Predict Vote)"
+            android:text="세트 결과 입력"
             android:textSize="24sp"
             android:layout_marginStart="16dp"
-            app:layout_constraintStart_toEndOf="@id/iv_manage_prediction_back_btn"
-            app:layout_constraintTop_toTopOf="@id/iv_manage_prediction_back_btn"
-            app:layout_constraintTop_toBottomOf="@id/iv_manage_prediction_back_btn"/>
+            app:layout_constraintStart_toEndOf="@id/iv_set_result_back_btn"
+            app:layout_constraintTop_toTopOf="@id/iv_set_result_back_btn"
+            app:layout_constraintTop_toBottomOf="@id/iv_set_result_back_btn"/>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_manage_prediction_container"
+            android:id="@+id/rv_set_result_container"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            tools:listitem="@layout/item_manage_prediction"
-            android:layout_marginTop="40dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_manage_prediction_title"
+            android:layout_marginTop="50dp"
+            tools:listitem="@layout/item_input_set_result"
+            app:layout_constraintTop_toBottomOf="@+id/tv_set_result_title"
             app:layout_constraintBottom_toBottomOf="parent"/>
-
-
-
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
