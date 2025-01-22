@@ -139,6 +139,9 @@
                 android:name="teamName"
                 app:argType="string"
                 app:nullable="true"/>
+            <argument
+                android:name="teamId"
+                app:argType="integer" />
             <action
                 android:id="@+id/action_updateTeamInfoDetail_to_updateTeamInfoLckRoasterFragment"
                 app:destination="@id/updateTeamInfoLckRoasterFragment" />
@@ -149,14 +152,8 @@
                 android:id="@+id/action_updateTeamInfoDetail_to_updateTeamInfoLckCoachFragment"
                 app:destination="@id/updateTeamInfoLckCoachFragment" />
             <action
-                android:id="@+id/action_updateTeamInfoDetail_to_updateTeamInfoWinningHistoryFragment"
-                app:destination="@id/updateTeamInfoWinningHistoryFragment" />
-            <action
                 android:id="@+id/action_updateTeamInfoDetail_to_updateTeamInfoHistoryOfRoasterFragment"
                 app:destination="@id/updateTeamInfoHistoryOfRoasterFragment" />
-            <action
-                android:id="@+id/action_updateTeamInfoDetail_to_updateTeamInfoTournamentResultFragment"
-                app:destination="@id/updateTeamInfoTournamentResultFragment" />
             <action
                 android:id="@+id/action_updateTeamInfoDetail_to_updateTeamInfoFragment"
                 app:destination="@id/updateTeamInfoFragment" />
@@ -188,6 +185,9 @@
                 android:name="teamName"
                 app:argType="string"
                 app:nullable="true"/>
+            <argument
+                android:name="teamId"
+                app:argType="integer" />
         </fragment>
         <fragment
             android:id="@+id/updateTeamInfoLckRoasterAddFragment"
@@ -198,20 +198,12 @@
                 android:id="@+id/action_updateTeamInfoLckRoasterAddFragment_to_updateTeamInfoLckRoasterFragment"
                 app:destination="@id/updateTeamInfoLckRoasterFragment"/>
             <argument
-                android:name="playerId"
-                app:argType="integer"/>
-            <argument
-                android:name="playerName"
+                android:name="teamName"
                 app:argType="string"
                 app:nullable="true"/>
             <argument
-                android:name="playerPosition"
-                app:argType="string"
-                app:nullable="true"/>
-            <argument
-                android:name="playerImageUrl"
-                app:argType="string"
-                app:nullable="true"/>
+                android:name="teamId"
+                app:argType="integer" />
         </fragment>
 
         <fragment
@@ -237,6 +229,13 @@
                 android:name="playerImageUrl"
                 app:argType="string"
                 app:nullable="true"/>
+            <argument
+                android:name="teamName"
+                app:argType="string"
+                app:nullable="true"/>
+            <argument
+                android:name="teamId"
+                app:argType="integer" />
         </fragment>
 
         <fragment
@@ -385,38 +384,12 @@
                 app:nullable="true"/>
         </fragment>
         <fragment
-            android:id="@+id/updateTeamInfoWinningHistoryFragment"
-            android:name="umc.everyones.everyoneslckmanage.presentation.team.UpdateTeamInfoWinningHistoryFragment"
-            android:label="UpdateTeamInfoWinningHistoryFragment"
-            tools:layout="@layout/fragment_update_team_info_winning_history">
-            <action
-                android:id="@+id/action_updateTeamInfoWinningHistoryFragment_to_updateTeamInfoDetailFragment"
-                app:destination="@id/updateTeamInfoDetailFragment"/>
-            <argument
-                android:name="teamName"
-                app:argType="string"
-                app:nullable="true"/>
-        </fragment>
-        <fragment
             android:id="@+id/updateTeamInfoHistoryOfRoasterFragment"
             android:name="umc.everyones.everyoneslckmanage.presentation.team.UpdateTeamInfoHistoryOfRoasterFragment"
             android:label="UpdateTeamInfoHistoryOfRoasterFragment"
             tools:layout="@layout/fragment_update_team_info_history_of_roaster">
             <action
                 android:id="@+id/action_updateTeamInfoHistoryOfRoasterFragment_to_updateTeamInfoDetailFragment"
-                app:destination="@id/updateTeamInfoDetailFragment"/>
-            <argument
-                android:name="teamName"
-                app:argType="string"
-                app:nullable="true"/>
-        </fragment>
-        <fragment
-            android:id="@+id/updateTeamInfoTournamentResultFragment"
-            android:name="umc.everyones.everyoneslckmanage.presentation.team.UpdateTeamInfoTournamentResultFragment"
-            android:label="UpdateTeamInfoTournamentResultFragment"
-            tools:layout="@layout/fragment_update_team_info_tournament_result">
-            <action
-                android:id="@+id/action_updateTeamInfoTournamentResultFragment_to_updateTeamInfoDetailFragment"
                 app:destination="@id/updateTeamInfoDetailFragment"/>
             <argument
                 android:name="teamName"
