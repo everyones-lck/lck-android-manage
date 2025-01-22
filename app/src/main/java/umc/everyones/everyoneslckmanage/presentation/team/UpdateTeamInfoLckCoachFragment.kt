@@ -29,10 +29,11 @@ class UpdateTeamInfoLckCoachFragment : BaseFragment<FragmentUpdateTeamInfoLckCoa
     override fun initView() {
         val teamName = arguments?.getString("teamName") ?: viewModel.teamName ?: "Unknown Team"
         viewModel.teamName = teamName
+        val teamId =-1
         setTeamName(teamName)
 
         initLckCoachRVAdapter()
-        setupBackButtonListener(teamName)
+        setupBackButtonListener(teamName,teamId)
 
         binding.ivUpdateTeamLckCoachPlayerAdd.setOnClickListener {
             val action = UpdateTeamInfoLckCoachFragmentDirections
@@ -68,11 +69,12 @@ class UpdateTeamInfoLckCoachFragment : BaseFragment<FragmentUpdateTeamInfoLckCoa
     private fun setTeamName(teamName: String) {
         binding.tvUpdateTeamLckCoachTeamName.text = teamName
     }
-    private fun setupBackButtonListener(teamName: String) {
+    private fun setupBackButtonListener(teamName: String,teamId: Int) {
         binding.ivUpdateTeamLckCoachPrevious.setOnSingleClickListener  {
             val action = UpdateTeamInfoLckCoachFragmentDirections
                 .actionUpdateTeamInfoLckCoachFragmentToUpdateTeamInfoDetailFragment(
-                    teamName = teamName
+                    teamName = teamName,
+                    teamId = teamId
                 )
             navigator.navigate(action)
         }

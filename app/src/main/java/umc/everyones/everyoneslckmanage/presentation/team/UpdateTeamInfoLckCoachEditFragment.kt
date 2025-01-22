@@ -31,32 +31,12 @@ class UpdateTeamInfoLckCoachEditFragment: BaseFragment<FragmentUpdateTeamInfoLck
         }
     }
     override fun initObserver() {
-        playerId?.let { id ->
-            lifecycleScope.launchWhenStarted {
-                viewModel.playerWinningCareers.collect { winningCareerMap ->
-                    val careerList = viewModel.getWinningCareerForPlayer(id)
-                    (binding.rvUpdateTeamLckCoachEditWinningCareer.adapter as WinningCareerRVA).submitList(careerList.toList())
 
-                }
-            }
-        }
-        playerId?.let { id ->
-            lifecycleScope.launchWhenStarted {
-                viewModel.playerHistoryOfTeam.collect { historyOfTeamMap ->
-                    val historyTeamList = viewModel.getHistoryTeamsForPlayer(id)
-                    (binding.rvUpdateTeamLckCoachEditHistoryOfTeam.adapter as HistoryOfTeamRVA).submitList(historyTeamList.toList())
-
-                }
-            }
-        }
     }
 
     override fun initView() {
         playerId = arguments?.getInt("playerId")
         setupInitialData()
-        setupRecyclerView()
-        setupHistoryTeamRecyclerView()
-        setupAddButton()
         setupSaveButtonListener()
         setupNoButtonListener()
         setupBackButtonListener()
@@ -76,83 +56,7 @@ class UpdateTeamInfoLckCoachEditFragment: BaseFragment<FragmentUpdateTeamInfoLck
         binding.tvUpdateTeamLckCoachEditTeamName.text = teamName
     }
 
-    private fun setupRecyclerView() {
-        val adapter = WinningCareerRVA(
-            onAddWinningCareer = { newCareer ->
-                playerId?.let { id ->
-                    viewModel.addWinningCareerToPlayer(id, newCareer)
-                    updateRecyclerView(id)
-                }
-            },
-            onSaveWinningCareer = { updatedCareer ->
-                playerId?.let { id ->
-                    viewModel.updateWinningCareerForPlayer(id, updatedCareer)
-                    updateRecyclerView(id)
-                }
-            },
-            onDeleteWinningCareer = { careerId ->
-                playerId?.let { id ->
-                    viewModel.deleteWinningCareerFromPlayer(id, careerId)
-                    updateRecyclerView(id)
-                }
-            }
-        )
 
-        binding.rvUpdateTeamLckCoachEditWinningCareer.layoutManager = LinearLayoutManager(context)
-        binding.rvUpdateTeamLckCoachEditWinningCareer.adapter = adapter
-
-        playerId?.let { id ->
-            updateRecyclerView(id)
-        }
-    }
-
-    private fun updateRecyclerView(playerId: Int) {
-        val careerList = viewModel.getWinningCareerForPlayer(playerId)
-        (binding.rvUpdateTeamLckCoachEditWinningCareer.adapter as WinningCareerRVA).submitList(careerList.toList())
-
-    }
-    private fun setupHistoryTeamRecyclerView() {
-        val adapter = HistoryOfTeamRVA(
-            onAddHistoryTeam = { newTeam ->
-                playerId?.let { id ->
-                    viewModel.addHistoryTeamToPlayer(id, newTeam)
-                    updateHistoryTeamRecyclerView(id)
-                }
-            },
-            onSaveHistoryTeam = { updatedTeam ->
-                playerId?.let { id ->
-                    viewModel.updateHistoryTeamForPlayer(id, updatedTeam)
-                    updateHistoryTeamRecyclerView(id)
-                }
-            },
-            onDeleteHistoryTeam = { teamId ->
-                playerId?.let { id ->
-                    viewModel.deleteHistoryTeamFromPlayer(id, teamId.id)
-                    updateHistoryTeamRecyclerView(id)
-                }
-            }
-        )
-
-        binding.rvUpdateTeamLckCoachEditHistoryOfTeam.layoutManager = LinearLayoutManager(context)
-        binding.rvUpdateTeamLckCoachEditHistoryOfTeam.adapter = adapter
-
-        playerId?.let { id ->
-            updateHistoryTeamRecyclerView(id)
-        }
-    }
-
-    private fun updateHistoryTeamRecyclerView(playerId: Int) {
-        val teamList = viewModel.getHistoryTeamsForPlayer(playerId)
-        (binding.rvUpdateTeamLckCoachEditHistoryOfTeam.adapter as HistoryOfTeamRVA).submitList(teamList.toList())
-    }
-    private fun setupAddButton() {
-        binding.ivUpdateTeamLckCoachEditWinningCareerAdd.setOnSingleClickListener {
-            (binding.rvUpdateTeamLckCoachEditWinningCareer.adapter as WinningCareerRVA).enterAddMode()
-        }
-        binding.ivUpdateTeamLckCoachEditHistoryOfTeamAdd.setOnSingleClickListener {
-            (binding.rvUpdateTeamLckCoachEditHistoryOfTeam.adapter as HistoryOfTeamRVA).enterAddMode()
-        }
-    }
 
     private fun setupBackButtonListener() {
         binding.ivUpdateTeamLckCoachEditPrevious.setOnSingleClickListener  {

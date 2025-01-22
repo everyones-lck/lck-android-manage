@@ -41,11 +41,12 @@ class UpdateTeamInfoHistoryOfRoasterFragment : BaseFragment<FragmentUpdateTeamIn
     override fun initView() {
         val teamName = arguments?.getString("teamName") ?: viewModel.teamName ?: "Unknown Team"
         viewModel.teamName = teamName
+        val teamId = -1
 
         setupRecyclerView()
         setupAddButton()
         setTeamName(teamName)
-        setupBackButtonListener(teamName)
+        setupBackButtonListener(teamName, teamId)
     }
 
     private fun setupRecyclerView() {
@@ -53,11 +54,12 @@ class UpdateTeamInfoHistoryOfRoasterFragment : BaseFragment<FragmentUpdateTeamIn
         binding.rvUpdateTeamHistoryOfRoaster.adapter = historyOfRoasterAdapter
     }
 
-    private fun setupBackButtonListener(teamName: String) {
+    private fun setupBackButtonListener(teamName: String,teamId: Int) {
         binding.ivUpdateTeamHistoryOfRoasterPrevious.setOnSingleClickListener  {
             val action = UpdateTeamInfoHistoryOfRoasterFragmentDirections
                 .actionUpdateTeamInfoHistoryOfRoasterFragmentToUpdateTeamInfoDetailFragment(
-                    teamName = teamName
+                    teamName = teamName,
+                    teamId = teamId
                 )
             navigator.navigate(action)
         }

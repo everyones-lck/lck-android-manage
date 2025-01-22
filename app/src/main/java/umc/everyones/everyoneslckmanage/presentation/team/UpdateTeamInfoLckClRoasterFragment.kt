@@ -23,10 +23,11 @@ class UpdateTeamInfoLckClRoasterFragment : BaseFragment<FragmentUpdateTeamInfoLc
     override fun initView() {
         val teamName = arguments?.getString("teamName") ?: viewModel.teamName ?: "Unknown Team"
         viewModel.teamName = teamName
+        val teamId = -1
         setTeamName(teamName)
 
         initLckClRoasterRVAdapter()
-        setupBackButtonListener(teamName)
+        setupBackButtonListener(teamName,teamId)
 
         binding.ivUpdateTeamLckClRoasterPlayerAdd.setOnSingleClickListener {
             val action = UpdateTeamInfoLckClRoasterFragmentDirections
@@ -63,11 +64,12 @@ class UpdateTeamInfoLckClRoasterFragment : BaseFragment<FragmentUpdateTeamInfoLc
     private fun setTeamName(teamName: String) {
         binding.tvUpdateTeamLckClRoasterTeamName.text = teamName
     }
-    private fun setupBackButtonListener(teamName: String) {
+    private fun setupBackButtonListener(teamName: String,teamId:Int) {
         binding.ivUpdateTeamLckClRoasterPrevious.setOnSingleClickListener  {
             val action = UpdateTeamInfoLckClRoasterFragmentDirections
                 .actionUpdateTeamInfoLckClRoasterFragmentToUpdateTeamInfoDetailFragment(
-                    teamName = teamName
+                    teamName = teamName,
+                    teamId = teamId
                 )
             navigator.navigate(action)
         }
