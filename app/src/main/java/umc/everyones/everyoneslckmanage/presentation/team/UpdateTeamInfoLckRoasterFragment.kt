@@ -1,6 +1,7 @@
 package umc.everyones.everyoneslckmanage.presentation.team
 
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -9,6 +10,7 @@ import umc.everyones.everyoneslckmanage.R
 import umc.everyones.everyoneslckmanage.databinding.FragmentUpdateTeamInfoLckRoasterBinding
 import umc.everyones.everyoneslckmanage.presentation.base.BaseFragment
 import umc.everyones.everyoneslckmanage.util.extension.setOnSingleClickListener
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class UpdateTeamInfoLckRoasterFragment : BaseFragment<FragmentUpdateTeamInfoLckRoasterBinding>(R.layout.fragment_update_team_info_lck_roaster) {
@@ -20,55 +22,52 @@ class UpdateTeamInfoLckRoasterFragment : BaseFragment<FragmentUpdateTeamInfoLckR
         findNavController()
     }
 
+    private var teamName: String = "Unknown Team"
+    private var teamId: Int = -1
+    private val role: String = "LCK_ROSTER"
+
     override fun initView() {
-        val teamName = arguments?.getString("teamName") ?: viewModel.teamName ?: "Unknown Team"
-        viewModel.teamName = teamName
+        val args = UpdateTeamInfoLckRoasterFragmentArgs.fromBundle(requireArguments())
+        teamName = args.teamName ?: "Unknown Team"
+        teamId = args.teamId
+
         setTeamName(teamName)
-
         initLckRoasterRVAdapter()
-        setupBackButtonListener(teamName)
-
-        binding.ivUpdateTeamLckRoasterPlayerAdd.setOnSingleClickListener {
-            val action = UpdateTeamInfoLckRoasterFragmentDirections
-                .actionUpdateTeamInfoLckRoasterFragmentToUpdateTeamInfoLckRoasterAddFragment(
-                    playerId = -1,
-                    playerName = null,
-                    playerPosition = null,
-                    playerImageUrl = null
-                )
-            navigator.navigate(action)
-        }
-
-        val newPlayer = arguments?.getSerializable("newPlayer") as? LckRoaster
-        newPlayer?.let {
-            viewModel.addPlayerToTeam(it)
-        }
-
-        val updatedRoaster = arguments?.getSerializable("updatedRoaster") as? LckRoaster
-        updatedRoaster?.let {
-            viewModel.updatePlayer(it)
-        }
+        setupBackButtonListener()
+        fetchData()
     }
 
     override fun initObserver() {
         lifecycleScope.launchWhenStarted {
-            viewModel.allRoasters.collect { allRoasters ->
-                val teamName = viewModel.teamName ?: "Unknown Team"
-                val teamRoasterList = viewModel.getRoasterForTeam(teamName)
-                lckRoasterAdapter.submitList(teamRoasterList.toList())
+            viewModel.players.collect { playerList ->
+                val roasterList = playerList.map { player ->
+                    LckRoaster(
+                        id = player.playerId,
+                        name = player.playerName,
+                        position = player.playerPosition,
+                        imageUrl = player.imageUrl ?: "",
+                        teamName = player.playerRole
+                    )
+                }
+                lckRoasterAdapter.submitList(roasterList)
             }
         }
+    }
+
+    private fun fetchData() {
+        viewModel.fetchRoasterData(teamId, role)
     }
 
     private fun setTeamName(teamName: String) {
         binding.tvUpdateTeamLckRoasterTeamName.text = teamName
     }
 
-    private fun setupBackButtonListener(teamName: String) {
+    private fun setupBackButtonListener() {
         binding.ivUpdateTeamLckRoasterPrevious.setOnSingleClickListener {
             val action = UpdateTeamInfoLckRoasterFragmentDirections
                 .actionUpdateTeamInfoLckRoasterFragmentToUpdateTeamInfoDetailFragment(
-                    teamName = teamName
+                    teamName = teamName,
+                    teamId = teamId
                 )
             navigator.navigate(action)
         }
@@ -81,7 +80,9 @@ class UpdateTeamInfoLckRoasterFragment : BaseFragment<FragmentUpdateTeamInfoLckR
                     playerId = roaster.id,
                     playerName = roaster.name,
                     playerPosition = roaster.position,
-                    playerImageUrl = roaster.imageUrl
+                    playerImageUrl = roaster.imageUrl,
+                    teamName = teamName,
+                    teamId = teamId
                 )
             navigator.navigate(action)
         }

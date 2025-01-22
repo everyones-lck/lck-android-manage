@@ -8,8 +8,10 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.android.scopes.ViewModelScoped
 import umc.everyones.everyoneslckmanage.data.repositoryImpl.CommunityRepositoryImpl
+import umc.everyones.everyoneslckmanage.data.repositoryImpl.UpdateTeamInfoRepositoryImpl
 import umc.everyones.everyoneslckmanage.data.repositoryImpl.ViewingPartyRepositoryImpl
 import umc.everyones.everyoneslckmanage.domain.repository.CommunityRepository
+import umc.everyones.everyoneslckmanage.domain.repository.UpdateTeamInfoRepository
 import umc.everyones.everyoneslckmanage.domain.repository.ViewingPartyRepository
 import javax.inject.Singleton
 
@@ -36,4 +38,10 @@ object RepositoryModule {
     fun providesViewingPartyRepository(
         viewingPartyRepositoryImpl: ViewingPartyRepositoryImpl
     ): ViewingPartyRepository = viewingPartyRepositoryImpl
+
+    @Provides
+    @ViewModelScoped
+    fun provideUpdateTeamInfoRepository(
+        updateTeamInfoRepositoryImpl: UpdateTeamInfoRepositoryImpl
+    ): UpdateTeamInfoRepository = updateTeamInfoRepositoryImpl
 }
