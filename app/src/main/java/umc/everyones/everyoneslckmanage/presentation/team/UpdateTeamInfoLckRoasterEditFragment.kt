@@ -1,54 +1,65 @@
 package umc.everyones.everyoneslckmanage.presentation.team
 
+import android.net.Uri
 import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import umc.everyones.everyoneslckmanage.R
-import umc.everyones.everyoneslckmanage.databinding.FragmentUpdateTeamInfoLckClRoasterEditBinding
 import umc.everyones.everyoneslckmanage.databinding.FragmentUpdateTeamInfoLckRoasterEditBinding
 import umc.everyones.everyoneslckmanage.presentation.base.BaseFragment
 import umc.everyones.everyoneslckmanage.util.extension.setOnSingleClickListener
+import java.io.File
 
 class UpdateTeamInfoLckRoasterEditFragment: BaseFragment<FragmentUpdateTeamInfoLckRoasterEditBinding>(R.layout.fragment_update_team_info_lck_roaster_edit) {
 
     private var playerId: Int? = null
-    private var selectedImageUri: String? = null
+    private var selectedImageFile: File? = null
 
     private val viewModel: UpdateTeamInfoLckRoasterEditViewModel by activityViewModels()
-    private val viewModel_team: UpdateTeamInfoLckRoasterViewModel by activityViewModels()
+    private val args: UpdateTeamInfoLckRoasterEditFragmentArgs by navArgs()
 
     private val navigator by lazy {
         findNavController()
     }
 
-    private val selectImageLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
-        uri?.let {
-            binding.ivUpdateTeamLckRoasterEditPhoto.setImageURI(it)
-            selectedImageUri = it.toString()
-        }
-    }
     override fun initObserver() {
-        playerId?.let { id ->
-            lifecycleScope.launchWhenStarted {
-                viewModel.playerWinningCareers.collect { winningCareerMap ->
-                    val careerList = viewModel.getWinningCareerForPlayer(id)
-                    (binding.rvUpdateTeamLckRoasterEditWinningCareer.adapter as WinningCareerRVA).submitList(careerList.toList())
-
+        lifecycleScope.launch {
+            viewModel.deletePlayer.collectLatest { result ->
+                result?.onSuccess {
+                    Log.d("DeletePlayer", "Player successfully deleted")
+                    val action = UpdateTeamInfoLckRoasterEditFragmentDirections
+                        .actionUpdateTeamInfoLckRoasterEditFragmentToUpdateTeamInfoLckRoasterFragment(
+                            newPlayer = null,
+                            updatedRoaster = null,
+                            teamName = null,
+                            teamId = -1
+                        )
+                    navigator.navigate(action)
+                }?.onFailure { error ->
+                    Log.e("DeletePlayer", "Error deleting player: ${error.message}")
                 }
             }
         }
-        playerId?.let { id ->
-            lifecycleScope.launchWhenStarted {
-                viewModel.playerHistoryOfTeam.collect { historyOfTeamMap ->
-                    val historyTeamList = viewModel.getHistoryTeamsForPlayer(id)
-                    (binding.rvUpdateTeamLckRoasterEditHistoryOfTeam.adapter as HistoryOfTeamRVA).submitList(historyTeamList.toList())
-
+        lifecycleScope.launch {
+            viewModel.updateResult.collectLatest { result ->
+                result?.onSuccess {
+                    Log.d("UpdatePlayer", "Player successfully updated")
+                    val action = UpdateTeamInfoLckRoasterEditFragmentDirections
+                        .actionUpdateTeamInfoLckRoasterEditFragmentToUpdateTeamInfoLckRoasterFragment(
+                            newPlayer = null,
+                            updatedRoaster = null,
+                            teamName = args.teamName,
+                            teamId = args.teamId
+                        )
+                    navigator.navigate(action)
+                }?.onFailure { error ->
+                    Log.e("UpdatePlayer", "Error updating player: ${error.message}")
                 }
             }
         }
@@ -56,113 +67,45 @@ class UpdateTeamInfoLckRoasterEditFragment: BaseFragment<FragmentUpdateTeamInfoL
 
     override fun initView() {
         playerId = arguments?.getInt("playerId")
+        setupTeamName()
         setupInitialData()
-        setupRecyclerView()
-        setupHistoryTeamRecyclerView()
-        setupAddButton()
         setupSaveButtonListener()
         setupNoButtonListener()
         setupBackButtonListener()
-        setTeamName()
+        setupTeamName()
 
         binding.ivUpdateTeamLckRoasterEditGallery.setOnSingleClickListener  {
             openGallery()
         }
     }
 
+    private val selectImageLauncher =
+        registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
+            uri?.let {
+                binding.ivUpdateTeamLckRoasterEditPhoto.setImageURI(it)
+                selectedImageFile = uriToFile(it) ?: run {
+                    null
+                }
+            }
+        }
+
     private fun openGallery() {
         selectImageLauncher.launch("image/*")
     }
 
-    private fun setTeamName() {
-        val teamName = viewModel_team.teamName ?: "Unknown Team"
+    private fun setupTeamName() {
+        val teamName = arguments?.getString("teamName") ?: "Unknown Team"
         binding.tvUpdateTeamLckRoasterEditTeamName.text = teamName
     }
 
-    private fun setupRecyclerView() {
-        val adapter = WinningCareerRVA(
-            onAddWinningCareer = { newCareer ->
-                playerId?.let { id ->
-                    viewModel.addWinningCareerToPlayer(id, newCareer)
-                    updateRecyclerView(id)
-                }
-            },
-            onSaveWinningCareer = { updatedCareer ->
-                playerId?.let { id ->
-                    viewModel.updateWinningCareerForPlayer(id, updatedCareer)
-                    updateRecyclerView(id)
-                }
-            },
-            onDeleteWinningCareer = { careerId ->
-                playerId?.let { id ->
-                    viewModel.deleteWinningCareerFromPlayer(id, careerId)
-                    updateRecyclerView(id)
-                }
-            }
-        )
-
-        binding.rvUpdateTeamLckRoasterEditWinningCareer.layoutManager = LinearLayoutManager(context)
-        binding.rvUpdateTeamLckRoasterEditWinningCareer.adapter = adapter
-
-        playerId?.let { id ->
-            updateRecyclerView(id)
-        }
-    }
-
-    private fun updateRecyclerView(playerId: Int) {
-        val careerList = viewModel.getWinningCareerForPlayer(playerId)
-        (binding.rvUpdateTeamLckRoasterEditWinningCareer.adapter as WinningCareerRVA).submitList(careerList.toList())
-
-    }
-    private fun setupHistoryTeamRecyclerView() {
-        val adapter = HistoryOfTeamRVA(
-            onAddHistoryTeam = { newTeam ->
-                playerId?.let { id ->
-                    viewModel.addHistoryTeamToPlayer(id, newTeam)
-                    updateHistoryTeamRecyclerView(id)
-                }
-            },
-            onSaveHistoryTeam = { updatedTeam ->
-                playerId?.let { id ->
-                    viewModel.updateHistoryTeamForPlayer(id, updatedTeam)
-                    updateHistoryTeamRecyclerView(id)
-                }
-            },
-            onDeleteHistoryTeam = { teamId ->
-                playerId?.let { id ->
-                    viewModel.deleteHistoryTeamFromPlayer(id, teamId.id)
-                    updateHistoryTeamRecyclerView(id)
-                }
-            }
-        )
-
-        binding.rvUpdateTeamLckRoasterEditHistoryOfTeam.layoutManager = LinearLayoutManager(context)
-        binding.rvUpdateTeamLckRoasterEditHistoryOfTeam.adapter = adapter
-
-        playerId?.let { id ->
-            updateHistoryTeamRecyclerView(id)
-        }
-    }
-
-    private fun updateHistoryTeamRecyclerView(playerId: Int) {
-        val teamList = viewModel.getHistoryTeamsForPlayer(playerId)
-        (binding.rvUpdateTeamLckRoasterEditHistoryOfTeam.adapter as HistoryOfTeamRVA).submitList(teamList.toList())
-    }
-    private fun setupAddButton() {
-        binding.ivUpdateTeamLckRoasterEditWinningCareerAdd.setOnSingleClickListener {
-            (binding.rvUpdateTeamLckRoasterEditWinningCareer.adapter as WinningCareerRVA).enterAddMode()
-        }
-        binding.ivUpdateTeamLckRoasterEditHistoryOfTeamAdd.setOnSingleClickListener {
-            (binding.rvUpdateTeamLckRoasterEditHistoryOfTeam.adapter as HistoryOfTeamRVA).enterAddMode()
-        }
-    }
     private fun setupBackButtonListener() {
         binding.ivUpdateTeamLckRoasterEditPrevious.setOnSingleClickListener  {
             val action = UpdateTeamInfoLckRoasterEditFragmentDirections
                 .actionUpdateTeamInfoLckRoasterEditFragmentToUpdateTeamInfoLckRoasterFragment(
                     newPlayer = null,
                     updatedRoaster = null,
-                    teamName = null
+                    teamName = args.teamName,
+                    teamId = args.teamId
                 )
             navigator.navigate(action)
         }
@@ -171,16 +114,8 @@ class UpdateTeamInfoLckRoasterEditFragment: BaseFragment<FragmentUpdateTeamInfoL
     private fun setupNoButtonListener() {
         binding.ivUpdateTeamLckRoasterEditNo.setOnSingleClickListener {
             playerId?.let { id ->
-                viewModel_team.deletePlayer(id)
+                viewModel.deletePlayer(id)
             }
-
-            val action = UpdateTeamInfoLckRoasterEditFragmentDirections
-                .actionUpdateTeamInfoLckRoasterEditFragmentToUpdateTeamInfoLckRoasterFragment(
-                    newPlayer = null,
-                    updatedRoaster = null,
-                    teamName = null
-                )
-            navigator.navigate(action)
         }
     }
 
@@ -201,30 +136,35 @@ class UpdateTeamInfoLckRoasterEditFragment: BaseFragment<FragmentUpdateTeamInfoL
     private fun setupSaveButtonListener() {
         binding.ivUpdateTeamLckRoasterEditCheck.setOnSingleClickListener {
             val updatedName = binding.etUpdateTeamLckRoasterEditName.text.toString()
+            val updatedRealName = binding.etUpdateTeamLckRoasterEditNickName.text.toString()
             val updatedPosition = binding.etUpdateTeamLckRoasterEditPosition.text.toString()
-            val updatedImageUrl = selectedImageUri ?: arguments?.getString("playerImageUrl") ?: ""
-
-            val teamName = arguments?.getString("teamName") ?: viewModel_team.teamName ?: "Unknown Team"
+            val updatedBirthday = binding.etUpdateTeamLckRoasterEditBirthDate.text.toString()
 
             playerId?.let { id ->
-                val updatedRoaster = LckRoaster(
-                    id = id,
+                viewModel.updatePlayer(
+                    profileImageFile = selectedImageFile,
+                    playerId = id,
                     name = updatedName,
+                    realName = updatedRealName,
                     position = updatedPosition,
-                    imageUrl = updatedImageUrl,
-                    teamName = teamName
+                    birthday = updatedBirthday
                 )
-
-                viewModel_team.updatePlayer(updatedRoaster)
-
-                val action = UpdateTeamInfoLckRoasterEditFragmentDirections
-                    .actionUpdateTeamInfoLckRoasterEditFragmentToUpdateTeamInfoLckRoasterFragment(
-                        newPlayer = null,
-                        updatedRoaster = updatedRoaster,
-                        teamName = teamName
-                    )
-                navigator.navigate(action)
             }
         }
     }
+
+    private fun uriToFile(uri: Uri): File? {
+        return try {
+            val inputStream = requireContext().contentResolver.openInputStream(uri)
+            val tempFile = File.createTempFile("temp_image", ".jpg", requireContext().cacheDir)
+            tempFile.outputStream().use { outputStream ->
+                inputStream?.copyTo(outputStream)
+            }
+            tempFile
+        } catch (e: Exception) {
+            Log.e("EditPlayer", "Error converting URI to File: ${e.message}")
+            null
+        }
+    }
+
 }

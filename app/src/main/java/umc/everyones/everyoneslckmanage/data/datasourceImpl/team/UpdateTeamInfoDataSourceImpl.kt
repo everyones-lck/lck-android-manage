@@ -31,4 +31,10 @@ class UpdateTeamInfoDataSourceImpl @Inject constructor(
         request: RequestBody
     ): BaseResponse<Unit> =
         updateTeamInfoService.addPlayer(profileImage, request)
+
+    override suspend fun updatePlayer(
+        profileImage: MultipartBody.Part?,
+        request: RequestBody
+    ): BaseResponse<Unit> =
+        updateTeamInfoService.updatePlayer(profileImage, request)
 }

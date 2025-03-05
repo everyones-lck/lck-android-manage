@@ -10,5 +10,6 @@ interface UpdateTeamInfoRepository {
     suspend fun getTeamPlayers(teamId: Int, season: String, role: String): Result<PlayerListModel>
     suspend fun deletePlayer(request: PlayerDeleteRequestDto): Result<Unit>
     suspend fun addPlayer(profileImage: MultipartBody.Part?, request: RequestBody): Result<Unit>
+    suspend fun updatePlayer(profileImage: MultipartBody.Part?, request: RequestBody): Result<Unit>
 }
 

@@ -139,7 +139,7 @@
                 android:id="@+id/et_update_team_lck_roaster_edit_birth_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="0000.00.00"
+                android:hint="0000-00-00"
                 android:textColor="@color/gray"
                 android:textSize="24sp"
                 android:textColorHint="@color/gray"

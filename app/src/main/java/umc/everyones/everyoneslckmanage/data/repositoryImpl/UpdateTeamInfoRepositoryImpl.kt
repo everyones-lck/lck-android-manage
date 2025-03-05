@@ -35,4 +35,12 @@ class UpdateTeamInfoRepositoryImpl @Inject constructor(
     ): Result<Unit> = runCatching {
         dataSource.addPlayer(profileImage, request)
     }
+
+    override suspend fun updatePlayer(
+        profileImage: MultipartBody.Part?,
+        request: RequestBody
+    ): Result<Unit> = runCatching {
+        dataSource.updatePlayer(profileImage, request)
+    }
+
 }

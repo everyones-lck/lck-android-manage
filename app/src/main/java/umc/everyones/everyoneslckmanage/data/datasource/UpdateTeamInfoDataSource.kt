@@ -12,5 +12,6 @@ interface UpdateTeamInfoDataSource {
     suspend fun getTeamPlayers(teamId: Int, season: String, role: String): BaseResponse<PlayerListResponseDto>
     suspend fun deletePlayer(request: PlayerDeleteRequestDto  ): BaseResponse<Unit>
     suspend fun addPlayer(profileImage: MultipartBody.Part?, request: RequestBody): BaseResponse<Unit>
+    suspend fun updatePlayer(profileImage: MultipartBody.Part?, request: RequestBody): BaseResponse<Unit>
 }
 
