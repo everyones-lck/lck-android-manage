@@ -1,14 +1,11 @@
 package umc.everyones.everyoneslckmanage.presentation.match
 
-import android.view.View
-import android.widget.AdapterView
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import umc.everyones.everyoneslckmanage.R
 import umc.everyones.everyoneslckmanage.databinding.FragmentInputMatchDetailBinding
-import umc.everyones.everyoneslckmanage.domain.model.request.match.InputMatchModel
 import umc.everyones.everyoneslckmanage.presentation.base.BaseFragment
 import umc.everyones.everyoneslckmanage.presentation.match.adapter.MatchSpinnerAdapter
 import umc.everyones.everyoneslckmanage.util.extension.repeatOnStarted

@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import umc.everyones.everyoneslckmanage.domain.model.match.SelectedMatch
 import umc.everyones.everyoneslckmanage.domain.model.response.match.LckMatchDetailsModel
 import umc.everyones.everyoneslckmanage.domain.model.response.match.MatchInfoModel
 import umc.everyones.everyoneslckmanage.domain.repository.InputMatchRepository
@@ -25,6 +26,9 @@ class InputMatchInfoViewModel @Inject constructor(
 
     private val _selectedDate = MutableStateFlow<String?>(null) // 선택한 날짜를 저장
     val selectedDate: StateFlow<String?> get() = _selectedDate
+
+    private val _selectedMatch = MutableStateFlow<SelectedMatch?>(null)
+    val selectedMatch: StateFlow<SelectedMatch?> get() = _selectedMatch
 
     fun fetchLckMatchDetails(searchDate: String){
         viewModelScope.launch{
@@ -41,6 +45,14 @@ class InputMatchInfoViewModel @Inject constructor(
 
     fun updateSelectedDate(date: String) {
         _selectedDate.value = date
+    }
+
+    fun updateSelectedMatch(selectedMatch: SelectedMatch) {
+        _selectedMatch.value = selectedMatch
+    }
+
+    fun resetSelectedMatch() {
+        _selectedMatch.value = null
     }
 
 }
