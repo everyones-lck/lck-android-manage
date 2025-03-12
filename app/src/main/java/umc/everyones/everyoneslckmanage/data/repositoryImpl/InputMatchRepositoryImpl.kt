@@ -34,14 +34,28 @@ class InputMatchRepositoryImpl @Inject constructor(
     }
 
     override suspend fun fetchSetResults(request: SetResultModel): Result<CommonResponseModel> = runCatching {
-        inputMatchDataSource.fetchSetResults(request.toSetResultRequestDto()).data.toCommonResponseModel()
+        val responseDto = inputMatchDataSource.fetchSetResults(request.toSetResultRequestDto())
+
+        if (responseDto.data == null) {
+            // 서버 응답이 null이면 기본 응답을 생성하여 반환
+            CommonResponseModel(message = responseDto.message, data = null, success = responseDto.success)
+        } else {
+            responseDto.data.toCommonResponseModel()
+        }
     }
 
     override suspend fun fetchMatchResults(request: MatchResultModel): Result<CommonResponseModel> = runCatching {
-        inputMatchDataSource.fetchMatchResults(request.toMatchResultRequestDto()).data.toCommonResponseModel()
+        val responseDto = inputMatchDataSource.fetchMatchResults(request.toMatchResultRequestDto())
+
+        if (responseDto.data == null) {
+            // data가 null이면 CommonResponseModel을 기본값으로 생성
+            CommonResponseModel(responseDto.message, success = responseDto.success)
+        } else {
+            responseDto.data.toCommonResponseModel()
+        }
     }
 
     override suspend fun fetchSetResultInfo(matchId: Long): Result<SetResultInfoResponseModel> = runCatching {
-        inputMatchDataSource.fetchSetResultInfo(matchId).data.toSetResultInfoResponseModel()
+        inputMatchDataSource.fetchSetResultInfo(matchId).data?.toSetResultInfoResponseModel() ?: SetResultInfoResponseModel(emptyList())
     }
 }

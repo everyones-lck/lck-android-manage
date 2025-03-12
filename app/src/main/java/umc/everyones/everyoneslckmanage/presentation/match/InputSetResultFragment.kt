@@ -2,27 +2,47 @@ package umc.everyones.everyoneslckmanage.presentation.match
 
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import umc.everyones.everyoneslckmanage.R
 import umc.everyones.everyoneslckmanage.databinding.FragmentInputSetResultBinding
+import umc.everyones.everyoneslckmanage.domain.model.response.match.SetResultInfoResponseModel
 import umc.everyones.everyoneslckmanage.presentation.base.BaseFragment
+import umc.everyones.everyoneslckmanage.presentation.match.adapter.SetResultRVA
 import umc.everyones.everyoneslckmanage.util.extension.repeatOnStarted
 import umc.everyones.everyoneslckmanage.util.extension.setOnSingleClickListener
 
 @AndroidEntryPoint
 class InputSetResultFragment:BaseFragment<FragmentInputSetResultBinding>(R.layout.fragment_input_set_result) {
-    private val matchInfoViewModel: InputMatchInfoViewModel by activityViewModels()
+    private val matchResultViewModel: InputMatchResultViewModel by activityViewModels()
     private val viewModel: InputSetResultViewModel by activityViewModels()
+    private lateinit var adapter: SetResultRVA
+    private val setInfoList = mutableListOf<SetResultInfoResponseModel.SetsInformationModel>() // 세트 리스트 저장
+    private val selectedWinners = mutableMapOf<Int, String>() // 선택한 승리 팀 저장
+
     override fun initObserver() {
         viewLifecycleOwner.repeatOnStarted {
-            matchInfoViewModel.selectedMatch.collect { selectedMatch ->
+            matchResultViewModel.selectedMatch.collect { selectedMatch ->
                 selectedMatch?.let { match ->
-                    binding.tvMatchResultMatchTitle.text = match.seasonTitle
-                    binding.tvMatchResultMatchDate.text = match.matchDate
-                    binding.tvMatchResultMatchTime.text = match.matchTime
+                    binding.tvMatchResultMatchTitle.text = "LCK ${match.seasonInfo}"
+                    binding.tvMatchResultMatchDate.text = match.matchDate.substring(0, 10)
+                    binding.tvMatchResultMatchTime.text = match.matchDate.substring(11, 16)
                     binding.btnMatchResultTeam1.text = match.team1Name
                     binding.btnMatchResultTeam2.text = match.team2Name
+
+                    viewModel.fetchSetResultInfo(match.matchId)
+                }
+            }
+        }
+        viewLifecycleOwner.repeatOnStarted {
+            viewModel.setResultInfo.collect { setResultInfo ->
+                setResultInfo?.let {
+                    setInfoList.clear()
+                    setInfoList.addAll(it.setsInformation) // 기존 세트 정보 추가
+                    adapter.submitList(setInfoList.toList()) // 변경된 데이터 반영
                 }
             }
         }
@@ -30,12 +50,61 @@ class InputSetResultFragment:BaseFragment<FragmentInputSetResultBinding>(R.layou
 
     override fun initView() {
         goBackButton()
+        setupRecyclerView()
         setupResultSubmission()
+        setupAddSetButton()
     }
 
     private fun goBackButton() {
         binding.ivMatchResultBackBtn.setOnSingleClickListener {
             findNavController().navigateUp()
+        }
+    }
+
+    private fun setupRecyclerView() {
+        val matchId = matchResultViewModel.selectedMatch.value?.matchId
+        if (matchId == null) {
+            Toast.makeText(requireContext(), "매치 정보를 불러올 수 없습니다.", Toast.LENGTH_SHORT).show()
+            return
+        }
+        adapter = SetResultRVA(
+            matchId = matchId,
+            onRadioButtonClick = { setIndex, winnerTeam ->
+                selectedWinners[setIndex] = winnerTeam
+            },
+            onSubmitSetResult = { setResult ->
+                lifecycleScope.launch {
+                    runCatching {
+                        viewModel.fetchSetResults(setResult)
+                    }.onSuccess {
+                        Toast.makeText(requireContext(), "${setResult.setIndex} 세트 결과가 성공적으로 등록되었습니다!", Toast.LENGTH_SHORT).show()
+                    }.onFailure {
+                        Toast.makeText(requireContext(), "${setResult.setIndex} 세트 결과 등록에 실패했습니다.", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+        )
+        binding.rvSetResultContainer.adapter = adapter
+        binding.rvSetResultContainer.layoutManager = LinearLayoutManager(requireContext())
+    }
+
+    private fun setupAddSetButton() {
+        binding.ivSetResultAddBtn.setOnClickListener {
+            val selectedMatch = matchResultViewModel.selectedMatch.value
+            if (selectedMatch == null) {
+                Toast.makeText(requireContext(), "매치 정보를 불러올 수 없습니다.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            val newSetIndex = setInfoList.size + 1 // 기존 개수 + 1
+            val newSet = SetResultInfoResponseModel.SetsInformationModel(
+                setIndex = newSetIndex,
+                winnerTeam = selectedMatch.team1Name, // 기본적으로 팀1을 승자로 설정
+                loserTeam = selectedMatch.team2Name
+            )
+
+            setInfoList.add(newSet) // 리스트에 추가
+            adapter.submitList(setInfoList.toList()) // UI 업데이트
         }
     }
 
@@ -82,16 +151,23 @@ class InputSetResultFragment:BaseFragment<FragmentInputSetResultBinding>(R.layou
             }
 
             // 공유 ViewModel에서 선택된 매치 정보 가져오기 (예시: matchNumber가 포함되어 있다고 가정)
-            val selectedMatch = matchInfoViewModel.selectedMatch.value
+            val selectedMatch = matchResultViewModel.selectedMatch.value
             if (selectedMatch == null) {
                 Toast.makeText(requireContext(), "매치 정보를 불러올 수 없습니다.", Toast.LENGTH_SHORT).show()
                 return@setOnSingleClickListener
             }
 
-            val matchId = selectedMatch.matchNumber.toLong()  // matchNumber를 Long으로 변환
+            val matchId = selectedMatch.matchId
 
-            // 이제 ViewModel의 submitMatchResult() 함수로 API 요청을 보냅니다.
-            viewModel.fetchMatchResult(matchId, winnerTeamId)
+            lifecycleScope.launch {
+                runCatching {
+                    viewModel.fetchMatchResult(matchId, winnerTeamId)
+                }.onSuccess {
+                    Toast.makeText(requireContext(), "매치 결과가 성공적으로 등록되었습니다!", Toast.LENGTH_SHORT).show()
+                }.onFailure {
+                    Toast.makeText(requireContext(), "매치 결과 등록에 실패했습니다. 다시 시도해주세요.", Toast.LENGTH_SHORT).show()
+                }
+            }
         }
     }
 }

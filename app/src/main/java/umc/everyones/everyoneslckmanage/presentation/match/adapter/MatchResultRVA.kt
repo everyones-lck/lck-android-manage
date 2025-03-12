@@ -1,18 +1,19 @@
 package umc.everyones.everyoneslckmanage.presentation.match.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import umc.everyones.everyoneslckmanage.databinding.ItemInputMatchResultBinding
-import umc.everyones.everyoneslckmanage.domain.model.match.SelectedMatch
-import umc.everyones.everyoneslckmanage.domain.model.response.match.LckMatchDetailsModel
+import umc.everyones.everyoneslckmanage.domain.model.response.match.MatchInfoModel
+import umc.everyones.everyoneslckmanage.domain.model.response.match.SetResultInfoResponseModel
 
 class MatchResultRVA(
-//    private val onItemClick: (LckMatchDetailsModel.LckMatchDetailsElementModel) -> Unit
-    private val onItemClick: (SelectedMatch) -> Unit
-): ListAdapter<LckMatchDetailsModel.LckMatchDetailsElementModel, MatchResultRVA.ViewHolder>(DiffCallback()) {
+    private val onItemClick: (MatchInfoModel.MatchResponsesModel) -> Unit
+): ListAdapter<MatchInfoModel.MatchResponsesModel, MatchResultRVA.ViewHolder>(DiffCallback()) {
+    private var setResultMap: Map<Long, SetResultInfoResponseModel> = emptyMap()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = ItemInputMatchResultBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -21,36 +22,69 @@ class MatchResultRVA(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
-        holder.bind(item)
+        val setResults = setResultMap[item.matchId] // 해당 matchId에 대한 세트 결과 가져오기
+        holder.bind(item, setResults)
         holder.itemView.setOnClickListener {
-            val selectedMatch = SelectedMatch(
-                matchNumber = item.matchNumber.toLong(),
-                seasonTitle = "LCK ${item.season}",
-                matchDate = item.matchDate,
-                matchTime = item.matchTime.dropLast(3),
-                team1Name = item.team1.teamName,
-                team2Name = item.team2.teamName
-            )
-            onItemClick(selectedMatch)
+            onItemClick(item)  // 클릭한 아이템 전달
         }
+    }
+
+    fun updateMatchWithSetResults(setResults: Map<Long, SetResultInfoResponseModel>) {
+        this.setResultMap = setResults
+        notifyDataSetChanged()
     }
 
     inner class ViewHolder(private val binding: ItemInputMatchResultBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: LckMatchDetailsModel.LckMatchDetailsElementModel) {
-            binding.tvMatchResultTitle.text = "LCK ${item.season}"
-            binding.tvMatchResultDate.text = item.matchDate
-            binding.tvMatchResultTime.text = item.matchTime.dropLast(3)
+        fun bind(item: MatchInfoModel.MatchResponsesModel, setResultInfo: SetResultInfoResponseModel?) {
+            binding.tvMatchResultTitle.text = "LCK ${item.seasonInfo}"
+            binding.tvMatchResultDate.text = item.matchDate.substring(0, 10)
+            binding.tvMatchResultTime.text = item.matchDate.substring(11, 16)
+
+            // 세트 승리 정보 업데이트
+            val sets = setResultInfo?.setsInformation ?: emptyList()
+            val winnerTeams = sets.map { it.winnerTeam }
+
+            // UI에 세트 결과 적용
+            val setTextViews = listOf(
+                binding.tvMatchSet1Team,
+                binding.tvMatchSet2Team,
+                binding.tvMatchSet3Team,
+                binding.tvMatchSet4Team,
+                binding.tvMatchSet5Team
+            )
+
+            val dividerViews = listOf(
+                binding.tvMatchDivideSet1,
+                binding.tvMatchDivideSet2,
+                binding.tvMatchDivideSet3,
+                binding.tvMatchDivideSet4
+            )
+
+            // 세트 데이터 적용
+            setTextViews.forEachIndexed { index, textView ->
+                if (index < winnerTeams.size) {
+                    textView.text = winnerTeams[index]
+                    textView.visibility = View.VISIBLE
+                } else {
+                    textView.visibility = View.GONE
+                }
+            }
+
+            // 나머지 Divider들 처리
+            dividerViews.forEachIndexed { index, divider ->
+                divider.visibility = if (index < winnerTeams.size - 1) View.VISIBLE else View.GONE
+            }
         }
     }
 
-    class DiffCallback : DiffUtil.ItemCallback<LckMatchDetailsModel.LckMatchDetailsElementModel>() {
-        override fun areItemsTheSame(oldItem: LckMatchDetailsModel.LckMatchDetailsElementModel, newItem: LckMatchDetailsModel.LckMatchDetailsElementModel): Boolean {
-            return oldItem.matchNumber == newItem.matchNumber && oldItem.matchDate == newItem.matchDate
+    class DiffCallback : DiffUtil.ItemCallback<MatchInfoModel.MatchResponsesModel>() {
+        override fun areItemsTheSame(oldItem: MatchInfoModel.MatchResponsesModel, newItem: MatchInfoModel.MatchResponsesModel): Boolean {
+            return oldItem.matchId == newItem.matchId
         }
 
 
-        override fun areContentsTheSame(oldItem: LckMatchDetailsModel.LckMatchDetailsElementModel, newItem: LckMatchDetailsModel.LckMatchDetailsElementModel): Boolean {
+        override fun areContentsTheSame(oldItem: MatchInfoModel.MatchResponsesModel, newItem: MatchInfoModel.MatchResponsesModel): Boolean {
             return oldItem == newItem
 
         }
