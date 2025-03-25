@@ -174,14 +174,6 @@
                 android:id="@+id/action_updateTeamInfoLckRoasterFragment_to_updateTeamInfoLckRoasterEditFragment"
                 app:destination="@id/updateTeamInfoLckRoasterEditFragment"/>
             <argument
-                android:name="newPlayer"
-                app:argType="umc.everyones.everyoneslckmanage.presentation.team.LckRoaster"
-                app:nullable="true"/>
-            <argument
-                android:name="updatedRoaster"
-                app:argType="umc.everyones.everyoneslckmanage.presentation.team.LckRoaster"
-                app:nullable="true"/>
-            <argument
                 android:name="teamName"
                 app:argType="string"
                 app:nullable="true"/>

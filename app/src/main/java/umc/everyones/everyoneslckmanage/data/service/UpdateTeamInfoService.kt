@@ -37,7 +37,7 @@ interface UpdateTeamInfoService {
     @PATCH("admins/players")
     suspend fun updatePlayer(
         @Part profileImage: MultipartBody.Part?,
-        @Part("request") request: RequestBody
+        @Part ("request") request: RequestBody
     ): BaseResponse<Unit>
 
     @HTTP(method = "DELETE", path="admins/players", hasBody = true)

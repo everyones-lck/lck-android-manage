@@ -11,10 +11,10 @@ data class PlayerUpdateRequestDto(
 ) {
     fun toPlayerUpdateModel(): PlayerUpdateModel =
         PlayerUpdateModel(
-        playerId = playerId,
-        name = name,
-        realName = realName,
-        position = position,
-        birthday = birthday
-    )
+            playerId = playerId,
+            name = name,
+            realName = realName,
+            position = position,
+            birthday = birthday
+        )
 }
