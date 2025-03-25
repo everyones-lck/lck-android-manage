@@ -31,10 +31,9 @@ class UpdateTeamInfoLckRoasterAddFragment :
         lifecycleScope.launchWhenStarted {
             viewModel.addPlayerResult.collect { result ->
                 result?.onSuccess {
+                    viewModel.resetUpdateResult()  // 성공 후 상태 리셋
                     val action = UpdateTeamInfoLckRoasterAddFragmentDirections
                         .actionUpdateTeamInfoLckRoasterAddFragmentToUpdateTeamInfoLckRoasterFragment(
-                            newPlayer = null,
-                            updatedRoaster = null,
                             teamName = args.teamName,
                             teamId = args.teamId
                         )
@@ -76,8 +75,6 @@ class UpdateTeamInfoLckRoasterAddFragment :
         binding.ivUpdateTeamLckRoasterAddPrevious.setOnSingleClickListener {
             val action = UpdateTeamInfoLckRoasterAddFragmentDirections
                 .actionUpdateTeamInfoLckRoasterAddFragmentToUpdateTeamInfoLckRoasterFragment(
-                    newPlayer = null,
-                    updatedRoaster = null,
                     teamName = args.teamName,
                     teamId = args.teamId
                 )
@@ -89,8 +86,6 @@ class UpdateTeamInfoLckRoasterAddFragment :
         binding.ivUpdateTeamLckRoasterAddNo.setOnSingleClickListener {
             val action = UpdateTeamInfoLckRoasterAddFragmentDirections
                 .actionUpdateTeamInfoLckRoasterAddFragmentToUpdateTeamInfoLckRoasterFragment(
-                    newPlayer = null,
-                    updatedRoaster = null,
                     teamName = args.teamName,
                     teamId = args.teamId
                 )
@@ -133,4 +128,10 @@ class UpdateTeamInfoLckRoasterAddFragment :
             null
         }
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        Log.d("FragmentLifecycle", "onDestroyView called for ${javaClass.simpleName}")
+    }
+
 }

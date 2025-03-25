@@ -61,4 +61,8 @@ class UpdateTeamInfoLckRoasterAddViewModel @Inject constructor(
             _addPlayerResult.value = result
         }
     }
+
+    fun resetUpdateResult() {
+        _addPlayerResult.value = null
+    }
 }
