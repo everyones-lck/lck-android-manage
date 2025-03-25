@@ -1,5 +1,6 @@
 package umc.everyones.everyoneslckmanage.presentation.team
 
+import android.util.Log
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.lifecycleScope
@@ -34,6 +35,7 @@ class UpdateTeamInfoLckRoasterFragment : BaseFragment<FragmentUpdateTeamInfoLckR
         setTeamName(teamName)
         initLckRoasterRVAdapter()
         setupBackButtonListener()
+        setupAddButtonListener()
         fetchData()
     }
 
@@ -73,6 +75,17 @@ class UpdateTeamInfoLckRoasterFragment : BaseFragment<FragmentUpdateTeamInfoLckR
         }
     }
 
+    private fun setupAddButtonListener() {
+        binding.ivUpdateTeamLckRoasterPlayerAdd.setOnSingleClickListener {
+            val action = UpdateTeamInfoLckRoasterFragmentDirections
+                .actionUpdateTeamInfoLckRoasterFragmentToUpdateTeamInfoLckRoasterAddFragment(
+                    teamName = teamName,
+                    teamId = teamId
+                )
+            navigator.navigate(action)
+        }
+    }
+
     private fun initLckRoasterRVAdapter() {
         lckRoasterAdapter = LckRoasterRVA { roaster ->
             val action = UpdateTeamInfoLckRoasterFragmentDirections
@@ -92,4 +105,10 @@ class UpdateTeamInfoLckRoasterFragment : BaseFragment<FragmentUpdateTeamInfoLckR
             adapter = lckRoasterAdapter
         }
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        Log.d("FragmentLifecycle", "onDestroyView called for ${javaClass.simpleName}")
+    }
+
 }

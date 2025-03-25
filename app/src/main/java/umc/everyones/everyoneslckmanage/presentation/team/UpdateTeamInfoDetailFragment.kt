@@ -46,8 +46,6 @@ class UpdateTeamInfoDetailFragment : BaseFragment<FragmentUpdateTeamInfoDetailBi
 
             val action = UpdateTeamInfoDetailFragmentDirections
                 .actionUpdateTeamInfoDetailToUpdateTeamInfoLckRoasterFragment(
-                    newPlayer = null,
-                    updatedRoaster = null,
                     teamName = teamName,
                     teamId = teamId
                 )
