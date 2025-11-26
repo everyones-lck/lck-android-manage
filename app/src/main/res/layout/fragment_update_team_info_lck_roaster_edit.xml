@@ -161,19 +161,45 @@
                 app:layout_constraintTop_toBottomOf="@id/tv_update_team_lck_roaster_edit_birth_date_title"
                 app:layout_constraintStart_toStartOf="@id/tv_update_team_lck_roaster_edit_birth_date_title" />
 
-            <EditText
-                android:id="@+id/et_update_team_lck_roaster_edit_position"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:hint="포지션"
-                android:textColor="@color/gray"
-                android:textSize="24sp"
-                android:textColorHint="@color/gray"
-                android:backgroundTint="@android:color/transparent"
-                android:layout_marginStart="5dp"
+            <LinearLayout
+                android:id="@+id/ll_position_box"
+                android:layout_width="150dp"
+                android:layout_height="45dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:background="@android:color/transparent"
+                android:clickable="true"
+                android:focusable="true"
+                app:layout_constraintStart_toEndOf="@id/tv_update_team_lck_roaster_edit_position_title"
                 app:layout_constraintTop_toTopOf="@id/tv_update_team_lck_roaster_edit_position_title"
-                app:layout_constraintBottom_toBottomOf="@id/tv_update_team_lck_roaster_edit_position_title"
-                app:layout_constraintStart_toEndOf="@id/tv_update_team_lck_roaster_edit_position_title" />
+                app:layout_constraintBottom_toBottomOf="@id/tv_update_team_lck_roaster_edit_position_title">
+
+                <AutoCompleteTextView
+                    android:id="@+id/actv_update_team_lck_roaster_edit_position"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:hint="포지션"
+                    android:textSize="22sp"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white"
+                    android:background="@android:color/transparent"
+                    android:focusable="false"
+                    android:clickable="false"
+                    android:cursorVisible="false"
+                    android:longClickable="false"
+                    android:inputType="none"
+                    android:popupBackground="@drawable/border_white" />
+
+                <ImageView
+                    android:id="@+id/iv_position_arrow"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/arrow_down_position" />
+            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/ll_update_team_lck_roaster_edit_history_of_team_check"
@@ -182,7 +208,7 @@
                 android:orientation="horizontal"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/et_update_team_lck_roaster_edit_position"
+                app:layout_constraintTop_toBottomOf="@id/ll_position_box"
                 android:layout_marginTop="35dp">
 
                 <ImageView

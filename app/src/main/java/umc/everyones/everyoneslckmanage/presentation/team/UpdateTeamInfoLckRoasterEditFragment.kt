@@ -3,6 +3,7 @@
     import android.content.Context
     import android.net.Uri
     import android.util.Log
+    import android.widget.ArrayAdapter
     import androidx.activity.result.contract.ActivityResultContracts
     import androidx.fragment.app.activityViewModels
     import androidx.lifecycle.lifecycleScope
@@ -48,8 +49,7 @@
             lifecycleScope.launch {
                 viewModel.updateResult.collectLatest { result ->
                     result?.onSuccess {
-                        Log.d("UpdatePlayer", "Player successfully updated")
-                        viewModel.resetUpdateResult()  // 성공 후 상태 리셋
+                        viewModel.resetUpdateResult()
                         val action = UpdateTeamInfoLckRoasterEditFragmentDirections
                             .actionUpdateTeamInfoLckRoasterEditFragmentToUpdateTeamInfoLckRoasterFragment(
                                 teamName = args.teamName,
@@ -69,6 +69,7 @@
             setupInitialData()
             setupClickListeners()
             setupTeamName()
+            setupPositionDropdown()
         }
 
         private val selectImageLauncher =
@@ -97,12 +98,57 @@
             val playerImageUrl = arguments?.getString("playerImageUrl")
 
             binding.etUpdateTeamLckRoasterEditName.setText(playerName)
-            binding.etUpdateTeamLckRoasterEditPosition.setText(playerPosition)
+            binding.actvUpdateTeamLckRoasterEditPosition.setText(playerPosition)
             Glide.with(binding.ivUpdateTeamLckRoasterEditPhoto.context)
                 .load(playerImageUrl)
                 .into(binding.ivUpdateTeamLckRoasterEditPhoto)
 
             savePlayerImageUrl(playerImageUrl)
+        }
+
+        private fun setupPositionDropdown() {
+            val items = resources.getStringArray(R.array.player_positions)
+            val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, items)
+
+            val actv = binding.actvUpdateTeamLckRoasterEditPosition
+            val arrow = binding.ivPositionArrow
+            val box = binding.llPositionBox
+
+            actv.setAdapter(adapter)
+
+            var isOpen = false
+            var blockToggle = false
+
+            fun toggle() {
+                if (blockToggle) return
+
+                if (isOpen) {
+                    actv.dismissDropDown()
+                    arrow.rotation = 0f
+                } else {
+                    actv.showDropDown()
+                    arrow.rotation = 180f
+                }
+                isOpen = !isOpen
+            }
+
+            box.setOnClickListener { toggle() }
+            arrow.setOnClickListener { toggle() }
+            actv.setOnClickListener { toggle() }
+
+            actv.setOnItemClickListener { _, _, _, _ ->
+                actv.dismissDropDown()
+            }
+
+            actv.setOnDismissListener {
+                isOpen = false
+                arrow.rotation = 0f
+
+                blockToggle = true
+                actv.postDelayed({
+                    blockToggle = false
+                }, 150)
+            }
         }
 
         private fun setupClickListeners() {
@@ -121,14 +167,14 @@
 
             binding.ivUpdateTeamLckRoasterEditNo.setOnSingleClickListener {
                 playerId?.let { id ->
-                    viewModel.deletePlayer(id)
+                    viewModel.deletePlayer(id.toLong())
                 }
             }
 
             binding.ivUpdateTeamLckRoasterEditCheck.setOnSingleClickListener {
                 val updatedName = binding.etUpdateTeamLckRoasterEditName.text.toString()
                 val updatedRealName = binding.etUpdateTeamLckRoasterEditNickName.text.toString()
-                val updatedPosition = binding.etUpdateTeamLckRoasterEditPosition.text.toString()
+                val updatedPosition = binding.actvUpdateTeamLckRoasterEditPosition.text.toString()
                 val updatedBirthday = binding.etUpdateTeamLckRoasterEditBirthDate.text.toString()
 
                 playerId?.let { id ->
@@ -164,7 +210,6 @@
                 putString("playerImageUrl", imageUrl)
                 apply()
             }
-            Log.d("UpdatePlayer", "Saved player image URL: $imageUrl")
         }
 
     }

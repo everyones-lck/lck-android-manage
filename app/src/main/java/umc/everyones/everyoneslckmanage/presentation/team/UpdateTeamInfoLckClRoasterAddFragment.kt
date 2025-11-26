@@ -1,5 +1,6 @@
 package umc.everyones.everyoneslckmanage.presentation.team
 
+import android.widget.ArrayAdapter
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -42,6 +43,7 @@ class UpdateTeamInfoLckClRoasterAddFragment : BaseFragment<FragmentUpdateTeamInf
         setupNoButtonListener()
         setupBackButtonListener()
         setupSaveButtonListener()
+        setupPositionDropdown()
 
         binding.ivUpdateTeamLckClRoasterAddGallery.setOnClickListener {
             openGallery()
@@ -86,10 +88,55 @@ class UpdateTeamInfoLckClRoasterAddFragment : BaseFragment<FragmentUpdateTeamInf
         }
     }
 
+    private fun setupPositionDropdown() {
+        val items = resources.getStringArray(R.array.player_positions)
+        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, items)
+
+        val actv = binding.actvUpdateTeamLckRoasterAddPosition
+        val arrow = binding.ivPositionArrow
+        val box = binding.llPositionBox
+
+        actv.setAdapter(adapter)
+
+        var isOpen = false
+        var blockToggle = false
+
+        fun toggle() {
+            if (blockToggle) return
+
+            if (isOpen) {
+                actv.dismissDropDown()
+                arrow.rotation = 0f
+            } else {
+                actv.showDropDown()
+                arrow.rotation = 180f
+            }
+            isOpen = !isOpen
+        }
+
+        box.setOnClickListener { toggle() }
+        arrow.setOnClickListener { toggle() }
+        actv.setOnClickListener { toggle() }
+
+        actv.setOnItemClickListener { _, _, _, _ ->
+            actv.dismissDropDown()
+        }
+
+        actv.setOnDismissListener {
+            isOpen = false
+            arrow.rotation = 0f
+
+            blockToggle = true
+            actv.postDelayed({
+                blockToggle = false
+            }, 150)
+        }
+    }
+
     private fun setupSaveButtonListener() {
         binding.ivUpdateTeamLckClRoasterAddCheck.setOnSingleClickListener  {
             val playerName = binding.etUpdateTeamLckClRoasterAddName.text.toString()
-            val playerPosition = binding.etUpdateTeamLckClRoasterAddPosition.text.toString()
+            val playerPosition = binding.actvUpdateTeamLckRoasterAddPosition.text.toString()
 
             val teamName = viewModel_team.teamName ?: "Unknown Team"
 
