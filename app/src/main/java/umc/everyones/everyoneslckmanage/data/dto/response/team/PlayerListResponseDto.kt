@@ -5,7 +5,7 @@ import umc.everyones.everyoneslckmanage.domain.model.response.team.PlayerListMod
 data class PlayerListResponseDto(
     val players: List<PlayerDto>,
     val numberOfPlayerDetail: Int,
-    val seasonName: String
+    val seasonNam: String
 ) {
     data class PlayerDto(
         val playerId: Int,
@@ -28,6 +28,6 @@ data class PlayerListResponseDto(
         PlayerListModel(
             players = players.map { it.toPlayerListModel() },
             numberOfPlayerDetail = numberOfPlayerDetail,
-            seasonName = seasonName
+            seasonNam = seasonNam
         )
 }

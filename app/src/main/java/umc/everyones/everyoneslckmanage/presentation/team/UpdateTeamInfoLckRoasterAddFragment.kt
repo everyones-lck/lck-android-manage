@@ -95,6 +95,17 @@ class UpdateTeamInfoLckRoasterAddFragment :
         }
     }
 
+    private fun convertPositionToEnglish(kor: String): String {
+        return when (kor) {
+            "탑" -> "TOP"
+            "미드" -> "MID"
+            "정글" -> "JUNGLE"
+            "바텀" -> "BOT"
+            "서포터" -> "SUPPORT"
+            else -> "TOP"
+        }
+    }
+
     private fun setupPositionDropdown() {
         val items = resources.getStringArray(R.array.player_positions)
         val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, items)
@@ -144,16 +155,17 @@ class UpdateTeamInfoLckRoasterAddFragment :
         binding.ivUpdateTeamLckRoasterAddCheck.setOnSingleClickListener {
             val name = binding.etUpdateTeamLckRoasterAddName.text.toString()
             val realName = binding.etUpdateTeamLckRoasterAddNickName.text.toString()
-            val position = binding.actvUpdateTeamLckRoasterAddPosition.text.toString()
+            val korPosition = binding.actvUpdateTeamLckRoasterAddPosition.text.toString()
+            val engPosition = convertPositionToEnglish(korPosition)
             val birth = binding.etUpdateTeamLckRoasterAddBirthDate.text.toString()
 
-            if (name.isNotEmpty() && realName.isNotEmpty() && position.isNotEmpty() && birth.isNotEmpty()) {
+            if (name.isNotEmpty() && realName.isNotEmpty() && engPosition.isNotEmpty() && birth.isNotEmpty()) {
                 viewModel.addPlayer(
                     profileImageFile = selectedImageFile,
                     teamId = args.teamId,
                     name = name,
                     realName = realName,
-                    position = position,
+                    position = engPosition,
                     birth = birth
                 )
             } else {

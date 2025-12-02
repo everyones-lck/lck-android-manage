@@ -4,6 +4,7 @@ import android.content.SharedPreferences
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -12,7 +13,6 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
-import umc.everyones.everyoneslckmanage.data.dto.request.team.PlayerDeleteRequestDto
 import umc.everyones.everyoneslckmanage.domain.repository.UpdateTeamInfoRepository
 import java.io.File
 import javax.inject.Inject
@@ -34,71 +34,66 @@ class UpdateTeamInfoLckRoasterEditViewModel @Inject constructor(
     fun updatePlayer(
         profileImageFile: File?,
         playerId: Int,
-        name: String,
-        realName: String,
-        position: String,
-        birthday: String,
+        name: String?,
+        realName: String?,
+        position: String?,
+        birthday: String?,
     ) {
         viewModelScope.launch {
-            val profileImagePart = profileImageFile?.let {
-                if (it.length() > 0) {
+
+            val jsonMap = mutableMapOf<String, Any>(
+                "playerId" to playerId
+            )
+
+            if (!name.isNullOrEmpty()) jsonMap["name"] = name
+            if (!realName.isNullOrEmpty()) jsonMap["realName"] = realName
+            if (!position.isNullOrEmpty()) jsonMap["position"] = position
+            if (!birthday.isNullOrEmpty()) jsonMap["birthday"] = birthday
+
+            val jsonRequestBody =
+                Gson().toJson(jsonMap).toRequestBody("application/json".toMediaTypeOrNull())
+
+            val profileImagePart: MultipartBody.Part? =
+                if (profileImageFile != null && profileImageFile.length() > 0) {
+                    // ➤ 새로운 이미지 선택한 경우
                     MultipartBody.Part.createFormData(
                         name = "profileImage",
-                        filename = it.name,
-                        body = it.asRequestBody("image/*".toMediaTypeOrNull())
-                    )
-                } else {
-                    null
-                }
-            }
-            val jsonString = """
-            {
-                "playerId": $playerId,
-                "name": "$name",
-                "realName": "$realName",
-                "position": "$position",
-                "birthday": "$birthday"
-            }
-            """.trimIndent()
-
-            val jsonRequestBody = jsonString.toRequestBody("application/json".toMediaTypeOrNull())
-
-            val existingImageUrl = getExistingProfileImageUrl()
-
-            val result = if (profileImagePart != null) {
-                val updateResult = repository.updatePlayer(profileImagePart, jsonRequestBody)
-                saveProfileImageUrl(profileImageFile.absolutePath)
-                updateResult
-            } else {
-                val existingProfileImagePart = existingImageUrl?.let {
-                    try {
-                        val imageFile = File(it)
-                        if (imageFile.exists()) {
-                            MultipartBody.Part.createFormData(
-                                name = "profileImage",
-                                filename = imageFile.name,
-                                body = imageFile.asRequestBody("image/*".toMediaTypeOrNull())
-                            )
-                        } else {
-                            Log.e("UpdatePlayer", "Local image file does not exist.")
-                            null
-                        }
-                    } catch (e: Exception) {
-                        Log.e("UpdatePlayer", "Error converting local file to Multipart: ${e.message}")
-                        null
+                        filename = profileImageFile.name,
+                        body = profileImageFile.asRequestBody("image/*".toMediaTypeOrNull())
+                    ).also {
+                        // 로컬 경로 저장
+                        saveProfileImageUrl(profileImageFile.absolutePath)
                     }
+
+                } else {
+                    val existingPath = getExistingProfileImageUrl()
+
+                    if (existingPath.isNullOrEmpty()) {
+                        _updateResult.value =
+                            Result.failure(IllegalStateException("기존 프로필 이미지가 없습니다."))
+                        return@launch
+                    }
+
+                    val existingFile = File(existingPath)
+
+                    if (!existingFile.exists()) {
+                        _updateResult.value =
+                            Result.failure(IllegalStateException("기존 프로필 이미지 파일이 로컬에 없습니다."))
+                        return@launch
+                    }
+
+                    MultipartBody.Part.createFormData(
+                        name = "profileImage",
+                        filename = existingFile.name,
+                        body = existingFile.asRequestBody("image/*".toMediaTypeOrNull())
+                    )
                 }
 
-                if (existingProfileImagePart != null) {
-                    repository.updatePlayer(existingProfileImagePart, jsonRequestBody)
-                } else {
-                    _updateResult.value = Result.failure(Exception("No image available"))
-                    return@launch
-                }
-            }
+            val result = repository.updatePlayer(profileImagePart, jsonRequestBody)
             _updateResult.value = result
         }
     }
+
 
     fun resetUpdateResult() {
         _updateResult.value = null
@@ -116,10 +111,9 @@ class UpdateTeamInfoLckRoasterEditViewModel @Inject constructor(
         }
     }
 
-    fun deletePlayer(playerId: Int) {
+    fun deletePlayer(playerId: Long) {
         viewModelScope.launch {
-            val request = PlayerDeleteRequestDto(playerId)
-            val result = repository.deletePlayer(request)
+            val result = repository.deletePlayer(playerId)
             _deletePlayer.value = result
         }
     }

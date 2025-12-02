@@ -3,7 +3,7 @@ package umc.everyones.everyoneslckmanage.domain.model.response.team
 data class PlayerListModel(
     val players: List<PlayerModel>,
     val numberOfPlayerDetail: Int,
-    val seasonName: String
+    val seasonNam: String
 ) {
     data class PlayerModel(
         val playerId: Int,
