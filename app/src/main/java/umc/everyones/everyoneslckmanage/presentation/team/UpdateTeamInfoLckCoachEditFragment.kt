@@ -1,127 +1,155 @@
 package umc.everyones.everyoneslckmanage.presentation.team
 
+import android.net.Uri
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import umc.everyones.everyoneslckmanage.R
 import umc.everyones.everyoneslckmanage.databinding.FragmentUpdateTeamInfoLckCoachEditBinding
 import umc.everyones.everyoneslckmanage.databinding.FragmentUpdateTeamInfoLckRoasterEditBinding
 import umc.everyones.everyoneslckmanage.presentation.base.BaseFragment
 import umc.everyones.everyoneslckmanage.util.extension.setOnSingleClickListener
+import java.io.File
 
-class UpdateTeamInfoLckCoachEditFragment: BaseFragment<FragmentUpdateTeamInfoLckCoachEditBinding>(R.layout.fragment_update_team_info_lck_coach_edit) {
+@AndroidEntryPoint
+class UpdateTeamInfoLckCoachEditFragment :
+    BaseFragment<FragmentUpdateTeamInfoLckCoachEditBinding>(R.layout.fragment_update_team_info_lck_coach_edit) {
 
     private var playerId: Int? = null
-    private var selectedImageUri: String? = null
+    private var selectedImageFile: File? = null
+
+    private var originalName: String? = null
+    private var originalRealName: String? = null
+    private var originalBirth: String? = null
+    private var originalImageUrl: String? = null
+    private var teamName: String? = null
+    private var teamId: Int? = null
 
     private val viewModel: UpdateTeamInfoLckCoachEditViewModel by activityViewModels()
-    private val viewModel_team: UpdateTeamInfoLckCoachViewModel by activityViewModels()
+    private val navigator by lazy { findNavController() }
 
-    private val navigator by lazy {
-        findNavController()
-    }
-
-    private val selectImageLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
-        uri?.let {
-            binding.ivUpdateTeamLckCoachEditPhoto.setImageURI(it)
-            selectedImageUri = it.toString()
-        }
-    }
     override fun initObserver() {
+        lifecycleScope.launch {
+            viewModel.updateResult.collect { result ->
+                result?.onSuccess {
+                    viewModel.resetUpdateResult()
+                    navigator.navigate(
+                        UpdateTeamInfoLckCoachEditFragmentDirections
+                            .actionUpdateTeamInfoLckCoachEditFragmentToUpdateTeamInfoLckCoachFragment(
+                                teamName = teamName,
+                                teamId = teamId ?: -1
+                            )
+                    )
+                }
+            }
+        }
 
+        lifecycleScope.launch {
+            viewModel.deleteResult.collect { result ->
+                result?.onSuccess {
+                    navigator.navigate(
+                        UpdateTeamInfoLckCoachEditFragmentDirections
+                            .actionUpdateTeamInfoLckCoachEditFragmentToUpdateTeamInfoLckCoachFragment(
+                                teamName = teamName,
+                                teamId = teamId ?: -1
+                            )
+                    )
+                }
+            }
+        }
     }
 
     override fun initView() {
-        playerId = arguments?.getInt("playerId")
-        setupInitialData()
-        setupSaveButtonListener()
-        setupNoButtonListener()
-        setupBackButtonListener()
-        setTeamName()
+        loadArgs()
+        setupTeamName()
+        setupInitialUI()
+        setupClickListeners()
+    }
 
-        binding.ivUpdateTeamLckCoachEditGallery.setOnSingleClickListener  {
-            openGallery()
+    private fun loadArgs() {
+        arguments?.let {
+            playerId = it.getInt("playerId")
+            originalName = it.getString("playerName")
+            originalRealName = it.getString("playerRealName")
+            originalBirth = it.getString("playerBirth")
+            originalImageUrl = it.getString("playerImageUrl")
+            teamName = it.getString("teamName")
+            teamId = it.getInt("teamId")
         }
     }
 
-    private fun openGallery() {
-        selectImageLauncher.launch("image/*")
+    private fun setupTeamName() {
+        binding.tvUpdateTeamLckCoachEditTeamName.text = teamName ?: "Unknown Team"
     }
 
-    private fun setTeamName() {
-        val teamName = viewModel_team.teamName ?: "Unknown Team"
-        binding.tvUpdateTeamLckCoachEditTeamName.text = teamName
-    }
+    private fun setupInitialUI() {
+        binding.etUpdateTeamLckCoachEditName.setText(originalName)
+        binding.etUpdateTeamLckCoachEditNickName.setText(originalRealName)
+        binding.etUpdateTeamLckCoachEditBirthDate.setText(originalBirth)
 
-
-
-    private fun setupBackButtonListener() {
-        binding.ivUpdateTeamLckCoachEditPrevious.setOnSingleClickListener  {
-            val action = UpdateTeamInfoLckCoachEditFragmentDirections
-                .actionUpdateTeamInfoLckCoachEditFragmentToUpdateTeamInfoLckCoachFragment(
-                    newPlayer = null,
-                    updatedRoaster = null,
-                    teamName = null
-                )
-            navigator.navigate(action)
-        }
-    }
-
-    private fun setupNoButtonListener() {
-        binding.ivUpdateTeamLckCoachEditNo.setOnSingleClickListener {
-            playerId?.let {
-                viewModel_team.deletePlayer(id)
-            }
-            val action = UpdateTeamInfoLckCoachEditFragmentDirections
-                .actionUpdateTeamInfoLckCoachEditFragmentToUpdateTeamInfoLckCoachFragment(
-                    newPlayer = null,
-                    updatedRoaster = null,
-                    teamName = null
-                )
-            navigator.navigate(action)
-        }
-    }
-
-    private fun setupInitialData() {
-        playerId = arguments?.getInt("playerId")
-        val playerName = arguments?.getString("playerName")
-        val playerImageUrl = arguments?.getString("playerImageUrl")
-
-        binding.etUpdateTeamLckCoachEditName.setText(playerName)
-
-        Glide.with(binding.ivUpdateTeamLckCoachEditPhoto.context)
-            .load(playerImageUrl)
+        Glide.with(this)
+            .load(originalImageUrl)
             .into(binding.ivUpdateTeamLckCoachEditPhoto)
     }
 
-    private fun setupSaveButtonListener() {
-        binding.ivUpdateTeamLckCoachEditCheck.setOnClickListener {
-            val updatedName = binding.etUpdateTeamLckCoachEditName.text.toString()
-            val updatedImageUrl = selectedImageUri ?: arguments?.getString("playerImageUrl") ?: ""
+    private val galleryLauncher =
+        registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
+            uri?.let {
+                selectedImageFile = uriToFile(uri)
+                binding.ivUpdateTeamLckCoachEditPhoto.setImageURI(uri)
+            }
+        }
 
-            val teamName = arguments?.getString("teamName") ?: viewModel_team.teamName ?: "Unknown Team"
+    private fun openGallery() = galleryLauncher.launch("image/*")
+
+    private fun setupClickListeners() {
+        binding.ivUpdateTeamLckCoachEditGallery.setOnSingleClickListener { openGallery() }
+
+        binding.ivUpdateTeamLckCoachEditPrevious.setOnSingleClickListener {
+            navigator.navigate(
+                UpdateTeamInfoLckCoachEditFragmentDirections
+                    .actionUpdateTeamInfoLckCoachEditFragmentToUpdateTeamInfoLckCoachFragment(
+                        teamName = teamName,
+                        teamId = teamId ?: -1
+                    )
+            )
+        }
+
+        binding.ivUpdateTeamLckCoachEditCheck.setOnSingleClickListener {
+
+            val newName = binding.etUpdateTeamLckCoachEditName.text.toString()
+            val newRealName = binding.etUpdateTeamLckCoachEditNickName.text.toString()
+            val newBirth = binding.etUpdateTeamLckCoachEditBirthDate.text.toString()
 
             playerId?.let { id ->
-                val updatedRoaster = LckCoach(
-                    id = id,
-                    name = updatedName,
-                    imageUrl = updatedImageUrl,
-                    teamName = teamName
+                viewModel.updateCoach(
+                    profileImageFile = selectedImageFile,
+                    playerId = id,
+                    name = newName,
+                    realName = newRealName,
+                    birth = newBirth
                 )
-
-                viewModel_team.updatePlayer(updatedRoaster)
-
-                val action = UpdateTeamInfoLckCoachEditFragmentDirections
-                    .actionUpdateTeamInfoLckCoachEditFragmentToUpdateTeamInfoLckCoachFragment(
-                        newPlayer = null,
-                        updatedRoaster = updatedRoaster,
-                        teamName = teamName
-                    )
-                navigator.navigate(action)
             }
+        }
+
+        binding.ivUpdateTeamLckCoachEditNo.setOnSingleClickListener {
+            playerId?.let { id -> viewModel.deleteCoach(id) }
+        }
+    }
+
+    private fun uriToFile(uri: Uri): File? {
+        return try {
+            val inputStream = requireContext().contentResolver.openInputStream(uri)
+            val file = File.createTempFile("coach_img", ".jpg", requireContext().cacheDir)
+            inputStream?.copyTo(file.outputStream())
+            file
+        } catch (e: Exception) {
+            null
         }
     }
 }

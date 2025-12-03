@@ -321,7 +321,7 @@
                 app:nullable="true"/>
             <argument
                 android:name="teamId"
-                app:argType="integer" />
+                app:argType="integer"/>
         </fragment>
         <fragment
             android:id="@+id/updateTeamInfoLckCoachAddFragment"
@@ -337,7 +337,7 @@
                 app:nullable="true"/>
             <argument
                 android:name="teamId"
-                app:argType="integer" />
+                app:argType="integer"/>
         </fragment>
 
         <fragment
@@ -349,8 +349,8 @@
                 android:id="@+id/action_updateTeamInfoLckCoachEditFragment_to_updateTeamInfoLckCoachFragment"
                 app:destination="@id/updateTeamInfoLckCoachFragment"/>
             <argument
-            android:name="playerId"
-            app:argType="integer"/>
+                android:name="playerId"
+                app:argType="integer"/>
             <argument
                 android:name="playerName"
                 app:argType="string"

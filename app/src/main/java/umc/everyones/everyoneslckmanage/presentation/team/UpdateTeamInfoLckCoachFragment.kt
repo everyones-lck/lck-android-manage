@@ -17,60 +17,72 @@ import umc.everyones.everyoneslckmanage.presentation.base.BaseFragment
 import umc.everyones.everyoneslckmanage.util.extension.setOnSingleClickListener
 
 @AndroidEntryPoint
-class UpdateTeamInfoLckCoachFragment : BaseFragment<FragmentUpdateTeamInfoLckCoachBinding>(R.layout.fragment_update_team_info_lck_coach) {
+class UpdateTeamInfoLckCoachFragment :
+    BaseFragment<FragmentUpdateTeamInfoLckCoachBinding>(R.layout.fragment_update_team_info_lck_coach) {
 
     private val viewModel: UpdateTeamInfoLckCoachViewModel by activityViewModels()
-    private lateinit var lckCoachAdapter: LckCoachRVA
+    private lateinit var coachAdapter: LckCoachRVA
 
-    private val navigator by lazy {
-        findNavController()
-    }
+    private val navigator by lazy { findNavController() }
+
+    private var teamName: String = "Unknown Team"
+    private var teamId: Int = -1
+    private val role = "COACH"
 
     override fun initView() {
-        val teamName = arguments?.getString("teamName") ?: viewModel.teamName ?: "Unknown Team"
-        viewModel.teamName = teamName
-        val teamId =-1
-        setTeamName(teamName)
+        val args = UpdateTeamInfoLckCoachFragmentArgs.fromBundle(requireArguments())
+        teamName = args.teamName ?: "Unknown Team"
+        teamId = args.teamId
 
-        initLckCoachRVAdapter()
-        setupBackButtonListener(teamName,teamId)
-
-        binding.ivUpdateTeamLckCoachPlayerAdd.setOnClickListener {
-            val action = UpdateTeamInfoLckCoachFragmentDirections
-                .actionUpdateTeamInfoLckCoachFragmentToUpdateTeamInfoLckCoachAddFragment(
-                    playerId = -1,
-                    playerName = null,
-                    playerImageUrl = null
-                )
-            navigator.navigate(action)
-        }
-
-        val newPlayer = arguments?.getSerializable("newPlayer") as? LckCoach
-        newPlayer?.let {
-            viewModel.addPlayerToTeam(it)
-        }
-
-        val updatedRoaster = arguments?.getSerializable("updatedRoaster") as? LckCoach
-        updatedRoaster?.let {
-            viewModel.updatePlayer(it)
-        }
+        setupUI()
+        setupRecycler()
+        setupNavigationButtons()
+        fetchData()
     }
 
     override fun initObserver() {
         lifecycleScope.launchWhenStarted {
-            viewModel.allCoaches.collect { allCoaches ->
-                val teamName = viewModel.teamName ?: "Unknown Team"
-                val teamCoachesList = viewModel.getCoachesForTeam(teamName)
-                lckCoachAdapter.submitList(teamCoachesList.toList())
+            viewModel.coaches.collect { coachList ->
+                coachAdapter.submitList(
+                    coachList.map {
+                        LckCoach(
+                            id = it.playerId,
+                            name = it.playerName,
+                            imageUrl = it.imageUrl ?: "",
+                            teamName = teamName
+                        )
+                    }
+                )
             }
         }
     }
 
-    private fun setTeamName(teamName: String) {
+    private fun setupUI() {
         binding.tvUpdateTeamLckCoachTeamName.text = teamName
     }
-    private fun setupBackButtonListener(teamName: String,teamId: Int) {
-        binding.ivUpdateTeamLckCoachPrevious.setOnSingleClickListener  {
+
+    private fun setupRecycler() {
+        coachAdapter = LckCoachRVA { coach ->
+            val action = UpdateTeamInfoLckCoachFragmentDirections
+                .actionUpdateTeamInfoLckCoachFragmentToUpdateTeamInfoLckCoachEditFragment(
+                    playerId = coach.id,
+                    playerName = coach.name,
+                    playerPosition = "COACH",
+                    playerImageUrl = coach.imageUrl,
+                    teamName = teamName,
+                    teamId = teamId
+                )
+            navigator.navigate(action)
+        }
+
+        binding.rvUpdateTeamLckCoach.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = coachAdapter
+        }
+    }
+
+    private fun setupNavigationButtons() {
+        binding.ivUpdateTeamLckCoachPrevious.setOnSingleClickListener {
             val action = UpdateTeamInfoLckCoachFragmentDirections
                 .actionUpdateTeamInfoLckCoachFragmentToUpdateTeamInfoDetailFragment(
                     teamName = teamName,
@@ -78,22 +90,18 @@ class UpdateTeamInfoLckCoachFragment : BaseFragment<FragmentUpdateTeamInfoLckCoa
                 )
             navigator.navigate(action)
         }
-    }
 
-    private fun initLckCoachRVAdapter() {
-        lckCoachAdapter = LckCoachRVA() { roaster ->
+        binding.ivUpdateTeamLckCoachPlayerAdd.setOnSingleClickListener {
             val action = UpdateTeamInfoLckCoachFragmentDirections
-                .actionUpdateTeamInfoLckCoachFragmentToUpdateTeamInfoLckCoachEditFragment(
-                    playerId = roaster.id,
-                    playerName = roaster.name,
-                    playerImageUrl = roaster.imageUrl
+                .actionUpdateTeamInfoLckCoachFragmentToUpdateTeamInfoLckCoachAddFragment(
+                    teamName = teamName,
+                    teamId = teamId
                 )
             navigator.navigate(action)
         }
+    }
 
-        binding.rvUpdateTeamLckCoach.apply {
-            layoutManager = LinearLayoutManager(context)
-            adapter = lckCoachAdapter
-        }
+    private fun fetchData() {
+        viewModel.fetchCoachData(teamId, role)
     }
 }
