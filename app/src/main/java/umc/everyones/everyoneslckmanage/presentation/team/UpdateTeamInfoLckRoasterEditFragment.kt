@@ -2,7 +2,10 @@ package umc.everyones.everyoneslckmanage.presentation.team
 
 import android.net.Uri
 import android.util.Log
+import android.view.View
 import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
+import android.widget.ImageView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -73,7 +76,12 @@ class UpdateTeamInfoLckRoasterEditFragment :
         setupTeamName()
         setupInitialData()
         setupClickListeners()
-        setupPositionDropdown()
+        setupPositionDropdown(
+            actv = binding.actvUpdateTeamLckRoasterEditPosition,
+            arrow = binding.ivPositionArrow,
+            box = binding.llPositionBox
+        )
+
     }
 
     private fun loadBundleData() {
@@ -115,11 +123,52 @@ class UpdateTeamInfoLckRoasterEditFragment :
             .into(binding.ivUpdateTeamLckRoasterEditPhoto)
     }
 
-    private fun setupPositionDropdown() {
+    private fun setupPositionDropdown(
+        actv: AutoCompleteTextView,
+        arrow: ImageView,
+        box: View
+    ) {
         val items = resources.getStringArray(R.array.player_positions)
         val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, items)
-        binding.actvUpdateTeamLckRoasterEditPosition.setAdapter(adapter)
+        actv.setAdapter(adapter)
+
+        var isOpen = false
+        var blockToggle = false
+
+        fun toggle() {
+            if (blockToggle) return
+
+            if (isOpen) {
+                actv.dismissDropDown()
+                arrow.animate().rotation(0f).setDuration(150).start()
+            } else {
+                actv.requestFocus()
+                actv.showDropDown()
+                arrow.animate().rotation(180f).setDuration(150).start()
+            }
+
+            isOpen = !isOpen
+        }
+
+        box.setOnClickListener { toggle() }
+        arrow.setOnClickListener { toggle() }
+        actv.setOnClickListener { toggle() }
+
+        actv.setOnItemClickListener { _, _, _, _ ->
+            actv.dismissDropDown()
+        }
+
+        actv.setOnDismissListener {
+            isOpen = false
+            arrow.animate().rotation(0f).setDuration(150).start()
+
+            blockToggle = true
+            actv.postDelayed({
+                blockToggle = false
+            }, 150)
+        }
     }
+
 
     private fun setupClickListeners() {
         binding.ivUpdateTeamLckRoasterEditGallery.setOnSingleClickListener { openGallery() }

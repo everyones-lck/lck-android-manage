@@ -245,17 +245,12 @@
                 android:id="@+id/action_updateTeamInfoLckClRoasterFragment_to_updateTeamInfoLckClRoasterEditFragment"
                 app:destination="@id/updateTeamInfoLckClRoasterEditFragment"/>
             <argument
-                android:name="newPlayer"
-                app:argType="umc.everyones.everyoneslckmanage.presentation.team.LckClRoaster"
-                app:nullable="true" />
-            <argument
-                android:name="updatedRoaster"
-                app:argType="umc.everyones.everyoneslckmanage.presentation.team.LckClRoaster"
-                app:nullable="true" />
-            <argument
                 android:name="teamName"
                 app:argType="string"
                 app:nullable="true"/>
+            <argument
+                android:name="teamId"
+                app:argType="integer" />
         </fragment>
         <fragment
             android:id="@+id/updateTeamInfoLckClRoasterAddFragment"
@@ -266,20 +261,12 @@
                 android:id="@+id/action_updateTeamInfoLckClRoasterAddFragment_to_updateTeamInfoLckClRoasterFragment"
                 app:destination="@id/updateTeamInfoLckClRoasterFragment"/>
             <argument
-                android:name="playerId"
-                app:argType="integer"/>
-            <argument
-                android:name="playerName"
+                android:name="teamName"
                 app:argType="string"
                 app:nullable="true"/>
             <argument
-                android:name="playerPosition"
-                app:argType="string"
-                app:nullable="true"/>
-            <argument
-                android:name="playerImageUrl"
-                app:argType="string"
-                app:nullable="true"/>
+                android:name="teamId"
+                app:argType="integer" />
         </fragment>
 
         <fragment
@@ -305,6 +292,13 @@
                 android:name="playerImageUrl"
                 app:argType="string"
                 app:nullable="true"/>
+            <argument
+                android:name="teamName"
+                app:argType="string"
+                app:nullable="true"/>
+            <argument
+                android:name="teamId"
+                app:argType="integer" />
         </fragment>
 
         <fragment
@@ -322,17 +316,12 @@
                 android:id="@+id/action_updateTeamInfoLckCoachFragment_to_updateTeamInfoLckCoachEditFragment"
                 app:destination="@id/updateTeamInfoLckCoachEditFragment"/>
             <argument
-                android:name="newPlayer"
-                app:argType="umc.everyones.everyoneslckmanage.presentation.team.LckCoach"
-                app:nullable="true"/>
-            <argument
-                android:name="updatedRoaster"
-                app:argType="umc.everyones.everyoneslckmanage.presentation.team.LckCoach"
-                app:nullable="true"/>
-            <argument
                 android:name="teamName"
                 app:argType="string"
                 app:nullable="true"/>
+            <argument
+                android:name="teamId"
+                app:argType="integer" />
         </fragment>
         <fragment
             android:id="@+id/updateTeamInfoLckCoachAddFragment"
@@ -343,16 +332,12 @@
                 android:id="@+id/action_updateTeamInfoLckCoachAddFragment_to_updateTeamInfoLckCoachFragment"
                 app:destination="@id/updateTeamInfoLckCoachFragment"/>
             <argument
-                android:name="playerId"
-                app:argType="integer"/>
-            <argument
-                android:name="playerName"
+                android:name="teamName"
                 app:argType="string"
                 app:nullable="true"/>
             <argument
-                android:name="playerImageUrl"
-                app:argType="string"
-                app:nullable="true"/>
+                android:name="teamId"
+                app:argType="integer" />
         </fragment>
 
         <fragment
@@ -364,16 +349,27 @@
                 android:id="@+id/action_updateTeamInfoLckCoachEditFragment_to_updateTeamInfoLckCoachFragment"
                 app:destination="@id/updateTeamInfoLckCoachFragment"/>
             <argument
-                android:name="playerId"
-                app:argType="integer"/>
+            android:name="playerId"
+            app:argType="integer"/>
             <argument
                 android:name="playerName"
+                app:argType="string"
+                app:nullable="true"/>
+            <argument
+                android:name="playerPosition"
                 app:argType="string"
                 app:nullable="true"/>
             <argument
                 android:name="playerImageUrl"
                 app:argType="string"
                 app:nullable="true"/>
+            <argument
+                android:name="teamName"
+                app:argType="string"
+                app:nullable="true"/>
+            <argument
+                android:name="teamId"
+                app:argType="integer" />
         </fragment>
         <fragment
             android:id="@+id/updateTeamInfoHistoryOfRoasterFragment"

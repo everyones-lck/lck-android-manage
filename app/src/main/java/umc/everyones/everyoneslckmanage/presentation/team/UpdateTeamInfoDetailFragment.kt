@@ -55,12 +55,13 @@ class UpdateTeamInfoDetailFragment : BaseFragment<FragmentUpdateTeamInfoDetailBi
 
     private fun setupLckClRoasterNavigation() {
         binding.tvUpdateTeamDetailLckClRoaster.setOnSingleClickListener  {
-            val teamName = binding.tvUpdateTeamDetailTeamName.text.toString()
+            val args = UpdateTeamInfoDetailFragmentArgs.fromBundle(requireArguments())
+            val teamName = args.teamName
+            val teamId = args.teamId
             val action = UpdateTeamInfoDetailFragmentDirections
                 .actionUpdateTeamInfoDetailToUpdateTeamInfoLckClRoasterFragment(
-                    newPlayer = null,
-                    updatedRoaster = null,
-                    teamName = teamName
+                    teamName = teamName,
+                    teamId = teamId
                 )
             navigator.navigate(action)
         }
@@ -68,12 +69,13 @@ class UpdateTeamInfoDetailFragment : BaseFragment<FragmentUpdateTeamInfoDetailBi
 
     private fun setupLckCoachNavigation() {
         binding.tvUpdateTeamDetailLckCoach.setOnSingleClickListener  {
-            val teamName = binding.tvUpdateTeamDetailTeamName.text.toString()
+            val args = UpdateTeamInfoDetailFragmentArgs.fromBundle(requireArguments())
+            val teamName = args.teamName
+            val teamId = args.teamId
             val action = UpdateTeamInfoDetailFragmentDirections
                 .actionUpdateTeamInfoDetailToUpdateTeamInfoLckCoachFragment(
-                    newPlayer = null,
-                    updatedRoaster = null,
-                    teamName = teamName
+                    teamName = teamName,
+                    teamId = teamId
                 )
             navigator.navigate(action)
         }
