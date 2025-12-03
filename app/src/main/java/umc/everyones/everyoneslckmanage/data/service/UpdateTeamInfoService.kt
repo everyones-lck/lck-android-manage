@@ -15,7 +15,6 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 import umc.everyones.everyoneslckmanage.data.dto.BaseResponse
 import umc.everyones.everyoneslckmanage.data.dto.request.team.PlayerAddRequestDto
-import umc.everyones.everyoneslckmanage.data.dto.request.team.PlayerDeleteRequestDto
 import umc.everyones.everyoneslckmanage.data.dto.response.team.PlayerListResponseDto
 
 interface UpdateTeamInfoService {
@@ -40,8 +39,9 @@ interface UpdateTeamInfoService {
         @Part ("request") request: RequestBody
     ): BaseResponse<Unit>
 
-    @HTTP(method = "DELETE", path="admins/players", hasBody = true)
+    @DELETE("admins/players/{playerId}")
     suspend fun deletePlayer(
-        @Body request: PlayerDeleteRequestDto
+        @Path("playerId") playerId: Long
     ): BaseResponse<Unit>
+
 }

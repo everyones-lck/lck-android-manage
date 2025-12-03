@@ -5,7 +5,6 @@ import okhttp3.RequestBody
 import umc.everyones.everyoneslckmanage.data.datasource.UpdateTeamInfoDataSource
 import umc.everyones.everyoneslckmanage.data.dto.BaseResponse
 import umc.everyones.everyoneslckmanage.data.dto.request.team.PlayerAddRequestDto
-import umc.everyones.everyoneslckmanage.data.dto.request.team.PlayerDeleteRequestDto
 import umc.everyones.everyoneslckmanage.data.dto.response.team.PlayerListResponseDto
 import umc.everyones.everyoneslckmanage.data.service.UpdateTeamInfoService
 import javax.inject.Inject
@@ -22,9 +21,9 @@ class UpdateTeamInfoDataSourceImpl @Inject constructor(
         updateTeamInfoService.getTeamPlayers(teamId, season, role)
 
     override suspend fun deletePlayer(
-        request: PlayerDeleteRequestDto
+        playerId : Long
     ): BaseResponse<Unit> =
-        updateTeamInfoService.deletePlayer(request)
+        updateTeamInfoService.deletePlayer(playerId)
 
     override suspend fun addPlayer(
         profileImage: MultipartBody.Part?,

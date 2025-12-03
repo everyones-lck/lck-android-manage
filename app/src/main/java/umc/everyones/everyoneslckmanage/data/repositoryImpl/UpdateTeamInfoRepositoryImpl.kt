@@ -5,7 +5,6 @@ import okhttp3.RequestBody
 import umc.everyones.everyoneslckmanage.data.datasource.UpdateTeamInfoDataSource
 import umc.everyones.everyoneslckmanage.data.dto.BaseResponse
 import umc.everyones.everyoneslckmanage.data.dto.request.team.PlayerAddRequestDto
-import umc.everyones.everyoneslckmanage.data.dto.request.team.PlayerDeleteRequestDto
 import umc.everyones.everyoneslckmanage.domain.model.response.team.PlayerListModel
 import umc.everyones.everyoneslckmanage.domain.repository.UpdateTeamInfoRepository
 import javax.inject.Inject
@@ -24,9 +23,9 @@ class UpdateTeamInfoRepositoryImpl @Inject constructor(
     }
 
     override suspend fun deletePlayer(
-        request: PlayerDeleteRequestDto
+        playerId : Long
     ):Result<Unit> = runCatching {
-        dataSource.deletePlayer(request)
+        dataSource.deletePlayer(playerId)
     }
 
     override suspend fun addPlayer(
