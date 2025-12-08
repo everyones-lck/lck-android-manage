@@ -1,5 +1,8 @@
 package umc.everyones.everyoneslckmanage.util.extension
 
+import okhttp3.MediaType
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -54,4 +57,8 @@ fun formatMatchTitle(season: String, matchNumber: Int): String {
         else -> "th"
     }
     return "$season LCK ${matchNumber}${suffix} Match"
+}
+
+fun String?.toRequestBodyOrNull(mediaType: MediaType?): RequestBody? {
+    return this?.takeUnless { it.isBlank() }?.toRequestBody(mediaType)
 }

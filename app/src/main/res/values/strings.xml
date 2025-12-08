@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Everyones LCK Manage</string>
+    <string-array name="player_positions">
+        <item>탑</item>
+        <item>미드</item>
+        <item>바텀</item>
+        <item>정글</item>
+        <item>서포터</item>
+    </string-array>
 </resources>

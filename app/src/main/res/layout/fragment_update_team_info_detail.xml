@@ -47,6 +47,7 @@
                 android:textColor="@color/white"
                 android:textStyle="bold"
                 android:layout_marginTop="45dp"
+                android:layout_marginStart="15dp"
                 app:layout_constraintStart_toStartOf="@id/iv_update_team_detail_previous"
                 app:layout_constraintTop_toBottomOf="@id/iv_update_team_detail_previous"/>
 
@@ -93,17 +94,6 @@
                 app:layout_constraintTop_toBottomOf="@id/tv_update_team_detail_lck_cl_roaster"/>
 
             <TextView
-                android:id="@+id/tv_update_team_detail_winning_history"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="우승이력"
-                android:textSize="24sp"
-                android:textColor="@color/white"
-                android:layout_marginTop="36dp"
-                app:layout_constraintStart_toStartOf="@id/tv_update_team_detail_lck_cl_roaster"
-                app:layout_constraintTop_toBottomOf="@id/tv_update_team_detail_lck_cl_roaster"/>
-
-            <TextView
                 android:id="@+id/tv_update_team_detail_history_of_roaster"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -111,19 +101,8 @@
                 android:textSize="24sp"
                 android:textColor="@color/white"
                 android:layout_marginTop="30dp"
-                app:layout_constraintStart_toStartOf="@id/tv_update_team_detail_winning_history"
-                app:layout_constraintTop_toBottomOf="@id/tv_update_team_detail_winning_history"/>
-
-            <TextView
-                android:id="@+id/tv_update_team_detail_tournament_result"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="역대 시즌 및 대회 성적"
-                android:textSize="24sp"
-                android:textColor="@color/white"
-                android:layout_marginTop="30dp"
-                app:layout_constraintStart_toStartOf="@id/tv_update_team_detail_history_of_roaster"
-                app:layout_constraintTop_toBottomOf="@id/tv_update_team_detail_history_of_roaster"/>
+                app:layout_constraintStart_toStartOf="@id/tv_update_team_detail_lck_cl_roaster"
+                app:layout_constraintTop_toBottomOf="@id/tv_update_team_detail_lck_cl_roaster"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
