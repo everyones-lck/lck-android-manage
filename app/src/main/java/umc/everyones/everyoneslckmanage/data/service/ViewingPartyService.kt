@@ -23,4 +23,9 @@ interface ViewingPartyService {
     suspend fun fetchViewingParty(
         @Path("viewing_party_id") viewingPartyId: Long
     ): BaseResponse<ReadViewingPartyResponseDto>
+
+    @DELETE("admins/viewing-parties")
+    suspend fun deleteViewingParty(
+        @Query("viewing_party_id") viewingPartyId: Long
+    ): BaseResponse<Unit>
 }

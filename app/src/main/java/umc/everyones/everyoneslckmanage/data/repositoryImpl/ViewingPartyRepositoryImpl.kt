@@ -33,6 +33,11 @@ class ViewingPartyRepositoryImpl @Inject constructor(
             viewingPartyDataSource.fetchViewingParty(viewingPartyId).data.toReadViewingPartyModel()
         }
 
+    override suspend fun deleteViewingParty(viewingPartyId: Long): Result<Unit> =
+        runCatching {
+            viewingPartyDataSource.deleteViewingParty(viewingPartyId)
+        }
+
     override fun fetchViewingPartyListPagingSource(): Flow<PagingData<ViewingPartyListModel.ViewingPartyElementModel>> =
         Pager(
             config = PagingConfig(

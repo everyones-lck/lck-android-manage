@@ -7,7 +7,7 @@ import umc.everyones.everyoneslckmanage.domain.model.response.party.ViewingParty
 
 interface ViewingPartyRepository {
     suspend fun fetchViewingPartyList(page: Int, size: Int): Result<ViewingPartyListModel>
-
     suspend fun fetchViewingParty(viewingPartyId: Long): Result<ReadViewingPartyModel>
     fun fetchViewingPartyListPagingSource(): Flow<PagingData<ViewingPartyListModel.ViewingPartyElementModel>>
+    suspend fun deleteViewingParty(viewingPartyId: Long): Result<Unit>
 }
