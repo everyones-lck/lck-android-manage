@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import dagger.hilt.android.HiltAndroidApp
+import timber.log.Timber
 import umc.everyones.everyoneslckmanage.util.network.NetworkConnectionChecker
 
 @HiltAndroidApp
@@ -17,6 +18,9 @@ class EveryonesLCKManageApplication : Application(), DefaultLifecycleObserver {
         context = applicationContext
         networkConnectionChecker = NetworkConnectionChecker(context)
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        if (BuildConfig.DEBUG) {
+            Timber.plant(Timber.DebugTree())
+        }
     }
 
     override fun onStop(owner: LifecycleOwner) {

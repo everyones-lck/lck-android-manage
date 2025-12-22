@@ -30,24 +30,50 @@
             app:destination="@id/manageMatchPredictVoteTimeFragment" />
         <action
             android:id="@+id/action_homeFragment_to_inputMatchResultFragment"
-            app:destination="@id/inputMatchResultFragment" />
+            app:destination="@id/inputMatchResultTab" />
         <action
             android:id="@+id/action_homeFragment_to_inputMatchInfoFragment"
-            app:destination="@id/inputMatchInfoFragment" />
+            app:destination="@id/inputMatchInfoTab" />
         <action
             android:id="@+id/action_homeFragment_to_deleteViewingPartyFragment"
             app:destination="@id/deleteViewingPartyTab" />
     </fragment>
-    <fragment
-        android:id="@+id/inputMatchInfoFragment"
-        android:name="umc.everyones.everyoneslckmanage.presentation.match.InputMatchInfoFragment"
-        android:label="InputMatchInfoFragment"
-        tools:layout="@layout/fragment_input_match_info"/>
-    <fragment
-        android:id="@+id/inputMatchResultFragment"
-        android:name="umc.everyones.everyoneslckmanage.presentation.match.InputMatchResultFragment"
-        android:label="InputMatchResultFragment"
-        tools:layout="@layout/fragment_input_match_result"/>
+    <navigation
+        android:id="@+id/inputMatchInfoTab"
+        app:startDestination="@+id/inputMatchInfoFragment">
+        <fragment
+            android:id="@+id/inputMatchInfoFragment"
+            android:name="umc.everyones.everyoneslckmanage.presentation.match.InputMatchInfoFragment"
+            android:label="InputMatchInfoFragment"
+            tools:layout="@layout/fragment_input_match_info">
+            <action
+                android:id="@+id/action_inputMatchInfoFragment_to_inputMatchDetailFragment"
+                app:destination="@+id/inputMatchDetailFragment"/>
+        </fragment>
+        <fragment
+            android:id="@+id/inputMatchDetailFragment"
+            android:name="umc.everyones.everyoneslckmanage.presentation.match.InputMatchDetailFragment"
+            android:label="InputMatchDetailFragment"
+            tools:layout="@layout/fragment_input_match_detail"/>
+    </navigation>
+    <navigation
+        android:id="@+id/inputMatchResultTab"
+        app:startDestination="@+id/inputMatchResultFragment">
+        <fragment
+            android:id="@+id/inputMatchResultFragment"
+            android:name="umc.everyones.everyoneslckmanage.presentation.match.InputMatchResultFragment"
+            android:label="InputMatchResultFragment"
+            tools:layout="@layout/fragment_input_match_result">
+            <action
+                android:id="@+id/action_inputMatchResultFragment_to_inputSetResultFragment"
+                app:destination="@+id/inputSetResultFragment"/>
+        </fragment>
+        <fragment
+            android:id="@+id/inputSetResultFragment"
+            android:name="umc.everyones.everyoneslckmanage.presentation.match.InputSetResultFragment"
+            android:label="InputSetResultFragment"
+            tools:layout="@layout/fragment_input_set_result"/>
+    </navigation>
     <fragment
         android:id="@+id/manageMatchPredictVoteTimeFragment"
         android:name="umc.everyones.everyoneslckmanage.presentation.vote.ManageMatchPredictVoteTimeFragment"
