@@ -96,7 +96,13 @@ class UpdateTeamInfoLckCoachAddFragment :
         binding.ivUpdateTeamLckCoachAddCheck.setOnSingleClickListener {
             val name = binding.etUpdateTeamLckCoachAddName.text.toString()
             val realName = binding.etUpdateTeamLckCoachAddNickName.text.toString()
-            val birth = binding.etUpdateTeamLckCoachAddBirthDate.text.toString()
+            val rawBirth = binding.etUpdateTeamLckCoachAddBirthDate.text.toString().trim()
+
+            val birth = if (rawBirth.length == 8 && rawBirth.all { it.isDigit() }) {
+                "${rawBirth.substring(0, 4)}-${rawBirth.substring(4, 6)}-${rawBirth.substring(6, 8)}"
+            } else {
+                rawBirth
+            }
 
             if (name.isNotEmpty() && realName.isNotEmpty() && birth.isNotEmpty()) {
                 viewModel.addCoach(

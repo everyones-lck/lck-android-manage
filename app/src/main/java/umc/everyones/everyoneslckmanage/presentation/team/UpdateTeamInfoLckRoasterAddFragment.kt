@@ -157,7 +157,13 @@ class UpdateTeamInfoLckRoasterAddFragment :
             val realName = binding.etUpdateTeamLckRoasterAddNickName.text.toString()
             val korPosition = binding.actvUpdateTeamLckRoasterAddPosition.text.toString()
             val engPosition = convertPositionToEnglish(korPosition)
-            val birth = binding.etUpdateTeamLckRoasterAddBirthDate.text.toString()
+            val rawBirth = binding.etUpdateTeamLckRoasterAddBirthDate.text.toString().trim()
+
+            val birth = if (rawBirth.length == 8 && rawBirth.all { it.isDigit() }) {
+                "${rawBirth.substring(0, 4)}-${rawBirth.substring(4, 6)}-${rawBirth.substring(6, 8)}"
+            } else {
+                rawBirth
+            }
 
             if (name.isNotEmpty() && realName.isNotEmpty() && engPosition.isNotEmpty() && birth.isNotEmpty()) {
                 viewModel.addPlayer(

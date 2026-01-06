@@ -25,7 +25,7 @@
             style="@style/TextAppearance.LCK.Bold.Title1_22sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="게시글 삭제"
+            android:text="댓글 삭제"
             android:textSize="24sp"
             android:layout_marginStart="16dp"
             app:layout_constraintStart_toEndOf="@id/iv_read_back_btn"
@@ -33,7 +33,7 @@
             app:layout_constraintTop_toBottomOf="@id/iv_read_back_btn"/>
 
         <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tab_community_category"
+            android:id="@+id/tab_community_category_comment"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="70dp"
@@ -84,13 +84,13 @@
         </com.google.android.material.tabs.TabLayout>
 
         <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/vp_community_post_list"
+            android:id="@+id/vp_community_comment_list"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginTop="24dp"
             android:overScrollMode="never"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tab_community_category" />
+            app:layout_constraintTop_toBottomOf="@id/tab_community_category_comment" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

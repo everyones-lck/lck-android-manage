@@ -29,19 +29,48 @@ class CommunityViewModel @Inject constructor(
 
     private val _categoryNeedsRefresh = MutableStateFlow<String>("잡담")
     val categoryNeedsRefresh: StateFlow<String> get() = _categoryNeedsRefresh
-    fun fetchCommunityList(postType: String, page: Int, size: Int){
+    fun fetchCommunityList(postType: String, page: Int, size: Int) {
         viewModelScope.launch {
-            repository.fetchCommunityList(postType, page, size).onSuccess {  response ->
-                Timber.d("fetchCommunityList", response.toString())
+            repository.fetchCommunityList(postType, page, size).onSuccess { response ->
+                Timber.d("fetchCommunityList: %s", response.toString())
             }.onFailure {
-                Timber.d("fetchCommunityList error", it.stackTraceToString())
+                Timber.d("fetchCommunityList error: %s", it.stackTraceToString())
             }
         }
     }
 
-    fun refreshCategoryPage(category: String){
+    fun refreshCategoryPage(category: String) {
         _categoryNeedsRefresh.value = ""
         _categoryNeedsRefresh.value = category
     }
 
+    fun getCommunityReportList(size: Int, page: Int, type: String) {
+        viewModelScope.launch {
+            repository.getCommunityReportList(size, page, type).onSuccess { response ->
+                Timber.d("getCommunityReportList: %s", response.toString())
+            }.onFailure {
+                Timber.d("getCommunityReportList error: %s", it.stackTraceToString())
+            }
+        }
+    }
+
+    fun deleteCommunityPost(postId: Long) {
+        viewModelScope.launch {
+            repository.deleteCommunityPost(postId).onSuccess { response ->
+                Timber.d("deleteCommunityPost: %s", response.toString())
+            }.onFailure {
+                Timber.d("deleteCommunityPost error: %s", it.stackTraceToString())
+            }
+        }
+    }
+
+    fun deleteCommunityComment(commentId: Long) {
+        viewModelScope.launch {
+            repository.deleteCommunityComment(commentId).onSuccess { response ->
+                Timber.d("deleteCommunityComment: %s", response.toString())
+            }.onFailure {
+                Timber.d("deleteCommunityComment error: %s", it.stackTraceToString())
+            }
+        }
+    }
 }

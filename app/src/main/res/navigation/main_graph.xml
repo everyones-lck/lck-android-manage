@@ -14,6 +14,9 @@
             android:id="@+id/action_homeFragment_to_deleteCommunityContentFragment"
             app:destination="@id/deleteCommunityContentTab" />
         <action
+            android:id="@+id/action_homeFragment_to_deleteCommunityCommentFragment"
+            app:destination="@id/deleteCommunityCommentTab" />
+        <action
             android:id="@+id/action_homeFragment_to_updateTeamInfoFragment"
             app:destination="@id/updateTeamInfoTab" />
         <action
@@ -91,6 +94,18 @@
             <argument
                 android:name="postId"
                 app:argType="long" />
+        </fragment>
+    </navigation>
+    <navigation android:id="@+id/deleteCommunityCommentTab"
+        app:startDestination="@id/deleteCommunityCommentFragment">
+        <fragment
+            android:id="@+id/deleteCommunityCommentFragment"
+            android:name="umc.everyones.everyoneslckmanage.presentation.community.DeleteCommunityCommentFragment"
+            android:label="DeleteCommunityCommentFragment"
+            tools:layout="@layout/fragment_delete_community_comment" >
+            <action
+                android:id="@+id/action_deleteCommunityCommentFragment_to_readPostFragment"
+                app:destination="@id/readPostFragment" />
         </fragment>
     </navigation>
     <navigation android:id="@+id/deleteViewingPartyTab"
