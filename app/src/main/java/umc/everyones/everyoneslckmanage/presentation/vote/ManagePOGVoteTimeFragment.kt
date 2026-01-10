@@ -5,11 +5,9 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import umc.everyones.everyoneslckmanage.R
-import umc.everyones.everyoneslckmanage.databinding.FragmentInputMatchInfoBinding
 import umc.everyones.everyoneslckmanage.databinding.FragmentManagePogVoteBinding
 import umc.everyones.everyoneslckmanage.presentation.base.BaseFragment
 import umc.everyones.everyoneslckmanage.presentation.match.InputMatchResultViewModel
-import umc.everyones.everyoneslckmanage.presentation.vote.adapter.VoteMatchInfoRVA
 import umc.everyones.everyoneslckmanage.presentation.vote.adapter.VotePogInfoRVA
 import umc.everyones.everyoneslckmanage.util.extension.repeatOnStarted
 import umc.everyones.everyoneslckmanage.util.extension.setOnSingleClickListener

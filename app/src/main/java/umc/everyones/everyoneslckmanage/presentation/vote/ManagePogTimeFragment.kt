@@ -6,7 +6,6 @@ import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import umc.everyones.everyoneslckmanage.R
 import umc.everyones.everyoneslckmanage.databinding.FragmentManagePogTimeBinding
-import umc.everyones.everyoneslckmanage.domain.model.request.match.CloseMatchModel
 import umc.everyones.everyoneslckmanage.domain.model.request.match.CloseSetModel
 import umc.everyones.everyoneslckmanage.presentation.base.BaseFragment
 import umc.everyones.everyoneslckmanage.util.extension.repeatOnStarted
