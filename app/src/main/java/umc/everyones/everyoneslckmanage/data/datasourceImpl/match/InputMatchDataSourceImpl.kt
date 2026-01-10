@@ -2,6 +2,8 @@ package umc.everyones.everyoneslckmanage.data.datasourceImpl.match
 
 import umc.everyones.everyoneslckmanage.data.datasource.InputMatchDataSource
 import umc.everyones.everyoneslckmanage.data.dto.BaseResponse
+import umc.everyones.everyoneslckmanage.data.dto.request.match.CloseMatchRequestDto
+import umc.everyones.everyoneslckmanage.data.dto.request.match.CloseSetRequestDto
 import umc.everyones.everyoneslckmanage.data.dto.request.match.InputMatchRequestDto
 import umc.everyones.everyoneslckmanage.data.dto.request.match.MatchResultRequestDto
 import umc.everyones.everyoneslckmanage.data.dto.request.match.SetResultRequestDto
@@ -34,4 +36,10 @@ class InputMatchDataSourceImpl @Inject constructor(
 
     override suspend fun fetchSetResultInfo(matchId: Long): BaseResponse<SetResultInfoResponseDto> =
         inputMatchService.fetchSetResultInfo(matchId)
+
+    override suspend fun fetchCloseSets(request: CloseSetRequestDto): BaseResponse<InputMatchResponseDto> =
+        inputMatchService.fetchCloseSets(request)
+
+    override suspend fun fetchCloseMatch(request: CloseMatchRequestDto): BaseResponse<InputMatchResponseDto> =
+        inputMatchService.fetchCloseMatch(request)
 }

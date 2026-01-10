@@ -7,6 +7,8 @@ import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
 import umc.everyones.everyoneslckmanage.data.dto.BaseResponse
+import umc.everyones.everyoneslckmanage.data.dto.request.match.CloseMatchRequestDto
+import umc.everyones.everyoneslckmanage.data.dto.request.match.CloseSetRequestDto
 import umc.everyones.everyoneslckmanage.data.dto.request.match.InputMatchRequestDto
 import umc.everyones.everyoneslckmanage.data.dto.request.match.MatchResultRequestDto
 import umc.everyones.everyoneslckmanage.data.dto.request.match.SetResultRequestDto
@@ -43,4 +45,14 @@ interface InputMatchService {
     suspend fun fetchSetResultInfo(
         @Path("matchId") matchId: Long
     ): BaseResponse<SetResultInfoResponseDto>
+
+    @PATCH("admins/close/set")
+    suspend fun fetchCloseSets(
+        @Body request: CloseSetRequestDto
+    ): BaseResponse<InputMatchResponseDto>
+
+    @PATCH("admins/close/match")
+    suspend fun fetchCloseMatch(
+        @Body request: CloseMatchRequestDto
+    ): BaseResponse<InputMatchResponseDto>
 }

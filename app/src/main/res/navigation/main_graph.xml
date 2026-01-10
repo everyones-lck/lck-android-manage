@@ -21,13 +21,13 @@
             app:destination="@id/updateRankingFragment" />
         <action
             android:id="@+id/action_homeFragment_to_managePOGVoteTimeFragment"
-            app:destination="@id/managePOGVoteTimeFragment" />
+            app:destination="@id/managePogVoteTimeTab" />
         <action
             android:id="@+id/action_homeFragment_to_reportFragment"
             app:destination="@id/reportFragment" />
         <action
             android:id="@+id/action_homeFragment_to_manageMatchPredictVoteTimeFragment"
-            app:destination="@id/manageMatchPredictVoteTimeFragment" />
+            app:destination="@id/manageMatchPredictionTab" />
         <action
             android:id="@+id/action_homeFragment_to_inputMatchResultFragment"
             app:destination="@id/inputMatchResultTab" />
@@ -74,16 +74,42 @@
             android:label="InputSetResultFragment"
             tools:layout="@layout/fragment_input_set_result"/>
     </navigation>
-    <fragment
-        android:id="@+id/manageMatchPredictVoteTimeFragment"
-        android:name="umc.everyones.everyoneslckmanage.presentation.vote.ManageMatchPredictVoteTimeFragment"
-        android:label="ManageMatchPredictVoteTimeFragment"
-        tools:layout="@layout/fragment_manage_match_predict_vote"/>
-    <fragment
-        android:id="@+id/managePOGVoteTimeFragment"
-        android:name="umc.everyones.everyoneslckmanage.presentation.vote.ManagePOGVoteTimeFragment"
-        android:label="ManagePOGVoteTimeFragment"
-        tools:layout="@layout/fragment_manage_pog_vote"/>
+    <navigation
+        android:id="@+id/manageMatchPredictionTab"
+        app:startDestination="@+id/manageMatchPredictVoteTimeFragment">
+        <fragment
+            android:id="@+id/manageMatchPredictVoteTimeFragment"
+            android:name="umc.everyones.everyoneslckmanage.presentation.vote.ManageMatchPredictVoteTimeFragment"
+            android:label="ManageMatchPredictVoteTimeFragment"
+            tools:layout="@layout/fragment_manage_match_predict_vote">
+            <action
+                android:id="@+id/action_manageMatchPrediction_to_manageManageMatchPredictionTimeFragment"
+                app:destination="@+id/managePredictionTimeFragment"/>
+        </fragment>
+        <fragment
+            android:id="@+id/managePredictionTimeFragment"
+            android:name="umc.everyones.everyoneslckmanage.presentation.vote.ManagePredictionTimeFragment"
+            android:label="ManagePredictionTimeFragment"
+            tools:layout="@layout/fragment_manage_prediciton_time"/>
+    </navigation>
+    <navigation
+        android:id="@+id/managePogVoteTimeTab"
+        app:startDestination="@+id/managePOGVoteTimeFragment">
+        <fragment
+            android:id="@+id/managePOGVoteTimeFragment"
+            android:name="umc.everyones.everyoneslckmanage.presentation.vote.ManagePOGVoteTimeFragment"
+            android:label="ManagePOGVoteTimeFragment"
+            tools:layout="@layout/fragment_manage_pog_vote">
+            <action
+                android:id="@+id/action_managePogVoteTimeFragment_to_managePogTimeFragment"
+                app:destination="@+id/managePogTimeFragment"/>
+        </fragment>
+        <fragment
+            android:id="@+id/managePogTimeFragment"
+            android:name="umc.everyones.everyoneslckmanage.presentation.vote.ManagePogTimeFragment"
+            android:label="ManagePogTimeFragment"
+            tools:layout="@layout/fragment_manage_pog_time"/>
+    </navigation>
     <fragment
         android:id="@+id/reportFragment"
         android:name="umc.everyones.everyoneslckmanage.presentation.report.ReportFragment"
