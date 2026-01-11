@@ -10,7 +10,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/bg_gradient_color">
+        android:background="@color/black">
 
         <ImageView
             android:id="@+id/iv_manage_prediction_back_btn"
@@ -38,15 +38,14 @@
             android:id="@+id/rv_manage_prediction_container"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            tools:listitem="@layout/item_manage_prediction"
             android:layout_marginTop="40dp"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_manage_prediction_title"
-            app:layout_constraintBottom_toBottomOf="parent"/>
-
-
-
+            app:layout_constraintVertical_bias="1.0"
+            tools:listitem="@layout/item_manage_prediction" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

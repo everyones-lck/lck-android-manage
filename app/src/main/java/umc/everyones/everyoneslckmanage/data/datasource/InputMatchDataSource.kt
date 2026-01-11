@@ -1,6 +1,8 @@
 package umc.everyones.everyoneslckmanage.data.datasource
 
 import umc.everyones.everyoneslckmanage.data.dto.BaseResponse
+import umc.everyones.everyoneslckmanage.data.dto.request.match.CloseMatchRequestDto
+import umc.everyones.everyoneslckmanage.data.dto.request.match.CloseSetRequestDto
 import umc.everyones.everyoneslckmanage.data.dto.request.match.InputMatchRequestDto
 import umc.everyones.everyoneslckmanage.data.dto.request.match.MatchResultRequestDto
 import umc.everyones.everyoneslckmanage.data.dto.request.match.SetResultRequestDto
@@ -16,4 +18,6 @@ interface InputMatchDataSource {
     suspend fun fetchSetResults(request: SetResultRequestDto): BaseResponse<InputMatchResponseDto>
     suspend fun fetchMatchResults(request: MatchResultRequestDto): BaseResponse<InputMatchResponseDto>
     suspend fun fetchSetResultInfo(matchId: Long): BaseResponse<SetResultInfoResponseDto>
+    suspend fun fetchCloseSets(request: CloseSetRequestDto): BaseResponse<InputMatchResponseDto>
+    suspend fun fetchCloseMatch(request: CloseMatchRequestDto): BaseResponse<InputMatchResponseDto>
 }

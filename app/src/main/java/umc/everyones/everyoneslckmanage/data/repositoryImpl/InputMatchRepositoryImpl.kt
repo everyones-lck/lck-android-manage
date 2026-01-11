@@ -1,6 +1,8 @@
 package umc.everyones.everyoneslckmanage.data.repositoryImpl
 
 import umc.everyones.everyoneslckmanage.data.datasource.InputMatchDataSource
+import umc.everyones.everyoneslckmanage.domain.model.request.match.CloseMatchModel
+import umc.everyones.everyoneslckmanage.domain.model.request.match.CloseSetModel
 import umc.everyones.everyoneslckmanage.domain.model.request.match.InputMatchModel
 import umc.everyones.everyoneslckmanage.domain.model.request.match.MatchResultModel
 import umc.everyones.everyoneslckmanage.domain.model.request.match.SetResultModel
@@ -57,5 +59,27 @@ class InputMatchRepositoryImpl @Inject constructor(
 
     override suspend fun fetchSetResultInfo(matchId: Long): Result<SetResultInfoResponseModel> = runCatching {
         inputMatchDataSource.fetchSetResultInfo(matchId).data?.toSetResultInfoResponseModel() ?: SetResultInfoResponseModel(emptyList())
+    }
+
+    override suspend fun fetchCloseSets(request: CloseSetModel): Result<CommonResponseModel> = runCatching {
+        val responseDto = inputMatchDataSource.fetchCloseSets(request.toCloseSetRequestDto())
+
+        if (responseDto.data == null) {
+            // 서버 응답이 null이면 기본 응답을 생성하여 반환
+            CommonResponseModel(message = responseDto.message, data = null, success = responseDto.success)
+        } else {
+            responseDto.data.toCommonResponseModel()
+        }
+    }
+
+    override suspend fun fetchCloseMatch(request: CloseMatchModel): Result<CommonResponseModel> = runCatching {
+        val responseDto = inputMatchDataSource.fetchCloseMatch(request.toCloseMatchRequestDto())
+
+        if (responseDto.data == null) {
+            // 서버 응답이 null이면 기본 응답을 생성하여 반환
+            CommonResponseModel(message = responseDto.message, data = null, success = responseDto.success)
+        } else {
+            responseDto.data.toCommonResponseModel()
+        }
     }
 }
