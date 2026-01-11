@@ -8,8 +8,8 @@ import umc.everyones.everyoneslckmanage.presentation.base.BaseDialogFragment
 import umc.everyones.everyoneslckmanage.presentation.community.read.ReadPostViewModel
 import umc.everyones.everyoneslckmanage.util.extension.setOnSingleClickListener
 
-class DeleteViewingPartyDialogFragment: BaseDialogFragment<DialogDeleteViewingPartyBinding>(R.layout.dialog_delete_viewing_party) {
-    private val viewModel: ReadPostViewModel by activityViewModels()
+class DeleteViewingPartyDialogFragment(private val postId: Long): BaseDialogFragment<DialogDeleteViewingPartyBinding>(R.layout.dialog_delete_viewing_party) {
+    private val viewModel: ReadViewingPartyViewModel by activityViewModels()
     override fun initObserver() {
 
     }
@@ -17,6 +17,10 @@ class DeleteViewingPartyDialogFragment: BaseDialogFragment<DialogDeleteViewingPa
     override fun initView() {
         requireContext().dialogFragmentResize(this, 0.8f)
         binding.btnDeletePostCancel.setOnSingleClickListener {
+            dismiss()
+        }
+        binding.btnDeletePostConfirm.setOnSingleClickListener {
+            viewModel.deleteViewingParty(postId)
             dismiss()
         }
     }

@@ -24,8 +24,8 @@ interface ViewingPartyService {
         @Path("viewing_party_id") viewingPartyId: Long
     ): BaseResponse<ReadViewingPartyResponseDto>
 
-    @DELETE("admins/viewing-parties")
+    @DELETE("admins/viewing-parties/{viewing_party_id}")
     suspend fun deleteViewingParty(
-        @Query("viewing_party_id") viewingPartyId: Long
+        @Path("viewing_party_id") viewingPartyId: Long
     ): BaseResponse<Unit>
 }
