@@ -133,7 +133,7 @@ class InputMatchDetailFragment : BaseFragment<FragmentInputMatchDetailBinding>(R
             "Sengoku" to 17,
             "WE" to 18
         )
-        private val seasonList = listOf("LCK", "Cup", "Spring", "Summer", "MSI", "EWC", "Worlds", "KeSPA Cup", "LPL Summer")
+        private val seasonList = listOf("LCK CUP","LCK", "Cup", "Spring", "Summer", "MSI", "EWC", "Worlds", "KeSPA Cup", "LPL Summer")
     }
 
 }
