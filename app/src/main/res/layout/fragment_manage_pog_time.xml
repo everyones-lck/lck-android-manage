@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_gradient_color">
+
+        <ImageView
+            android:id="@+id/iv_manage_pog_time_back_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="38dp"
+            android:layout_marginTop="28dp"
+            android:src="@drawable/ic_back_btn"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            android:id="@+id/tv_manage_pog_time_title"
+            style="@style/TextAppearance.LCK.Bold.Title1_22sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="투표 시간 관리 (POG Vote)"
+            android:textSize="24sp"
+            android:layout_marginStart="16dp"
+            app:layout_constraintStart_toEndOf="@id/iv_manage_pog_time_back_btn"
+            app:layout_constraintTop_toTopOf="@id/iv_manage_pog_time_back_btn"
+            app:layout_constraintTop_toBottomOf="@id/iv_manage_pog_time_back_btn"/>
+
+        <TextView
+            android:id="@+id/tv_manage_pog_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/TextAppearance.LCK.Light"
+            android:text="2024.01.01"
+            android:textSize="14sp"
+            android:layout_marginTop="40dp"
+            android:layout_marginStart="40dp"
+            app:layout_constraintTop_toBottomOf="@+id/tv_manage_pog_time_title"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/tv_manage_pog_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/TextAppearance.LCK.Light"
+            android:text="LCK Summer Match"
+            android:textSize="14sp"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="5dp"
+            app:layout_constraintTop_toBottomOf="@+id/tv_manage_pog_date"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/tv_manage_pog_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/TextAppearance.LCK.Light"
+            android:text="17:00"
+            android:textSize="14sp"
+            android:layout_marginEnd="40dp"
+            app:layout_constraintTop_toTopOf="@+id/tv_manage_pog_date"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <TextView
+            android:id="@+id/tv_manage_pog_team1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/TextAppearance.LCK.Light"
+            android:text="T1 / GEN"
+            android:textSize="14sp"
+            android:layout_marginEnd="40dp"
+            android:layout_marginTop="5dp"
+            app:layout_constraintTop_toBottomOf="@+id/tv_manage_pog_time"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <TextView
+            android:id="@+id/tv_manage_pog_set1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/TextAppearance.LCK.Light"
+            android:text="1 세트"
+            android:textSize="14sp"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="30dp"
+            app:layout_constraintTop_toBottomOf="@+id/tv_manage_pog_title"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/tv_manage_pog_close_set1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/TextAppearance.LCK.Light"
+            android:text="닫기"
+            android:textSize="14sp"
+            android:textColor="@color/black"
+            android:background="@drawable/shape_rect_4_gray_fill"
+            android:paddingHorizontal="10dp"
+            android:layout_marginStart="50dp"
+            app:layout_constraintTop_toTopOf="@+id/tv_manage_pog_set1"
+            app:layout_constraintStart_toEndOf="@+id/tv_manage_pog_set1"/>
+
+        <TextView
+            android:id="@+id/tv_manage_pog_set2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/TextAppearance.LCK.Light"
+            android:text="2 세트"
+            android:textSize="14sp"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="20dp"
+            app:layout_constraintTop_toBottomOf="@+id/tv_manage_pog_set1"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/tv_manage_pog_close_set2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/TextAppearance.LCK.Light"
+            android:text="닫기"
+            android:textSize="14sp"
+            android:textColor="@color/black"
+            android:background="@drawable/shape_rect_4_gray_fill"
+            android:paddingHorizontal="10dp"
+            app:layout_constraintTop_toTopOf="@+id/tv_manage_pog_set2"
+            app:layout_constraintStart_toStartOf="@+id/tv_manage_pog_close_set1"/>
+
+        <TextView
+            android:id="@+id/tv_manage_pog_set3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/TextAppearance.LCK.Light"
+            android:text="3 세트"
+            android:textSize="14sp"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="20dp"
+            app:layout_constraintTop_toBottomOf="@+id/tv_manage_pog_set2"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/tv_manage_pog_close_set3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/TextAppearance.LCK.Light"
+            android:text="닫기"
+            android:textSize="14sp"
+            android:textColor="@color/black"
+            android:background="@drawable/shape_rect_4_gray_fill"
+            android:paddingHorizontal="10dp"
+            app:layout_constraintTop_toTopOf="@+id/tv_manage_pog_set3"
+            app:layout_constraintStart_toStartOf="@+id/tv_manage_pog_close_set2"/>
+
+        <TextView
+            android:id="@+id/tv_manage_pog_set4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/TextAppearance.LCK.Light"
+            android:text="4 세트"
+            android:textSize="14sp"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="20dp"
+            app:layout_constraintTop_toBottomOf="@+id/tv_manage_pog_set3"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/tv_manage_pog_close_set4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/TextAppearance.LCK.Light"
+            android:text="닫기"
+            android:textSize="14sp"
+            android:textColor="@color/black"
+            android:background="@drawable/shape_rect_4_gray_fill"
+            android:paddingHorizontal="10dp"
+            app:layout_constraintTop_toTopOf="@+id/tv_manage_pog_set4"
+            app:layout_constraintStart_toStartOf="@+id/tv_manage_pog_close_set3"/>
+
+        <TextView
+            android:id="@+id/tv_manage_pog_set5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/TextAppearance.LCK.Light"
+            android:text="5 세트"
+            android:textSize="14sp"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="20dp"
+            app:layout_constraintTop_toBottomOf="@+id/tv_manage_pog_set4"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/tv_manage_pog_close_set5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/TextAppearance.LCK.Light"
+            android:text="닫기"
+            android:textSize="14sp"
+            android:textColor="@color/black"
+            android:background="@drawable/shape_rect_4_gray_fill"
+            android:paddingHorizontal="10dp"
+            app:layout_constraintTop_toTopOf="@+id/tv_manage_pog_set5"
+            app:layout_constraintStart_toStartOf="@+id/tv_manage_pog_close_set4"/>
+
+        <TextView
+            android:id="@+id/tv_manage_pog_match"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/TextAppearance.LCK.Light"
+            android:text="Match"
+            android:textSize="14sp"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="20dp"
+            app:layout_constraintTop_toBottomOf="@+id/tv_manage_pog_set5"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/tv_manage_pog_close_match"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/TextAppearance.LCK.Light"
+            android:text="닫기"
+            android:textSize="14sp"
+            android:textColor="@color/black"
+            android:background="@drawable/shape_rect_4_gray_fill"
+            android:paddingHorizontal="10dp"
+            app:layout_constraintTop_toTopOf="@+id/tv_manage_pog_match"
+            app:layout_constraintStart_toStartOf="@+id/tv_manage_pog_close_set5"/>
+
+        <ImageView
+            android:id="@+id/iv_manage_pog_check_btn"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/ic_check_btn"
+            android:layout_marginTop="50dp"
+            app:layout_constraintTop_toBottomOf="@id/tv_manage_pog_match"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
