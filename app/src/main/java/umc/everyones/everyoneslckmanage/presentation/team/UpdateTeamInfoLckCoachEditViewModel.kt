@@ -1,130 +1,115 @@
 package umc.everyones.everyoneslckmanage.presentation.team
 
+import android.content.SharedPreferences
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
+import umc.everyones.everyoneslckmanage.domain.repository.UpdateTeamInfoRepository
+import java.io.File
 import javax.inject.Inject
 
 @HiltViewModel
-class UpdateTeamInfoLckCoachEditViewModel @Inject constructor() : ViewModel() {
+class UpdateTeamInfoLckCoachEditViewModel @Inject constructor(
+    private val repository: UpdateTeamInfoRepository,
+    private val spf: SharedPreferences
+) : ViewModel() {
 
-    private val _playerWinningCareers = MutableStateFlow<Map<Int, List<WinningCareer>>>(emptyMap())
-    val playerWinningCareers: StateFlow<Map<Int, List<WinningCareer>>> get() = _playerWinningCareers
+    private val _updateResult = MutableStateFlow<Result<Unit>?>(null)
+    val updateResult: StateFlow<Result<Unit>?> get() = _updateResult
+
+    private val _deleteResult = MutableStateFlow<Result<Unit>?>(null)
+    val deleteResult: StateFlow<Result<Unit>?> get() = _deleteResult
 
 
-    private val _playerHistoryOfTeam = MutableStateFlow<Map<Int, List<HistoryOfTeam>>>(emptyMap())
-    val playerHistoryOfTeam: StateFlow<Map<Int, List<HistoryOfTeam>>> get() = _playerHistoryOfTeam
+    fun updateCoach(
+        profileImageFile: File?,
+        playerId: Int,
+        name: String?,
+        realName: String?,
+        birth: String?,
+    ) {
+        viewModelScope.launch {
 
-    init {
-        initializeSampleData()
-        initializeHistoryTeams()
-    }
+            val jsonMap = mutableMapOf<String, Any>(
+                "playerId" to playerId,
+                "position" to "COACH",
+                "role" to "COACH"
+            )
 
-    private fun initializeSampleData() {
-        val sampleCareersForPlayer1 = listOf(
-            WinningCareer(1, 2018, "LCK Summer"),
-            WinningCareer(2, 2019, "LCK Spring")
-        )
+            if (!name.isNullOrEmpty()) jsonMap["name"] = name
+            if (!realName.isNullOrEmpty()) jsonMap["realName"] = realName
+            if (!birth.isNullOrEmpty()) jsonMap["birth"] = birth
 
-        val sampleCareersForPlayer2 = listOf(
-            WinningCareer(3, 2020, "LCK Spring"),
-            WinningCareer(4, 2021, "LCK Summer")
-        )
+            val jsonRequestBody =
+                Gson().toJson(jsonMap).toRequestBody("application/json".toMediaTypeOrNull())
 
-        val sampleCareersForPlayer3 = listOf(
-            WinningCareer(5, 2022, "LCK Spring"),
-            WinningCareer(6, 2023, "LCK Summer")
-        )
+            val profileImagePart: MultipartBody.Part? =
+                if (profileImageFile != null && profileImageFile.length() > 0) {
 
-        val newMap = mutableMapOf(
-            1 to sampleCareersForPlayer1,
-            2 to sampleCareersForPlayer2,
-            3 to sampleCareersForPlayer3,
-            4 to sampleCareersForPlayer1,
-            5 to sampleCareersForPlayer2,
-            6 to sampleCareersForPlayer3
-        )
-        _playerWinningCareers.value = newMap.toMap()
-    }
+                    MultipartBody.Part.createFormData(
+                        name = "profileImage",
+                        filename = profileImageFile.name,
+                        body = profileImageFile.asRequestBody("image/*".toMediaTypeOrNull())
+                    ).also {
+                        saveProfileImageUrl(profileImageFile.absolutePath)
+                    }
 
-    private fun initializeHistoryTeams() {
-        val sampleHistoryForPlayer1 = listOf(
-            HistoryOfTeam(1, 2018, "T1"),
-            HistoryOfTeam(2, 2019, "DRX")
-        )
-        val sampleHistoryForPlayer2 = listOf(
-            HistoryOfTeam(3, 2020, "Gen.G"),
-            HistoryOfTeam(4, 2021, "KT")
-        )
+                } else {
+                    val existingPath = getExistingProfileImageUrl()
 
-        _playerHistoryOfTeam.value = mapOf(
-            1 to sampleHistoryForPlayer1,
-            2 to sampleHistoryForPlayer2,
-            3 to sampleHistoryForPlayer1,
-            4 to sampleHistoryForPlayer2,
-            5 to sampleHistoryForPlayer1,
-            6 to sampleHistoryForPlayer2
-        )
-    }
-    fun getWinningCareerForPlayer(playerId: Int): List<WinningCareer> {
-        return _playerWinningCareers.value[playerId] ?: emptyList()
-    }
+                    if (existingPath.isNullOrEmpty()) {
+                        _updateResult.value =
+                            Result.failure(IllegalStateException("기존 프로필 이미지가 없습니다."))
+                        return@launch
+                    }
 
-    private fun setWinningCareerForPlayer(playerId: Int, careerList: List<WinningCareer>) {
-        val currentMap = _playerWinningCareers.value.toMutableMap()
-        currentMap[playerId] = careerList
-        _playerWinningCareers.value = currentMap
-    }
+                    val existingFile = File(existingPath)
+                    if (!existingFile.exists()) {
+                        _updateResult.value =
+                            Result.failure(IllegalStateException("기존 프로필 이미지 파일이 없습니다."))
+                        return@launch
+                    }
 
-    fun addWinningCareerToPlayer(playerId: Int, newCareer: WinningCareer) {
-        val currentList = getWinningCareerForPlayer(playerId).toMutableList()
-        currentList.add(newCareer)
-        setWinningCareerForPlayer(playerId, currentList)
-    }
+                    MultipartBody.Part.createFormData(
+                        name = "profileImage",
+                        filename = existingFile.name,
+                        body = existingFile.asRequestBody("image/*".toMediaTypeOrNull())
+                    )
+                }
 
-    fun updateWinningCareerForPlayer(playerId: Int, updatedCareer: WinningCareer) {
-        val currentList = getWinningCareerForPlayer(playerId).toMutableList()
-        val index = currentList.indexOfFirst { it.id == updatedCareer.id }
-        if (index != -1) {
-            currentList[index] = updatedCareer
-            setWinningCareerForPlayer(playerId, currentList)
+            val result = repository.updatePlayer(profileImagePart, jsonRequestBody)
+            _updateResult.value = result
         }
     }
 
-    fun deleteWinningCareerFromPlayer(playerId: Int, deleteCareer: WinningCareer) {
-        val currentList = getWinningCareerForPlayer(playerId).toMutableList()
-        val updatedList = currentList.filter { it.id != deleteCareer.id }
-        setWinningCareerForPlayer(playerId, updatedList)
+    private fun getExistingProfileImageUrl(): String? {
+        return spf.getString("profileImage", null)
     }
 
-    fun getHistoryTeamsForPlayer(playerId: Int): List<HistoryOfTeam> {
-        return _playerHistoryOfTeam.value[playerId] ?: emptyList()
-    }
-
-    fun addHistoryTeamToPlayer(playerId: Int, newTeam: HistoryOfTeam) {
-        val currentList = getHistoryTeamsForPlayer(playerId).toMutableList()
-        currentList.add(newTeam)
-        _playerHistoryOfTeam.value = _playerHistoryOfTeam.value.toMutableMap().apply {
-            put(playerId, currentList)
+    private fun saveProfileImageUrl(url: String?) {
+        spf.edit().apply {
+            putString("profileImage", url)
+            apply()
         }
     }
 
-    fun updateHistoryTeamForPlayer(playerId: Int, updatedTeam: HistoryOfTeam) {
-        val currentList = getHistoryTeamsForPlayer(playerId).toMutableList()
-        val index = currentList.indexOfFirst { it.id == updatedTeam.id }
-        if (index != -1) {
-            currentList[index] = updatedTeam
-            _playerHistoryOfTeam.value = _playerHistoryOfTeam.value.toMutableMap().apply {
-                put(playerId, currentList)
-            }
+
+    fun deleteCoach(playerId: Int) {
+        viewModelScope.launch {
+            val result = repository.deletePlayer(playerId.toLong())
+            _deleteResult.value = result
         }
     }
 
-    fun deleteHistoryTeamFromPlayer(playerId: Int, teamId: Int) {
-        val currentList = getHistoryTeamsForPlayer(playerId).toMutableList()
-        _playerHistoryOfTeam.value = _playerHistoryOfTeam.value.toMutableMap().apply {
-            put(playerId, currentList.filter { it.id != teamId })
-        }
+    fun resetUpdateResult() {
+        _updateResult.value = null
     }
 }

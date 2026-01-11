@@ -7,7 +7,6 @@ import umc.everyones.everyoneslckmanage.data.dto.response.party.ViewingPartyList
 
 interface ViewingPartyDataSource {
     suspend fun fetchViewingPartyList(page: Int, size: Int): BaseResponse<ViewingPartyListResponseDto>
-
     suspend fun fetchViewingParty(viewingPartyId: Long): BaseResponse<ReadViewingPartyResponseDto>
-
+    suspend fun deleteViewingParty(viewingPartyId: Long): BaseResponse<Unit>
 }

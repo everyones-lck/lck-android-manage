@@ -7,14 +7,17 @@ import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.result.launch
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import umc.everyones.everyoneslckmanage.R
 import umc.everyones.everyoneslckmanage.databinding.FragmentReadPostBinding
@@ -31,8 +34,9 @@ import umc.everyones.everyoneslckmanage.util.network.UiState
 class ReadPostFragment : BaseFragment<FragmentReadPostBinding>(R.layout.fragment_read_post) {
     private val viewModel: ReadPostViewModel by activityViewModels()
     private val commentRVA by lazy {
-        CommentRVA {
-            val dialog = DeleteCommentDialogFragment()
+        CommentRVA {commentId ->
+            viewModel.setCommentId(commentId)
+            val dialog = DeleteCommentDialogFragment(commentId)
             dialog.show(childFragmentManager, dialog.tag)
         }
 
@@ -59,15 +63,15 @@ class ReadPostFragment : BaseFragment<FragmentReadPostBinding>(R.layout.fragment
     }
 
     override fun initObserver() {
-        repeatOnStarted {
+        // 1. LifecycleScope에서 직접 collect 하여 수집 보장
+        viewLifecycleOwner.lifecycleScope.launch {
             viewModel.readCommunityEvent.collect { state ->
-                when (state) {
-                    is UiState.Success -> {
-                        handleReadCommunityEvent(state.data)
-                    }
 
-                    is UiState.Failure -> showCustomSnackBar(binding.root, state.msg)
-                    else -> Unit
+                when (state) {
+                    is UiState.Success -> { handleReadCommunityEvent(state.data) }
+                    is UiState.Failure -> { showCustomSnackBar(binding.root, state.msg) }
+                    is UiState.Loading -> {}
+                    else -> {}
                 }
             }
         }
@@ -75,23 +79,37 @@ class ReadPostFragment : BaseFragment<FragmentReadPostBinding>(R.layout.fragment
 
     private fun handleReadCommunityEvent(event: ReadPostViewModel.ReadCommunityEvent) {
         when (event) {
-            ReadPostViewModel.ReadCommunityEvent.EditPost -> {}
             is ReadPostViewModel.ReadCommunityEvent.ReadPost -> {
-                with(event.post) {
-                    binding.tvReadPostTitle.text = postTitle
-                    binding.tvReadPostBody.text = content
-                    binding.tvReadWriter.text = writerInfo
-                    binding.tvReadCategory.text = postType
-                    binding.tvReadDate.text = postCreatedAt
-                    Glide.with(requireContext())
-                        .load(writerProfileUrl)
-                        .into(binding.ivReadProfileImage)
-                    commentRVA.submitList(commentList)
-                    readMediaRVA.submitList(fileUrlList) {
-                        binding.rvReadMedia.visibility = View.VISIBLE
+                val post = event.post
+
+                with(binding) {
+                    tvReadPostTitle.text = post.postTitle
+                    tvReadPostBody.text = post.content
+                    tvReadWriter.text = post.writerNickname
+                    tvReadCategory.text = post.postType
+                    tvReadDate.text = post.postCreatedAt
+
+                    Glide.with(ivReadProfileImage.context)
+                        .load(post.writerProfileUrl)
+                        .into(ivReadProfileImage)
+
+                    commentRVA.submitList(post.commentList)
+
+                    rvReadMedia.isVisible = post.fileList.isNotEmpty()
+                    if (post.fileList.isNotEmpty()) {
+                        readMediaRVA.submitList(post.fileList)
                     }
-                    binding.svRead.isVisible = true
+                    svRead.isVisible = true
                 }
+            }
+
+            ReadPostViewModel.ReadCommunityEvent.DeleteComment -> {
+                showCustomSnackBar(binding.root, "댓글이 삭제되었습니다")
+                viewModel.fetchCommunityPost()
+            }
+            ReadPostViewModel.ReadCommunityEvent.DeletePost -> {
+                showCustomSnackBar(binding.root, "게시글이 삭제되었습니다")
+                findNavController().navigateUp()
             }
 
             else -> Unit
@@ -110,12 +128,11 @@ class ReadPostFragment : BaseFragment<FragmentReadPostBinding>(R.layout.fragment
         binding.ivReadBackBtn.setOnSingleClickListener {
             findNavController().navigateUp()
         }
-        Timber.d("postId", postId.toString())
-    }
+        }
 
     private fun deletePost() {
         binding.ivDeletePostBtn.setOnSingleClickListener {
-            val dialog = DeletePostDialogFragment()
+            val dialog = DeletePostDialogFragment(postId)
             dialog.show(childFragmentManager, dialog.tag)
         }
     }

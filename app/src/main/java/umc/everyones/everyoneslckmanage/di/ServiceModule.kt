@@ -6,6 +6,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import umc.everyones.everyoneslckmanage.data.service.CommunityService
+import umc.everyones.everyoneslckmanage.data.service.UpdateTeamInfoService
 import umc.everyones.everyoneslckmanage.data.service.InputMatchService
 import umc.everyones.everyoneslckmanage.data.service.ViewingPartyService
 import javax.inject.Singleton
@@ -31,8 +32,14 @@ object ServiceModule {
 
     @Provides
     @Singleton
+    fun provideUpdateTeamInfoService(retrofit: Retrofit): UpdateTeamInfoService {
+        return retrofit.buildService()
+    }
+    
+    
+    @Provides
+    @Singleton
     fun provideInputMatchService(retrofit: Retrofit): InputMatchService {
         return retrofit.buildService()
     }
-
 }

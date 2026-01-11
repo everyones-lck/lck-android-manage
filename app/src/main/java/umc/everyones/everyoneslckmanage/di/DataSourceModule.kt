@@ -6,11 +6,13 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.android.scopes.ViewModelScoped
 import umc.everyones.everyoneslckmanage.data.datasource.CommunityDataSource
+import umc.everyones.everyoneslckmanage.data.datasource.UpdateTeamInfoDataSource
 import umc.everyones.everyoneslckmanage.data.datasource.InputMatchDataSource
 import umc.everyones.everyoneslckmanage.data.datasource.ViewingPartyDataSource
 import umc.everyones.everyoneslckmanage.data.datasourceImpl.community.CommunityDataSourceImpl
 import umc.everyones.everyoneslckmanage.data.datasourceImpl.match.InputMatchDataSourceImpl
 import umc.everyones.everyoneslckmanage.data.datasourceImpl.party.ViewingPartyDataSourceImpl
+import umc.everyones.everyoneslckmanage.data.datasourceImpl.team.UpdateTeamInfoDataSourceImpl
 
 @Module
 @InstallIn(ViewModelComponent::class)
@@ -25,6 +27,11 @@ object DataSourceModule {
     @ViewModelScoped
     fun provideViewingPartyDataSource(viewingPartyDataSourceImpl: ViewingPartyDataSourceImpl): ViewingPartyDataSource =
         viewingPartyDataSourceImpl
+
+    @Provides
+    @ViewModelScoped
+    fun provideUpdateTeamInfoDataSource(updateTeamInfoDataSourceImpl: UpdateTeamInfoDataSourceImpl): UpdateTeamInfoDataSource =
+        updateTeamInfoDataSourceImpl
 
     @Provides
     @ViewModelScoped

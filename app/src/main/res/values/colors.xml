@@ -45,4 +45,6 @@
     <color name="sender_bg">#EFEFEF</color>
     <color name="nickname_gray">#8C8C8C</color>
     <color name="gray_shimmer">#636363</color>
+    <color name="grayscale_200">#F0F0F0</color>
+    <color name="grayscale_800">#575757</color>
 </resources>

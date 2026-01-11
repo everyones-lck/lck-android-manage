@@ -92,7 +92,7 @@ class ReadViewingPartyFragment : BaseFragment<FragmentReadViewingPartyBinding>(R
     }
 
     override fun initView() {
-        Timber.d("postId", postId.toString())
+        Timber.d("postId %s", postId.toString())
         viewModel.setPostId(postId)
         binding.ivReadViewingPartyBackBtn.setOnSingleClickListener {
             navigator.navigateUp()
@@ -101,7 +101,7 @@ class ReadViewingPartyFragment : BaseFragment<FragmentReadViewingPartyBinding>(R
     }
     private fun deleteViewingParty(){
         binding.ivReadDeleteBtn.setOnSingleClickListener {
-            val dialog = DeleteViewingPartyDialogFragment()
+            val dialog = DeleteViewingPartyDialogFragment(postId)
             dialog.show(childFragmentManager, dialog.tag)
         }
     }

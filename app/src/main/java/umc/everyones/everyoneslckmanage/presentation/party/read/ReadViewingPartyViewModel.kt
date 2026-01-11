@@ -51,19 +51,30 @@ class ReadViewingPartyViewModel @Inject constructor(
         viewModelScope.launch {
             _readViewingPartyEvent.value = UiState.Loading
             repository.fetchViewingParty(postId.value).onSuccess { response ->
-                Timber.d("fetchViewingParty", response.toString())
+                Timber.d("fetchViewingParty %s", response.toString())
                 _readViewingPartyEvent.value = UiState.Success(
                     ReadViewingPartyEvent.ReadViewingParty(
                         response
                     )
                 )
                 val writerName = response.writerInfo.split("|").first().trim()
-                Timber.d("writername", writerName.toString())
+                Timber.d("writername %s", writerName.toString())
                 _isWriter.emit(spf.getString("nickName", "").toString() == writerName)
             }.onFailure {
-                Timber.d("fetchViewingParty error", it.stackTraceToString())
+                Timber.d("fetchViewingParty error %s", it.stackTraceToString())
                 _readViewingPartyEvent.value = UiState.Failure("뷰잉파티를 조회하지 못했습니다")
             }
+        }
+    }
+
+    fun deleteViewingParty(viewingPartyId: Long) {
+        viewModelScope.launch {
+            repository.deleteViewingParty(viewingPartyId).onSuccess { response ->
+                Timber.d("response: $response")
+            }
+                .onFailure {
+                    Timber.e(it, "ViewingParty 삭제 실패")
+                }
         }
     }
 }

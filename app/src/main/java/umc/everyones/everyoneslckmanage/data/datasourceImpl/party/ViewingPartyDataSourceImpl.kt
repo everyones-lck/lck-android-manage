@@ -20,4 +20,6 @@ class ViewingPartyDataSourceImpl @Inject constructor(
     override suspend fun fetchViewingParty(viewingPartyId: Long): BaseResponse<ReadViewingPartyResponseDto> =
         viewingPartyService.fetchViewingParty(viewingPartyId)
 
+    override suspend fun deleteViewingParty(viewingPartyId: Long): BaseResponse<Unit> =
+        viewingPartyService.deleteViewingParty(viewingPartyId)
 }

@@ -26,7 +26,7 @@ class DeleteViewingPartyFragment : BaseFragment<FragmentDeleteViewingPartyBindin
 
     private var writeResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){ result ->
         if (result.resultCode == Activity.RESULT_OK){
-            Timber.d("isWriteDone", result.data?.getBooleanExtra("isWriteDone", false).toString())
+            Timber.d("isWriteDone: %s", result.data?.getBooleanExtra("isWriteDone", false).toString())
             if(result.data?.getBooleanExtra("isWriteDone", false) == true){
                 viewModel.setIsRefreshNeeded(true)
             }
@@ -52,6 +52,7 @@ class DeleteViewingPartyFragment : BaseFragment<FragmentDeleteViewingPartyBindin
     }
 
     override fun initView() {
+        viewModel.setIsRefreshNeeded(true)
         initViewingPartyRVAdapter()
         binding.ivViewingPartyBackBtn.setOnSingleClickListener {
             navigator.navigateUp()

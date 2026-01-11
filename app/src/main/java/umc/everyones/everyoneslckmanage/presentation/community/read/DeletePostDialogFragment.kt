@@ -7,7 +7,7 @@ import umc.everyones.everyoneslckmanage.databinding.DialogDeletePostBinding
 import umc.everyones.everyoneslckmanage.presentation.base.BaseDialogFragment
 import umc.everyones.everyoneslckmanage.util.extension.setOnSingleClickListener
 
-class DeletePostDialogFragment: BaseDialogFragment<DialogDeletePostBinding>(R.layout.dialog_delete_post) {
+class DeletePostDialogFragment(private val postId: Long): BaseDialogFragment<DialogDeletePostBinding>(R.layout.dialog_delete_post) {
     private val viewModel: ReadPostViewModel by activityViewModels()
     override fun initObserver() {
 
@@ -16,6 +16,10 @@ class DeletePostDialogFragment: BaseDialogFragment<DialogDeletePostBinding>(R.la
     override fun initView() {
         requireContext().dialogFragmentResize(this, 0.8f)
         binding.btnDeletePostCancel.setOnSingleClickListener {
+            dismiss()
+        }
+        binding.btnDeletePostConfirm.setOnSingleClickListener {
+            viewModel.deletePost(postId)
             dismiss()
         }
     }
