@@ -77,7 +77,6 @@ class ReadPostFragment : BaseFragment<FragmentReadPostBinding>(R.layout.fragment
         }
     }
 
-
     private fun handleReadCommunityEvent(event: ReadPostViewModel.ReadCommunityEvent) {
         when (event) {
             is ReadPostViewModel.ReadCommunityEvent.ReadPost -> {
@@ -107,6 +106,10 @@ class ReadPostFragment : BaseFragment<FragmentReadPostBinding>(R.layout.fragment
             ReadPostViewModel.ReadCommunityEvent.DeleteComment -> {
                 showCustomSnackBar(binding.root, "댓글이 삭제되었습니다")
                 viewModel.fetchCommunityPost()
+            }
+            ReadPostViewModel.ReadCommunityEvent.DeletePost -> {
+                showCustomSnackBar(binding.root, "게시글이 삭제되었습니다")
+                findNavController().navigateUp()
             }
 
             else -> Unit
