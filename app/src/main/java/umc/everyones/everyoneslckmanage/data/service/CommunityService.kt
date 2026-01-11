@@ -31,12 +31,12 @@ interface CommunityService {
         @Path("page") page: Int,
         @Path("type") type: String
     ): BaseResponse<CommunityReportListResponseDto>
-    @DELETE("admins/posts")
+    @DELETE("admins/posts/{post_id}")
     suspend fun deleteCommunityPost(
-        @Query("postId") postId: Long
+        @Path("post_id") postId: Long
     ): BaseResponse<Unit>
-    @DELETE("admins/comments")
+    @DELETE("admins/comments/{comment_id}")
     suspend fun deleteCommunityComment(
-        @Query("commentId") commentId: Long
+        @Path("comment_id") commentId: Long
     ): BaseResponse<Unit>
 }

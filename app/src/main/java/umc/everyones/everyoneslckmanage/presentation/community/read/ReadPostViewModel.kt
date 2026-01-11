@@ -31,6 +31,13 @@ class ReadPostViewModel @Inject constructor(
         _postId.value = postId
     }
 
+    private val _commentId = MutableStateFlow<Long>(-1L)
+    val commentId: StateFlow<Long> get() = _commentId
+
+    fun setCommentId(id: Long) {
+        _commentId.value = id
+    }
+
     private val _readCommunityEvent = MutableStateFlow<UiState<ReadCommunityEvent>>(UiState.Empty)
     val readCommunityEvent: StateFlow<UiState<ReadCommunityEvent>> get() = _readCommunityEvent
 
@@ -65,12 +72,38 @@ class ReadPostViewModel @Inject constructor(
         viewModelScope.launch {
             _readCommunityEvent.value = UiState.Loading
             repository.fetchCommunityPost(postId.value).onSuccess { response ->
-                Timber.d("fetchCommunityPost", response.toString())
+                Timber.d("fetchCommunityPost %s", response.toString())
                 _readCommunityEvent.value = UiState.Success(ReadCommunityEvent.ReadPost(response))
-                _isWriter.emit(spf.getString("nickName", "") == response.writerInfo.split("|")[0].trim())
+                _isWriter.emit(spf.getString("nickName", "") == response.writerNickname.split("|")[0].trim())
             }.onFailure {
-                Timber.d("fetchCommunityPost error", it.stackTraceToString())
+                Timber.d("fetchCommunityPost error %s", it.stackTraceToString())
                 _readCommunityEvent.value = UiState.Failure("커뮤니티 게시글 상세조회에 실패했습니다")
+            }
+        }
+    }
+
+    fun deleteComment(commentId: Long){
+        viewModelScope.launch {
+            _readCommunityEvent.value = UiState.Loading
+            repository.deleteCommunityComment(commentId).onSuccess {
+                Timber.d("deleteComment %s", it.toString())
+                _readCommunityEvent.value = UiState.Success(ReadCommunityEvent.DeleteComment)
+            }.onFailure {
+                Timber.d("deleteComment error %s", it.stackTraceToString())
+                _readCommunityEvent.value = UiState.Failure("커뮤니티 댓글 삭제에 실패했습니다")
+            }
+        }
+    }
+
+    fun deletePost(postId:Long){
+        viewModelScope.launch {
+            _readCommunityEvent.value = UiState.Loading
+            repository.deleteCommunityPost(postId).onSuccess {
+                Timber.d("deletePost %s", it.toString())
+                _readCommunityEvent.value = UiState.Success(ReadCommunityEvent.DeletePost)
+                }.onFailure {
+                Timber.d("deletePost error %s", it.stackTraceToString())
+                _readCommunityEvent.value = UiState.Failure("커뮤니티 게시글 삭제에 실패했습니다")
             }
         }
     }

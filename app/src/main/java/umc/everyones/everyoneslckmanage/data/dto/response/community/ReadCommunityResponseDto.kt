@@ -13,6 +13,7 @@ data class ReadCommunityResponseDto(
     val postTitle: String,
     val postCreatedAt: String,
     val content: String,
+    val isWriter: Boolean,
     val fileList: List<File>,
     val commentList: List<CommentListElementDto>
 ) {
@@ -22,7 +23,8 @@ data class ReadCommunityResponseDto(
         val supportTeam: String,
         val content: String,
         val createdAt: String,
-        val commentId: Long
+        val commentId: Long,
+        val isWriter: Boolean
     ) {
         fun toCommentListElementModel(userNickname: String) =
             ReadCommunityResponseModel.CommentListElementModel(
@@ -30,6 +32,7 @@ data class ReadCommunityResponseDto(
                 nickname.combineNicknameAndTeam(supportTeam),
                 content,
                 createdAt.slice(0..15).toListViewingPartyDateFormat(),
+                createdAt,
                 commentId,
                 if(userNickname == nickname) true else false
             )
@@ -40,9 +43,11 @@ data class ReadCommunityResponseDto(
             postType,
             writerProfileUrl,
             writerNickname.combineNicknameAndTeam(writerTeam),
+            writerTeam,
             postTitle,
             postCreatedAt.slice(0..15).toReadDateFormat(),
             content,
+            isWriter,
             fileList,
             commentList.map { it.toCommentListElementModel(userNickname) })
     data class File(

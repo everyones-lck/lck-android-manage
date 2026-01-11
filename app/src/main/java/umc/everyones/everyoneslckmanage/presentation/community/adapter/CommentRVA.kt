@@ -13,7 +13,7 @@ import umc.everyones.everyoneslckmanage.domain.model.response.community.ReadComm
 import umc.everyones.everyoneslckmanage.util.extension.setOnSingleClickListener
 
 class CommentRVA(
-    val deleteComment: () -> Unit
+    val deleteComment: (commentId: Long) -> Unit
 ) : ListAdapter<ReadCommunityResponseModel.CommentListElementModel, CommentRVA.CommentViewHolder>(DiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CommentViewHolder {
@@ -35,16 +35,16 @@ class CommentRVA(
         @SuppressLint("SetTextI18n")
         fun bind(comment: ReadCommunityResponseModel.CommentListElementModel) {
             with(binding) {
-                tvCommentNickname.text = comment.writerInfo
+                tvCommentNickname.text = comment.nickname
                 tvCommentBody.text = comment.content
-                tvCommnetDate.text = comment.createdAt
+                tvCommentDate.text = comment.createdAt.toFormattedDate()
                 Glide.with(ivCommentProfile.context)
-                    .load(comment.profileUrl)
+                    .load(comment.profileImageUrl)
                     .into(ivCommentProfile)
 
                 // 댓글 삭제
                 ivCommentDeleteBtn.setOnSingleClickListener {
-                    deleteComment()
+                    deleteComment(comment.commentId)
                 }
             }
         }
@@ -56,5 +56,14 @@ class CommentRVA(
 
         override fun areContentsTheSame(oldItem: ReadCommunityResponseModel.CommentListElementModel, newItem: ReadCommunityResponseModel.CommentListElementModel) =
             oldItem == newItem
+    }
+
+    fun String.toFormattedDate(): String {
+        return try {
+            val datePart = this.substring(0, 16).replace("T", " ")
+            datePart.substring(2).replace("-", ".")
+        } catch (e: Exception) {
+            this
+        }
     }
 }
