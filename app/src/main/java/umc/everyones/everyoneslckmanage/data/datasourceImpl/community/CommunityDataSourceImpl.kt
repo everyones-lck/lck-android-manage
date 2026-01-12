@@ -6,6 +6,7 @@ import umc.everyones.everyoneslckmanage.data.dto.request.community.PageableReque
 import umc.everyones.everyoneslckmanage.data.service.CommunityService
 import umc.everyones.everyoneslckmanage.data.dto.response.community.CommunityListResponseDto
 import umc.everyones.everyoneslckmanage.data.dto.response.community.CommunityWithReportListResponseDto
+import umc.everyones.everyoneslckmanage.data.dto.response.community.ReadCommunityWithReportResponseDto
 import umc.everyones.lck.data.dto.response.community.ReadCommunityResponseDto
 import javax.inject.Inject
 
@@ -26,9 +27,9 @@ class CommunityDataSourceImpl @Inject constructor(
     override suspend fun getCommunityWithReportList(pageable: PageableRequestDto, postType: String): BaseResponse<CommunityWithReportListResponseDto> =
         communityService.getCommunityWithReportList(pageable, postType)
 
-   /* override suspend fun getCommunityReportList(size: Int, page: Int, type: String): BaseResponse<CommunityWithReportListResponseDto> =
-        communityService.getCommunityReportList(size, page, type)
-*/
+    override suspend fun getCommunityWithReport(postId: Long): BaseResponse<ReadCommunityWithReportResponseDto> =
+        communityService.getCommunityWithReport(postId)
+
     override suspend fun deleteCommunityPost(postId: Long): BaseResponse<Unit> =
         communityService.deleteCommunityPost(postId)
 

@@ -8,6 +8,7 @@ import umc.everyones.everyoneslckmanage.data.dto.BaseResponse
 import umc.everyones.everyoneslckmanage.data.dto.request.community.PageableRequestDto
 import umc.everyones.everyoneslckmanage.data.dto.response.community.CommunityListResponseDto
 import umc.everyones.everyoneslckmanage.data.dto.response.community.CommunityWithReportListResponseDto
+import umc.everyones.everyoneslckmanage.data.dto.response.community.ReadCommunityWithReportResponseDto
 import umc.everyones.lck.data.dto.response.community.ReadCommunityResponseDto
 
 interface CommunityService {
@@ -22,19 +23,19 @@ interface CommunityService {
         @Path("postId") postId: Long
     ): BaseResponse<ReadCommunityResponseDto>
 
+    //게시글 목록 신고수와 함께 조회 (목록)
     @GET("admins/posts/reports")
     suspend fun getCommunityWithReportList(
         @Path("pageable") pageable: PageableRequestDto,
         @Path("postType") postType: String
     ): BaseResponse<CommunityWithReportListResponseDto>
 
-/*    @GET("admins/posts/reports?size={size}&page={page}&postType={type}")
-    suspend fun getCommunityReportList(
-        @Path("size") size: Int,
-        @Path("page") page: Int,
-        @Path("type") type: String
-    ): BaseResponse<CommunityWithReportListResponseDto>
-    */
+    //게시글 신고수와 함께 조회 (상세보기)
+    @GET("admins/posts/{postId}/reports")
+    suspend fun getCommunityWithReport(
+        @Path("postId") postId: Long
+    ):BaseResponse<ReadCommunityWithReportResponseDto>
+
     @DELETE("admins/posts/{post_id}")
     suspend fun deleteCommunityPost(
         @Path("post_id") postId: Long

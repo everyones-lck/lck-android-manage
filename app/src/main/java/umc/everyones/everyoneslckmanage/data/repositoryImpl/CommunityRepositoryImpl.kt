@@ -12,6 +12,7 @@ import umc.everyones.everyoneslckmanage.domain.model.request.community.PageableR
 import umc.everyones.everyoneslckmanage.domain.model.response.community.CommunityListModel
 import umc.everyones.everyoneslckmanage.domain.model.response.community.CommunityWithReportListModel
 import umc.everyones.everyoneslckmanage.domain.model.response.community.ReadCommunityResponseModel
+import umc.everyones.everyoneslckmanage.domain.model.response.community.ReadCommunityWithReportResponseModel
 import umc.everyones.everyoneslckmanage.domain.repository.CommunityRepository
 import javax.inject.Inject
 
@@ -20,35 +21,23 @@ class CommunityRepositoryImpl @Inject constructor(
     private val communityService: CommunityService,
     private val spf: SharedPreferences
 ): CommunityRepository {
-    override suspend fun fetchCommunityList(
-        postType: String,
-        page: Int,
-        size: Int
-    ): Result<CommunityListModel> =
-        runCatching {
-            communityDataSource.fetchCommunityList(postType, page, size).data.toCommunityListModel()
-        }
+    override suspend fun fetchCommunityList(postType: String, page: Int, size: Int): Result<CommunityListModel> =
+        runCatching { communityDataSource.fetchCommunityList(postType, page, size).data.toCommunityListModel() }
 
     override suspend fun fetchCommunityPost(postId: Long): Result<ReadCommunityResponseModel> =
-        runCatching {
-            communityDataSource.fetchCommunityPost(postId).data.toReadCommunityResponseModel(spf.getString("nickname","")?:"")
-        }
+        runCatching { communityDataSource.fetchCommunityPost(postId).data.toReadCommunityResponseModel(spf.getString("nickname","")?:"") }
 
     override suspend fun getCommunityWithReportList(pageable: PageableRequestModel, postType: String): Result<CommunityWithReportListModel> =
         runCatching { communityDataSource.getCommunityWithReportList(pageable.toPageableRequestDto(), postType).data.toCommunityListModel() }
 
-   /* override suspend fun getCommunityReportList(size: Int, page: Int, type: String): Result<CommunityWithReportListModel> =
-        runCatching { communityDataSource.getCommunityReportList(size, page, type).data.toCommunityListModel() }*/
+    override suspend fun getCommunityWithReport(postId: Long): Result<ReadCommunityWithReportResponseModel> =
+        runCatching { communityDataSource.getCommunityWithReport(postId).data.toReadCommunityWithReportResponseModel(spf.getString("nickname","")?:"") }
 
     override suspend fun deleteCommunityPost(postId: Long): Result<Unit> =
-        runCatching {
-            communityDataSource.deleteCommunityPost(postId)
-        }
+        runCatching { communityDataSource.deleteCommunityPost(postId) }
 
     override suspend fun deleteCommunityComment(commentId: Long): Result<Unit> =
-        runCatching {
-            communityDataSource.deleteCommunityComment(commentId)
-        }
+        runCatching { communityDataSource.deleteCommunityComment(commentId) }
 
     override fun fetchPagingSource(category: String): Flow<PagingData<CommunityListModel.CommunityListElementModel>> =
         Pager(
