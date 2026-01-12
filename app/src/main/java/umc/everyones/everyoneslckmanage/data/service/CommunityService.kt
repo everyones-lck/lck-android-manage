@@ -7,6 +7,7 @@ import retrofit2.http.Query
 import umc.everyones.everyoneslckmanage.data.dto.BaseResponse
 import umc.everyones.everyoneslckmanage.data.dto.request.community.PageableRequestDto
 import umc.everyones.everyoneslckmanage.data.dto.response.community.CommunityListResponseDto
+import umc.everyones.everyoneslckmanage.data.dto.response.community.CommunityReportCauseResponseDto
 import umc.everyones.everyoneslckmanage.data.dto.response.community.CommunityWithReportListResponseDto
 import umc.everyones.everyoneslckmanage.data.dto.response.community.ReadCommunityWithReportResponseDto
 import umc.everyones.lck.data.dto.response.community.ReadCommunityResponseDto
@@ -35,6 +36,12 @@ interface CommunityService {
     suspend fun getCommunityWithReport(
         @Path("postId") postId: Long
     ):BaseResponse<ReadCommunityWithReportResponseDto>
+
+    //게시글 신고 사유 조회
+    @GET("admins/posts/{postId}/reports/causes")
+    suspend fun getCommunityReportCause(
+        @Path("postId") postId: Long
+    ):BaseResponse<CommunityReportCauseResponseDto>
 
     @DELETE("admins/posts/{post_id}")
     suspend fun deleteCommunityPost(

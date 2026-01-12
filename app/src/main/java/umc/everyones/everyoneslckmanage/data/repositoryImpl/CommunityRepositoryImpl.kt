@@ -10,6 +10,7 @@ import umc.everyones.everyoneslckmanage.data.datasourceImpl.community.CommunityL
 import umc.everyones.everyoneslckmanage.data.service.CommunityService
 import umc.everyones.everyoneslckmanage.domain.model.request.community.PageableRequestModel
 import umc.everyones.everyoneslckmanage.domain.model.response.community.CommunityListModel
+import umc.everyones.everyoneslckmanage.domain.model.response.community.CommunityReportCauseResponseModel
 import umc.everyones.everyoneslckmanage.domain.model.response.community.CommunityWithReportListModel
 import umc.everyones.everyoneslckmanage.domain.model.response.community.ReadCommunityResponseModel
 import umc.everyones.everyoneslckmanage.domain.model.response.community.ReadCommunityWithReportResponseModel
@@ -32,6 +33,9 @@ class CommunityRepositoryImpl @Inject constructor(
 
     override suspend fun getCommunityWithReport(postId: Long): Result<ReadCommunityWithReportResponseModel> =
         runCatching { communityDataSource.getCommunityWithReport(postId).data.toReadCommunityWithReportResponseModel(spf.getString("nickname","")?:"") }
+
+    override suspend fun getCommunityReportCause(postId: Long): Result<CommunityReportCauseResponseModel> =
+        runCatching { communityDataSource.getCommunityReportCause(postId).data.toCommunityReportCauseResponseModel() }
 
     override suspend fun deleteCommunityPost(postId: Long): Result<Unit> =
         runCatching { communityDataSource.deleteCommunityPost(postId) }
