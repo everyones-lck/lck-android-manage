@@ -8,8 +8,9 @@ import kotlinx.coroutines.flow.Flow
 import umc.everyones.everyoneslckmanage.data.datasource.CommunityDataSource
 import umc.everyones.everyoneslckmanage.data.datasourceImpl.community.CommunityListPagingSource
 import umc.everyones.everyoneslckmanage.data.service.CommunityService
+import umc.everyones.everyoneslckmanage.domain.model.request.community.PageableRequestModel
 import umc.everyones.everyoneslckmanage.domain.model.response.community.CommunityListModel
-import umc.everyones.everyoneslckmanage.domain.model.response.community.CommunityReportListModel
+import umc.everyones.everyoneslckmanage.domain.model.response.community.CommunityWithReportListModel
 import umc.everyones.everyoneslckmanage.domain.model.response.community.ReadCommunityResponseModel
 import umc.everyones.everyoneslckmanage.domain.repository.CommunityRepository
 import javax.inject.Inject
@@ -33,10 +34,11 @@ class CommunityRepositoryImpl @Inject constructor(
             communityDataSource.fetchCommunityPost(postId).data.toReadCommunityResponseModel(spf.getString("nickname","")?:"")
         }
 
-    override suspend fun getCommunityReportList(size: Int, page: Int, type: String): Result<CommunityReportListModel> =
-        runCatching {
-            communityDataSource.getCommunityReportList(size, page, type).data.toCommunityListModel()
-        }
+    override suspend fun getCommunityWithReportList(pageable: PageableRequestModel, postType: String): Result<CommunityWithReportListModel> =
+        runCatching { communityDataSource.getCommunityWithReportList(pageable.toPageableRequestDto(), postType).data.toCommunityListModel() }
+
+   /* override suspend fun getCommunityReportList(size: Int, page: Int, type: String): Result<CommunityWithReportListModel> =
+        runCatching { communityDataSource.getCommunityReportList(size, page, type).data.toCommunityListModel() }*/
 
     override suspend fun deleteCommunityPost(postId: Long): Result<Unit> =
         runCatching {

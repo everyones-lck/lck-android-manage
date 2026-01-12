@@ -2,15 +2,18 @@ package umc.everyones.everyoneslckmanage.domain.repository
 
 import androidx.paging.PagingData
 import kotlinx.coroutines.flow.Flow
+import umc.everyones.everyoneslckmanage.data.dto.request.community.PageableRequestDto
+import umc.everyones.everyoneslckmanage.domain.model.request.community.PageableRequestModel
 import umc.everyones.everyoneslckmanage.domain.model.response.community.CommunityListModel
-import umc.everyones.everyoneslckmanage.domain.model.response.community.CommunityReportListModel
+import umc.everyones.everyoneslckmanage.domain.model.response.community.CommunityWithReportListModel
 import umc.everyones.everyoneslckmanage.domain.model.response.community.ReadCommunityResponseModel
 
 
 interface CommunityRepository {
     suspend fun fetchCommunityList(postType: String, page: Int, size: Int): Result<CommunityListModel>
     suspend fun fetchCommunityPost(postId: Long): Result<ReadCommunityResponseModel>
-    suspend fun getCommunityReportList(size: Int, page: Int, type: String): Result<CommunityReportListModel>
+    suspend fun getCommunityWithReportList(pageable: PageableRequestModel, postType: String): Result<CommunityWithReportListModel>
+    //suspend fun getCommunityReportList(size: Int, page: Int, type: String): Result<CommunityWithReportListModel>
     suspend fun deleteCommunityPost(postId: Long): Result<Unit>
     suspend fun deleteCommunityComment(commentId: Long): Result<Unit>
     fun fetchPagingSource(category: String): Flow<PagingData<CommunityListModel.CommunityListElementModel>>
