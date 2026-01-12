@@ -27,8 +27,10 @@ interface CommunityService {
     //게시글 목록 신고수와 함께 조회 (목록)
     @GET("admins/posts/reports")
     suspend fun getCommunityWithReportList(
-        @Path("pageable") pageable: PageableRequestDto,
-        @Path("postType") postType: String
+        @Query("page") page: Int,
+        @Query("size") size: Int,
+        @Query("sort") sort: List<String>?,
+        @Query("postType") postType: String
     ): BaseResponse<CommunityWithReportListResponseDto>
 
     //게시글 신고수와 함께 조회 (상세보기)
@@ -47,6 +49,9 @@ interface CommunityService {
     suspend fun deleteCommunityPost(
         @Path("post_id") postId: Long
     ): BaseResponse<Unit>
+
+
+
 
     @DELETE("admins/comments/{comment_id}")
     suspend fun deleteCommunityComment(

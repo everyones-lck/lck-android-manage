@@ -26,7 +26,7 @@ class CommunityDataSourceImpl @Inject constructor(
         communityService.fetchCommunityPost(postId)
 
     override suspend fun getCommunityWithReportList(pageable: PageableRequestDto, postType: String): BaseResponse<CommunityWithReportListResponseDto> =
-        communityService.getCommunityWithReportList(pageable, postType)
+        communityService.getCommunityWithReportList(pageable.page, pageable.size, pageable.sort, postType)
 
     override suspend fun getCommunityWithReport(postId: Long): BaseResponse<ReadCommunityWithReportResponseDto> =
         communityService.getCommunityWithReport(postId)

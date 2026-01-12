@@ -19,5 +19,5 @@ interface CommunityRepository {
     suspend fun getCommunityReportCause(postId: Long): Result<CommunityReportCauseResponseModel>
     suspend fun deleteCommunityPost(postId: Long): Result<Unit>
     suspend fun deleteCommunityComment(commentId: Long): Result<Unit>
-    fun fetchPagingSource(category: String): Flow<PagingData<CommunityListModel.CommunityListElementModel>>
+    fun fetchPagingSource(category: String): Flow<PagingData< CommunityWithReportListModel.CommunityReportListElementModel>>
 }

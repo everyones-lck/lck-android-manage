@@ -43,7 +43,7 @@ class CommunityRepositoryImpl @Inject constructor(
     override suspend fun deleteCommunityComment(commentId: Long): Result<Unit> =
         runCatching { communityDataSource.deleteCommunityComment(commentId) }
 
-    override fun fetchPagingSource(category: String): Flow<PagingData<CommunityListModel.CommunityListElementModel>> =
+    override fun fetchPagingSource(category: String): Flow<PagingData< CommunityWithReportListModel.CommunityReportListElementModel>> =
         Pager(
             config = PagingConfig(
                 pageSize = 10,
