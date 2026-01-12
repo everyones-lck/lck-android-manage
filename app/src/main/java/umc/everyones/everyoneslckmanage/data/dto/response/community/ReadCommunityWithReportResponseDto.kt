@@ -20,7 +20,7 @@ data class ReadCommunityWithReportResponseDto(
     val commentList: List<CommentListElementDto>
 ) {
     data class CommentListElementDto(
-        val profileUrl: String,
+        val profileImageUrl: String,
         val nickname: String,
         val supportTeam: String,
         val content: String,
@@ -30,7 +30,7 @@ data class ReadCommunityWithReportResponseDto(
     ) {
         fun toCommentListElementModel(userNickname: String) =
             ReadCommunityWithReportResponseModel.CommentListElementModel(
-                profileUrl,
+                profileImageUrl,
                 nickname.combineNicknameAndTeam(supportTeam),
                 content,
                 createdAt.slice(0..15).toListViewingPartyDateFormat(),

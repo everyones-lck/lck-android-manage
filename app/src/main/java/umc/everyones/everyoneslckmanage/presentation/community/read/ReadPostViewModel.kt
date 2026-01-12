@@ -13,6 +13,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import umc.everyones.everyoneslckmanage.domain.model.response.community.ReadCommunityResponseModel
+import umc.everyones.everyoneslckmanage.domain.model.response.community.ReadCommunityWithReportResponseModel
 import umc.everyones.everyoneslckmanage.domain.repository.CommunityRepository
 import umc.everyones.everyoneslckmanage.util.network.EventFlow
 import umc.everyones.everyoneslckmanage.util.network.MutableEventFlow
@@ -48,7 +49,7 @@ class ReadPostViewModel @Inject constructor(
     val imageUrl: StateFlow<String> get() = _imageUrl
 
     sealed class ReadCommunityEvent{
-        data class ReadPost(val post: ReadCommunityResponseModel): ReadCommunityEvent()
+        data class ReadPost(val post: ReadCommunityWithReportResponseModel): ReadCommunityEvent()
 
         data object EditPost: ReadCommunityEvent()
 
@@ -68,16 +69,15 @@ class ReadPostViewModel @Inject constructor(
         _imageUrl.value = url
     }
 
-    fun fetchCommunityPost(){
+    fun getCommunityWithReport(){
         viewModelScope.launch {
             _readCommunityEvent.value = UiState.Loading
-            repository.fetchCommunityPost(postId.value).onSuccess { response ->
-                Timber.d("fetchCommunityPost %s", response.toString())
+            repository.getCommunityWithReport(postId.value).onSuccess { response ->
+                Timber.d("getCommunityWithReport %s", response.toString())
                 _readCommunityEvent.value = UiState.Success(ReadCommunityEvent.ReadPost(response))
-                _isWriter.emit(spf.getString("nickName", "") == response.writerNickname.split("|")[0].trim())
             }.onFailure {
-                Timber.d("fetchCommunityPost error %s", it.stackTraceToString())
-                _readCommunityEvent.value = UiState.Failure("커뮤니티 게시글 상세조회에 실패했습니다")
+                Timber.d("getCommunityWithReport error %s", it.stackTraceToString())
+                _readCommunityEvent.value = UiState.Failure("커뮤니티 게시글 조회에 실패했습니다")
             }
         }
     }

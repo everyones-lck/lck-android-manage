@@ -38,6 +38,7 @@ class PostListRVA(val readPost: (Long) -> Unit) : PagingDataAdapter< CommunityWi
             fun bind(postListItem:  CommunityWithReportListModel.CommunityReportListElementModel){
                 with(binding){
                     tvPostTitle.text = postListItem.postTitle
+                    tvPostReportCount.text = postListItem.reportCounts.toString()
                     tvPostDate.text = postListItem.postCreatedAt
                     tvPostNickname.text = postListItem.userNickname
                     tvPostFavoriteTeam.text = postListItem.supportTeamName

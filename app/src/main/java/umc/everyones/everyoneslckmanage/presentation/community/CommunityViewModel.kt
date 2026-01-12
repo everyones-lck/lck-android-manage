@@ -31,16 +31,6 @@ class CommunityViewModel @Inject constructor(
     private val _categoryNeedsRefresh = MutableStateFlow<String>("잡담")
     val categoryNeedsRefresh: StateFlow<String> get() = _categoryNeedsRefresh
 
-    fun fetchCommunityList(postType: String, page: Int, size: Int) {
-        viewModelScope.launch {
-            repository.fetchCommunityList(postType, page, size).onSuccess { response ->
-                Timber.d("fetchCommunityList: %s", response.toString())
-            }.onFailure {
-                Timber.d("fetchCommunityList error: %s", it.stackTraceToString())
-            }
-        }
-    }
-
     fun getCommunityWithReportList(postType: String, page: Int, size: Int) {
         val pageable = PageableRequestModel(page, size, null)
         viewModelScope.launch {
@@ -51,6 +41,8 @@ class CommunityViewModel @Inject constructor(
             }
         }
     }
+
+
 
     fun refreshCategoryPage(category: String) {
         _categoryNeedsRefresh.value = ""
