@@ -86,13 +86,9 @@ class ReadPostFragment : BaseFragment<FragmentReadPostBinding>(R.layout.fragment
                     tvReadPostTitle.text = post.postTitle
                     tvReadPostBody.text = post.content
                     tvReadWriter.text = post.writerNickname
+                    tvReadTeam.text = post.writerTeam
                     tvPostReportCount.text = post.reportCount.toString()
-                    tvReadDate.text = post.postCreatedAt
-
-                    Glide.with(ivReadProfileImage.context)
-                        .load(post.writerProfileUrl)
-                        .into(ivReadProfileImage)
-
+                    tvReadDate.text = post.postCreatedAt.toFormattedDate()
                     commentRVA.submitList(post.commentList)
 
                     rvReadMedia.isVisible = post.fileList.isNotEmpty()
@@ -152,5 +148,14 @@ class ReadPostFragment : BaseFragment<FragmentReadPostBinding>(R.layout.fragment
 
         // RecyclerView Item의 GridLayout에서의 일정한 간격을 위해 설정
         binding.rvReadMedia.addItemDecoration(GridSpaceItemDecoration(4, 8))
+    }
+
+    fun String.toFormattedDate(): String {
+        return try {
+            val datePart = this.substring(0, 10)
+            datePart.replace("-", ".")
+        } catch (e: Exception) {
+            this
+        }
     }
 }
