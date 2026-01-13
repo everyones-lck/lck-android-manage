@@ -137,15 +137,11 @@
             tools:layout="@layout/fragment_delete_community_content" >
             <action
                 android:id="@+id/action_deleteCommunityContentFragment_to_readPostFragment"
-                app:destination="@id/readPostFragment" />
-        </fragment>
-        <fragment
-            android:id="@+id/readPostFragment"
-            android:name="umc.everyones.everyoneslckmanage.presentation.community.read.ReadPostFragment"
-            android:label="ReadPostFragment" >
-            <argument
-                android:name="postId"
-                app:argType="long" />
+                app:destination="@id/readPostFragment" >
+                <argument
+                    android:name="postId"
+                    app:argType="long" />
+            </action>
         </fragment>
     </navigation>
     <navigation android:id="@+id/deleteCommunityCommentTab"
@@ -157,9 +153,22 @@
             tools:layout="@layout/fragment_delete_community_comment" >
             <action
                 android:id="@+id/action_deleteCommunityCommentFragment_to_readPostFragment"
-                app:destination="@id/readPostFragment" />
+                app:destination="@id/readPostFragment">
+                <argument
+                    android:name="postId"
+                    app:argType="long" />
+            </action>
         </fragment>
     </navigation>
+
+    <fragment
+        android:id="@+id/readPostFragment"
+        android:name="umc.everyones.everyoneslckmanage.presentation.community.read.ReadPostFragment"
+        android:label="ReadPostFragment" >
+        <argument
+            android:name="postId"
+            app:argType="long" />
+    </fragment>
     <navigation android:id="@+id/deleteViewingPartyTab"
         app:startDestination="@id/deleteViewingPartyFragment">
         <fragment

@@ -6,69 +6,97 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
+import androidx.paging.PagingData
 import kotlinx.coroutines.flow.collectLatest
 import timber.log.Timber
 import umc.everyones.everyoneslckmanage.R
-import umc.everyones.everyoneslckmanage.databinding.FragmentPostListBinding
+import umc.everyones.everyoneslckmanage.databinding.FragmentCommunityListBinding
+import umc.everyones.everyoneslckmanage.domain.model.response.community.CommentWithReportListResponseModel
+import umc.everyones.everyoneslckmanage.domain.model.response.community.CommunityWithReportListModel
 import umc.everyones.everyoneslckmanage.presentation.base.BaseFragment
 import umc.everyones.everyoneslckmanage.presentation.community.CommunityViewModel
+import umc.everyones.everyoneslckmanage.presentation.community.DeleteCommunityCommentFragmentDirections
 import umc.everyones.everyoneslckmanage.presentation.community.DeleteCommunityContentFragmentDirections
+import umc.everyones.everyoneslckmanage.presentation.community.adapter.CommentListRVA
 import umc.everyones.everyoneslckmanage.presentation.community.adapter.PostListRVA
 import umc.everyones.everyoneslckmanage.util.extension.repeatOnStarted
 
-class SmallTalkListFragment  : BaseFragment<FragmentPostListBinding>(R.layout.fragment_post_list) {
+class SmallTalkListFragment  : BaseFragment<FragmentCommunityListBinding>(R.layout.fragment_community_list) {
     private val viewModel: CommunityViewModel by activityViewModels()
     private var _postListRVA: PostListRVA? = null
-    private val postListRVA
-        get() = _postListRVA
-
-    private var readResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){ result ->
-        if (result.resultCode == Activity.RESULT_OK){
-            if(result.data?.getBooleanExtra("isReadMenuDone", false) == true){
-                _postListRVA?.refresh()
-                binding.rvPostList.scrollToPosition(0)
-            }
-        }
-    }
+    private val postListRVA get() = _postListRVA
+    private var _commentListRVA: CommentListRVA? = null
+    private val commentListRVA get() = _commentListRVA
+    private var isPost: Boolean = true
 
     override fun initObserver() {
         viewLifecycleOwner.repeatOnStarted {
-            viewModel.smallTalkListPage.collectLatest { data ->
-                postListRVA?.submitData(data)
+            viewModel.currentFilter.collect { filter ->
+                isPost = filter.second
             }
         }
 
         viewLifecycleOwner.repeatOnStarted {
-            viewModel.categoryNeedsRefresh.collect { categoryNeedsRefresh ->
-                Timber.d("smallTalk", categoryNeedsRefresh)
-                if (categoryNeedsRefresh == CATEGORY) {
-                    postListRVA?.refresh()
-                    binding.rvPostList.scrollToPosition(0)
+            viewModel.communityReportListPage.collectLatest { data ->
+                if (isPost) {
+                    initPostListRVAdapter()
+                    postListRVA?.submitData(data as PagingData<CommunityWithReportListModel.CommunityReportListElementModel>)?.let { postListRVA?.refresh() }
+                } else {
+                    initCommentListRVAdapter()
+                    commentListRVA?.submitData(data as PagingData<CommentWithReportListResponseModel.CommentWithReportListResponseElementModel>)?.let { commentListRVA?.refresh() }
+                }
+            }
+        }
+
+        viewLifecycleOwner.repeatOnStarted {
+            viewModel.currentFilter.collect { currentFilter ->
+                Timber.d("smallTalk", currentFilter)
+                if (currentFilter.first == CATEGORY) {
+                    if (isPost) _postListRVA?.refresh() else _commentListRVA?.refresh()
+                    binding.rvCommunityList.scrollToPosition(0)
                 }
             }
         }
     }
 
     override fun initView() {
-        initPostListRVAdapter()
+
     }
 
     private fun initPostListRVAdapter() {
+        if (_postListRVA != null) return
         _postListRVA = PostListRVA { postId ->
             val action = DeleteCommunityContentFragmentDirections.actionDeleteCommunityContentFragmentToReadPostFragment(postId)
             findNavController().navigate(action)
         }
-        binding.rvPostList.adapter = postListRVA
+        binding.rvCommunityList.adapter = _postListRVA
+        setupLoadStateListener(_postListRVA!!)
+    }
 
-        _postListRVA?.addLoadStateListener { combinedLoadStates ->
+    private fun initCommentListRVAdapter() {
+        if (_commentListRVA != null && binding.rvCommunityList.adapter == _commentListRVA) return
+        _commentListRVA = CommentListRVA { postId ->
+            if (isAdded) {
+                try {
+                    val action = DeleteCommunityCommentFragmentDirections.actionDeleteCommunityCommentFragmentToReadPostFragment(postId)
+                    findNavController().navigate(action)
+                } catch (e: Exception) {
+                    Timber.e(e, "Navigation failed")
+                }
+            }
+        }
+        binding.rvCommunityList.adapter = _commentListRVA
+        setupLoadStateListener(_commentListRVA!!)
+    }
+
+    private fun setupLoadStateListener(adapter: androidx.paging.PagingDataAdapter<*, *>) {
+        adapter.addLoadStateListener { combinedLoadStates ->
             with(binding){
                 layoutShimmer.isVisible = combinedLoadStates.source.refresh is LoadState.Loading
-                rvPostList.isVisible = combinedLoadStates.source.refresh is LoadState.NotLoading
+                rvCommunityList.isVisible = combinedLoadStates.source.refresh is LoadState.NotLoading
                 if(combinedLoadStates.source.refresh is LoadState.Loading){
                     layoutShimmer.startShimmer()
-                }
-
-                if(combinedLoadStates.source.refresh is LoadState.NotLoading){
+                } else {
                     layoutShimmer.stopShimmer()
                 }
             }
@@ -78,6 +106,7 @@ class SmallTalkListFragment  : BaseFragment<FragmentPostListBinding>(R.layout.fr
     override fun onDestroyView() {
         super.onDestroyView()
         _postListRVA = null
+        _commentListRVA = null
     }
 
     companion object {

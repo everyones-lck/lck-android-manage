@@ -13,6 +13,7 @@ data class CommentWithReportListResponseModel(
         val content: String,
         val createdAt: String,
         val userNickname: String,
+        val supportTeamName: String,
         val userProfilePicture: String,
         val postId: Long,
         val postTitle: String,
