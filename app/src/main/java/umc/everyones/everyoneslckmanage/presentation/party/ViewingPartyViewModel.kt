@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.cancellable
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import umc.everyones.everyoneslckmanage.domain.model.response.party.ViewingPartyListModel
+import umc.everyones.everyoneslckmanage.domain.model.response.party.ViewingPartyWithReportListModel
 import umc.everyones.everyoneslckmanage.domain.repository.ViewingPartyRepository
 import umc.everyones.everyoneslckmanage.util.network.EventFlow
 import umc.everyones.everyoneslckmanage.util.network.MutableEventFlow
@@ -22,7 +23,7 @@ class ViewingPartyViewModel @Inject constructor(
 ) : ViewModel() {
     private var _viewingPartyListPage = repository.fetchViewingPartyListPagingSource().cachedIn(viewModelScope)
 
-    val viewingPartyListPage: Flow<PagingData<ViewingPartyListModel.ViewingPartyElementModel>>
+    val viewingPartyListPage: Flow<PagingData< ViewingPartyWithReportListModel.ViewingPartyWithReportListElementModel>>
         get() = _viewingPartyListPage
     
     private val _isRefreshNeeded = MutableEventFlow<Boolean>()

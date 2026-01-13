@@ -6,21 +6,22 @@ import androidx.paging.PagingState
 import kotlinx.coroutines.delay
 import umc.everyones.everyoneslckmanage.data.service.ViewingPartyService
 import umc.everyones.everyoneslckmanage.domain.model.response.party.ViewingPartyListModel
+import umc.everyones.everyoneslckmanage.domain.model.response.party.ViewingPartyWithReportListModel
 import javax.inject.Inject
 
 class ViewingPartyListPagingSource @Inject constructor(
     private val viewingPartyService: ViewingPartyService
-) : PagingSource<Int, ViewingPartyListModel.ViewingPartyElementModel>() {
-    override fun getRefreshKey(state: PagingState<Int, ViewingPartyListModel.ViewingPartyElementModel>): Int? {
+) : PagingSource<Int, ViewingPartyWithReportListModel.ViewingPartyWithReportListElementModel>() {
+    override fun getRefreshKey(state: PagingState<Int,  ViewingPartyWithReportListModel.ViewingPartyWithReportListElementModel>): Int? {
         return 0
     }
 
-    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, ViewingPartyListModel.ViewingPartyElementModel> {
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int,  ViewingPartyWithReportListModel.ViewingPartyWithReportListElementModel> {
         val page = params.key ?: 0
         if(page != 0) delay(100L)
         runCatching {
             delay(300L)
-            viewingPartyService.fetchViewingPartyList(page, 10).data.toViewingPartyListModel()
+            viewingPartyService.getViewingPartyWithReportList(page, 10).data.toViewingPartyWithReportListModel()
         }.fold(
             onSuccess = { response ->
                 return LoadResult.Page(
