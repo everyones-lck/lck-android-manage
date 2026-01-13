@@ -42,4 +42,7 @@ class InputMatchDataSourceImpl @Inject constructor(
 
     override suspend fun fetchCloseMatch(request: CloseMatchRequestDto): BaseResponse<InputMatchResponseDto> =
         inputMatchService.fetchCloseMatch(request)
+
+    override suspend fun fetchCloseMatchPog(request: CloseMatchRequestDto): BaseResponse<InputMatchResponseDto> =
+        inputMatchService.fetchCloseMatchPog(request)
 }

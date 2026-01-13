@@ -19,4 +19,5 @@ interface InputMatchRepository {
     suspend fun fetchSetResultInfo(matchId: Long): Result<SetResultInfoResponseModel>
     suspend fun fetchCloseSets(request: CloseSetModel): Result<CommonResponseModel>
     suspend fun fetchCloseMatch(request: CloseMatchModel): Result<CommonResponseModel>
+    suspend fun fetchCloseMatchPog(request: CloseMatchModel): Result<CommonResponseModel>
 }

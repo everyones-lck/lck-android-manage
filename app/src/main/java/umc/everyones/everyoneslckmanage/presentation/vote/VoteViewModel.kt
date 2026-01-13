@@ -24,6 +24,9 @@ class VoteViewModel @Inject constructor(
     private val _closeMatchResult = MutableStateFlow<Result<CommonResponseModel>?>(null)
     val closeMatchResult: StateFlow<Result<CommonResponseModel>?> get() = _closeMatchResult
 
+    private val _closeMatchPogResult = MutableStateFlow<Result<CommonResponseModel>?>(null)
+    val closeMatchPogResult: StateFlow<Result<CommonResponseModel>?> get() = _closeMatchPogResult
+
     private val _selectedMatch = MutableStateFlow<MatchInfoModel.MatchResponsesModel?>(null)
     val selectedMatch: StateFlow<MatchInfoModel.MatchResponsesModel?> get() = _selectedMatch
 
@@ -57,10 +60,25 @@ class VoteViewModel @Inject constructor(
         }
     }
 
+    fun fetchCloseMatchPog(request: CloseMatchModel) {
+        viewModelScope.launch {
+            Timber.Forest.d("fetchCloseMatchPog 요청: $request")
+            repository.fetchCloseMatchPog(request)
+                .onSuccess { response ->
+                    Timber.Forest.d("fetchCloseMatchPog 성공: $response")
+                    _closeMatchPogResult.value = Result.success(response)
+                }
+                .onFailure { exception ->
+                    Timber.Forest.e("fetchCloseMatchPog 실패: ${exception.stackTraceToString()}")
+                    _closeMatchPogResult.value = Result.failure(exception)
+                }
+        }
+    }
     // (선택) 결과 재사용/중복 방지용 초기화 함수
     fun clearCloseResults() {
         _closeSetResult.value = null
         _closeMatchResult.value = null
+        _closeMatchPogResult.value = null
     }
 
     fun updateSelectedMatch(match: MatchInfoModel.MatchResponsesModel) {
