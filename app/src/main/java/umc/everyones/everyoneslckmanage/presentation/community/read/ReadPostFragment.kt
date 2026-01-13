@@ -86,7 +86,7 @@ class ReadPostFragment : BaseFragment<FragmentReadPostBinding>(R.layout.fragment
                     tvReadPostTitle.text = post.postTitle
                     tvReadPostBody.text = post.content
                     tvReadWriter.text = post.writerNickname
-                    tvReadCategory.text = post.postType
+                    tvPostReportCount.text = post.reportCount.toString()
                     tvReadDate.text = post.postCreatedAt
 
                     Glide.with(ivReadProfileImage.context)
@@ -105,7 +105,7 @@ class ReadPostFragment : BaseFragment<FragmentReadPostBinding>(R.layout.fragment
 
             ReadPostViewModel.ReadCommunityEvent.DeleteComment -> {
                 showCustomSnackBar(binding.root, "댓글이 삭제되었습니다")
-                viewModel.fetchCommunityPost()
+                viewModel.getCommunityWithReport()
             }
             ReadPostViewModel.ReadCommunityEvent.DeletePost -> {
                 showCustomSnackBar(binding.root, "게시글이 삭제되었습니다")
@@ -123,7 +123,7 @@ class ReadPostFragment : BaseFragment<FragmentReadPostBinding>(R.layout.fragment
         initReadMediaRVAdapter()
 
         deletePost()
-        viewModel.fetchCommunityPost()
+        viewModel.getCommunityWithReport()
 
         binding.ivReadBackBtn.setOnSingleClickListener {
             findNavController().navigateUp()

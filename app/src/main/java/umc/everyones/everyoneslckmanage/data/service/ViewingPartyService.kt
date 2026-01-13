@@ -10,14 +10,16 @@ import retrofit2.http.Query
 import umc.everyones.everyoneslckmanage.data.dto.BaseResponse
 import umc.everyones.everyoneslckmanage.data.dto.response.party.ReadViewingPartyResponseDto
 import umc.everyones.everyoneslckmanage.data.dto.response.party.ViewingPartyListResponseDto
+import umc.everyones.everyoneslckmanage.data.dto.response.party.ViewingPartyWithReportListResponseDto
 
 
 interface ViewingPartyService {
-    @GET("viewing/list")
-    suspend fun fetchViewingPartyList(
+
+    @GET("admins/viewing-parties")
+    suspend fun getViewingPartyWithReportList(
         @Query("page") page: Int,
         @Query("size") size: Int
-    ): BaseResponse<ViewingPartyListResponseDto>
+    ): BaseResponse<ViewingPartyWithReportListResponseDto>
 
     @GET("viewing/{viewing_party_id}/detail")
     suspend fun fetchViewingParty(

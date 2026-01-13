@@ -6,25 +6,26 @@ import androidx.paging.PagingState
 import kotlinx.coroutines.delay
 import umc.everyones.everyoneslckmanage.data.service.CommunityService
 import umc.everyones.everyoneslckmanage.domain.model.response.community.CommunityListModel
+import umc.everyones.everyoneslckmanage.domain.model.response.community.CommunityWithReportListModel
 import javax.inject.Inject
 
 class CommunityListPagingSource @Inject constructor(
     private val communityService: CommunityService,
     private val category: String
-) : PagingSource<Int, CommunityListModel.CommunityListElementModel>() {
-    override fun getRefreshKey(state: PagingState<Int, CommunityListModel.CommunityListElementModel>): Int? {
+) : PagingSource<Int, CommunityWithReportListModel.CommunityReportListElementModel>() {
+    override fun getRefreshKey(state: PagingState<Int, CommunityWithReportListModel.CommunityReportListElementModel>): Int? {
         return 0/*state.anchorPosition?.let { anchorPosition ->
             state.closestPageToPosition(anchorPosition)?.prevKey?.plus(1)
                 ?: state.closestPageToPosition(anchorPosition)?.nextKey?.minus(1)
         }*/
     }
 
-    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, CommunityListModel.CommunityListElementModel> {
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, CommunityWithReportListModel.CommunityReportListElementModel> {
         val page = params.key ?: 0
         if(page != 0) delay(100L)
         runCatching {
             delay(300L)
-            communityService.fetchCommunityList(category, page, 10).data.toCommunityListModel()
+            communityService.getCommunityWithReportList(page, 10, null,category).data.toCommunityListModel()
         }.fold(
             onSuccess = { response ->
                 return LoadResult.Page(

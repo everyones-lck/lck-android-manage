@@ -23,6 +23,17 @@
             android:layout_marginTop="2dp"
             tools:text="1경기 전력 어떻게 봐?" />
 
+        <TextView
+            android:id="@+id/tv_post_reportCount"
+            style="@style/TextAppearance.LCK.Bold.List_14sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/warning"
+            app:layout_constraintStart_toEndOf="@id/tv_post_title"
+            app:layout_constraintTop_toTopOf="@id/tv_post_title"
+            android:layout_marginStart="4dp"
+            android:text="0"/>
+
         <androidx.cardview.widget.CardView
             android:id="@+id/cv_profile_image"
             android:layout_width="wrap_content"

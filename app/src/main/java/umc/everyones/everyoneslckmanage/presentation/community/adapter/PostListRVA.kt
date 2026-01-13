@@ -9,9 +9,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import umc.everyones.everyoneslckmanage.databinding.ItemCommunityPostBinding
 import umc.everyones.everyoneslckmanage.domain.model.response.community.CommunityListModel
+import umc.everyones.everyoneslckmanage.domain.model.response.community.CommunityWithReportListModel
 import umc.everyones.everyoneslckmanage.util.extension.setOnSingleClickListener
 
-class PostListRVA(val readPost: (Long) -> Unit) : PagingDataAdapter<CommunityListModel.CommunityListElementModel, PostListRVA.PostViewHolder>(
+class PostListRVA(val readPost: (Long) -> Unit) : PagingDataAdapter< CommunityWithReportListModel.CommunityReportListElementModel, PostListRVA.PostViewHolder>(
     DiffCallback()
 ) {
 
@@ -34,9 +35,10 @@ class PostListRVA(val readPost: (Long) -> Unit) : PagingDataAdapter<CommunityLis
 
     inner class PostViewHolder(private val binding: ItemCommunityPostBinding) :
         RecyclerView.ViewHolder(binding.root) {
-            fun bind(postListItem: CommunityListModel.CommunityListElementModel){
+            fun bind(postListItem:  CommunityWithReportListModel.CommunityReportListElementModel){
                 with(binding){
                     tvPostTitle.text = postListItem.postTitle
+                    tvPostReportCount.text = postListItem.reportCounts.toString()
                     tvPostDate.text = postListItem.postCreatedAt
                     tvPostNickname.text = postListItem.userNickname
                     tvPostFavoriteTeam.text = postListItem.supportTeamName
@@ -63,11 +65,11 @@ class PostListRVA(val readPost: (Long) -> Unit) : PagingDataAdapter<CommunityLis
             }
         }
 
-    class DiffCallback : DiffUtil.ItemCallback<CommunityListModel.CommunityListElementModel>() {
-        override fun areItemsTheSame(oldItem: CommunityListModel.CommunityListElementModel, newItem: CommunityListModel.CommunityListElementModel) =
+    class DiffCallback : DiffUtil.ItemCallback< CommunityWithReportListModel.CommunityReportListElementModel>() {
+        override fun areItemsTheSame(oldItem:  CommunityWithReportListModel.CommunityReportListElementModel, newItem:  CommunityWithReportListModel.CommunityReportListElementModel) =
             oldItem.postId == newItem.postId
 
-        override fun areContentsTheSame(oldItem: CommunityListModel.CommunityListElementModel, newItem: CommunityListModel.CommunityListElementModel) =
+        override fun areContentsTheSame(oldItem:  CommunityWithReportListModel.CommunityReportListElementModel, newItem:  CommunityWithReportListModel.CommunityReportListElementModel) =
             oldItem == newItem
     }
 }

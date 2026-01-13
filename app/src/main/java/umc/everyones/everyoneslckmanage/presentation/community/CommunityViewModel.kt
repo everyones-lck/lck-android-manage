@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import umc.everyones.everyoneslckmanage.domain.model.request.community.PageableRequestModel
 import umc.everyones.everyoneslckmanage.domain.repository.CommunityRepository
 
 
@@ -29,29 +30,23 @@ class CommunityViewModel @Inject constructor(
 
     private val _categoryNeedsRefresh = MutableStateFlow<String>("잡담")
     val categoryNeedsRefresh: StateFlow<String> get() = _categoryNeedsRefresh
-    fun fetchCommunityList(postType: String, page: Int, size: Int) {
+
+    fun getCommunityWithReportList(postType: String, page: Int, size: Int) {
+        val pageable = PageableRequestModel(page, size, null)
         viewModelScope.launch {
-            repository.fetchCommunityList(postType, page, size).onSuccess { response ->
-                Timber.d("fetchCommunityList: %s", response.toString())
+            repository.getCommunityWithReportList(pageable, postType).onSuccess { response ->
+                Timber.d("getCommunityWithReportList: %s", response.toString())
             }.onFailure {
-                Timber.d("fetchCommunityList error: %s", it.stackTraceToString())
+                Timber.d("getCommunityWithReportList error: %s", it.stackTraceToString())
             }
         }
     }
+
+
 
     fun refreshCategoryPage(category: String) {
         _categoryNeedsRefresh.value = ""
         _categoryNeedsRefresh.value = category
-    }
-
-    fun getCommunityReportList(size: Int, page: Int, type: String) {
-        viewModelScope.launch {
-            repository.getCommunityReportList(size, page, type).onSuccess { response ->
-                Timber.d("getCommunityReportList: %s", response.toString())
-            }.onFailure {
-                Timber.d("getCommunityReportList error: %s", it.stackTraceToString())
-            }
-        }
     }
 
     fun deleteCommunityPost(postId: Long) {

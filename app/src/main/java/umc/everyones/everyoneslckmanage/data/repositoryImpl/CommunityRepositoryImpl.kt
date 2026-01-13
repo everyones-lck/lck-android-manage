@@ -8,9 +8,12 @@ import kotlinx.coroutines.flow.Flow
 import umc.everyones.everyoneslckmanage.data.datasource.CommunityDataSource
 import umc.everyones.everyoneslckmanage.data.datasourceImpl.community.CommunityListPagingSource
 import umc.everyones.everyoneslckmanage.data.service.CommunityService
+import umc.everyones.everyoneslckmanage.domain.model.request.community.PageableRequestModel
 import umc.everyones.everyoneslckmanage.domain.model.response.community.CommunityListModel
-import umc.everyones.everyoneslckmanage.domain.model.response.community.CommunityReportListModel
+import umc.everyones.everyoneslckmanage.domain.model.response.community.CommunityReportCauseResponseModel
+import umc.everyones.everyoneslckmanage.domain.model.response.community.CommunityWithReportListModel
 import umc.everyones.everyoneslckmanage.domain.model.response.community.ReadCommunityResponseModel
+import umc.everyones.everyoneslckmanage.domain.model.response.community.ReadCommunityWithReportResponseModel
 import umc.everyones.everyoneslckmanage.domain.repository.CommunityRepository
 import javax.inject.Inject
 
@@ -19,36 +22,28 @@ class CommunityRepositoryImpl @Inject constructor(
     private val communityService: CommunityService,
     private val spf: SharedPreferences
 ): CommunityRepository {
-    override suspend fun fetchCommunityList(
-        postType: String,
-        page: Int,
-        size: Int
-    ): Result<CommunityListModel> =
-        runCatching {
-            communityDataSource.fetchCommunityList(postType, page, size).data.toCommunityListModel()
-        }
+    override suspend fun fetchCommunityList(postType: String, page: Int, size: Int): Result<CommunityListModel> =
+        runCatching { communityDataSource.fetchCommunityList(postType, page, size).data.toCommunityListModel() }
 
     override suspend fun fetchCommunityPost(postId: Long): Result<ReadCommunityResponseModel> =
-        runCatching {
-            communityDataSource.fetchCommunityPost(postId).data.toReadCommunityResponseModel(spf.getString("nickname","")?:"")
-        }
+        runCatching { communityDataSource.fetchCommunityPost(postId).data.toReadCommunityResponseModel(spf.getString("nickname","")?:"") }
 
-    override suspend fun getCommunityReportList(size: Int, page: Int, type: String): Result<CommunityReportListModel> =
-        runCatching {
-            communityDataSource.getCommunityReportList(size, page, type).data.toCommunityListModel()
-        }
+    override suspend fun getCommunityWithReportList(pageable: PageableRequestModel, postType: String): Result<CommunityWithReportListModel> =
+        runCatching { communityDataSource.getCommunityWithReportList(pageable.toPageableRequestDto(), postType).data.toCommunityListModel() }
+
+    override suspend fun getCommunityWithReport(postId: Long): Result<ReadCommunityWithReportResponseModel> =
+        runCatching { communityDataSource.getCommunityWithReport(postId).data.toReadCommunityWithReportResponseModel(spf.getString("nickname","")?:"") }
+
+    override suspend fun getCommunityReportCause(postId: Long): Result<CommunityReportCauseResponseModel> =
+        runCatching { communityDataSource.getCommunityReportCause(postId).data.toCommunityReportCauseResponseModel() }
 
     override suspend fun deleteCommunityPost(postId: Long): Result<Unit> =
-        runCatching {
-            communityDataSource.deleteCommunityPost(postId)
-        }
+        runCatching { communityDataSource.deleteCommunityPost(postId) }
 
     override suspend fun deleteCommunityComment(commentId: Long): Result<Unit> =
-        runCatching {
-            communityDataSource.deleteCommunityComment(commentId)
-        }
+        runCatching { communityDataSource.deleteCommunityComment(commentId) }
 
-    override fun fetchPagingSource(category: String): Flow<PagingData<CommunityListModel.CommunityListElementModel>> =
+    override fun fetchPagingSource(category: String): Flow<PagingData< CommunityWithReportListModel.CommunityReportListElementModel>> =
         Pager(
             config = PagingConfig(
                 pageSize = 10,
