@@ -1,10 +1,9 @@
 package umc.everyones.everyoneslckmanage.data.dto.response.community
 
-import umc.everyones.everyoneslckmanage.domain.model.response.community.CommunityListModel
-import umc.everyones.everyoneslckmanage.domain.model.response.community.CommunityReportListModel
+import umc.everyones.everyoneslckmanage.domain.model.response.community.CommunityWithReportListModel
 import kotlin.collections.map
 
-data class CommunityReportListResponseDto(
+data class CommunityWithReportListResponseDto(
     val postDetailList: List<CommunityReportListElementDto>,
     val isLast: Boolean
 ) {
@@ -17,10 +16,11 @@ data class CommunityReportListResponseDto(
         val userProfilePicture: String,
         val thumbnailFileUrl: String,
         val commentCounts: Int,
-        val reportCounts: Int
+        val reportCounts: Int,
+        val commentReportCounts: Int
     ) {
         fun toCommunityReportListElementModel() =
-            CommunityReportListModel.CommunityReportListElementModel(
+            CommunityWithReportListModel.CommunityReportListElementModel(
                 postId,
                 postTitle,
                 postCreatedAt,
@@ -29,10 +29,11 @@ data class CommunityReportListResponseDto(
                 userProfilePicture,
                 thumbnailFileUrl,
                 commentCounts,
-                reportCounts
+                reportCounts,
+                commentReportCounts
             )
     }
 
     fun toCommunityListModel() =
-        CommunityReportListModel(postDetailList.map { it.toCommunityReportListElementModel() }, isLast)
+        CommunityWithReportListModel(postDetailList.map { it.toCommunityReportListElementModel() }, isLast)
 }

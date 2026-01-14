@@ -10,11 +10,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import umc.everyones.everyoneslckmanage.databinding.ItemCommentBinding
 import umc.everyones.everyoneslckmanage.domain.model.response.community.ReadCommunityResponseModel
+import umc.everyones.everyoneslckmanage.domain.model.response.community.ReadCommunityWithReportResponseModel
 import umc.everyones.everyoneslckmanage.util.extension.setOnSingleClickListener
 
 class CommentRVA(
     val deleteComment: (commentId: Long) -> Unit
-) : ListAdapter<ReadCommunityResponseModel.CommentListElementModel, CommentRVA.CommentViewHolder>(DiffCallback()) {
+) : ListAdapter<ReadCommunityWithReportResponseModel.CommentListElementModel, CommentRVA.CommentViewHolder>(DiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CommentViewHolder {
         return CommentViewHolder(
@@ -33,10 +34,11 @@ class CommentRVA(
     inner class CommentViewHolder(private val binding: ItemCommentBinding) :
         RecyclerView.ViewHolder(binding.root) {
         @SuppressLint("SetTextI18n")
-        fun bind(comment: ReadCommunityResponseModel.CommentListElementModel) {
+        fun bind(comment:ReadCommunityWithReportResponseModel.CommentListElementModel) {
             with(binding) {
                 tvCommentNickname.text = comment.nickname
                 tvCommentBody.text = comment.content
+                tvCommentReportCount.text = comment.reportCount.toString()
                 tvCommentDate.text = comment.createdAt.toFormattedDate()
                 Glide.with(ivCommentProfile.context)
                     .load(comment.profileImageUrl)
@@ -50,11 +52,11 @@ class CommentRVA(
         }
     }
 
-    class DiffCallback : DiffUtil.ItemCallback<ReadCommunityResponseModel.CommentListElementModel>() {
-        override fun areItemsTheSame(oldItem: ReadCommunityResponseModel.CommentListElementModel, newItem: ReadCommunityResponseModel.CommentListElementModel) =
+    class DiffCallback : DiffUtil.ItemCallback<ReadCommunityWithReportResponseModel.CommentListElementModel>() {
+        override fun areItemsTheSame(oldItem: ReadCommunityWithReportResponseModel.CommentListElementModel, newItem:ReadCommunityWithReportResponseModel.CommentListElementModel) =
             oldItem.commentId == newItem.commentId
 
-        override fun areContentsTheSame(oldItem: ReadCommunityResponseModel.CommentListElementModel, newItem: ReadCommunityResponseModel.CommentListElementModel) =
+        override fun areContentsTheSame(oldItem: ReadCommunityWithReportResponseModel.CommentListElementModel, newItem:ReadCommunityWithReportResponseModel.CommentListElementModel) =
             oldItem == newItem
     }
 

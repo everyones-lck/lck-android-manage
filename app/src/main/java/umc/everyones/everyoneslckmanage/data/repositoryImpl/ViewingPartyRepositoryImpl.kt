@@ -10,6 +10,7 @@ import umc.everyones.everyoneslckmanage.data.datasourceImpl.party.ViewingPartyLi
 import umc.everyones.everyoneslckmanage.data.service.ViewingPartyService
 import umc.everyones.everyoneslckmanage.domain.model.response.party.ReadViewingPartyModel
 import umc.everyones.everyoneslckmanage.domain.model.response.party.ViewingPartyListModel
+import umc.everyones.everyoneslckmanage.domain.model.response.party.ViewingPartyWithReportListModel
 import umc.everyones.everyoneslckmanage.domain.repository.ViewingPartyRepository
 import javax.inject.Inject
 
@@ -18,15 +19,9 @@ class ViewingPartyRepositoryImpl @Inject constructor(
     private val viewingPartyService: ViewingPartyService,
     private val spf: SharedPreferences
 ) : ViewingPartyRepository {
-    override suspend fun fetchViewingPartyList(
-        page: Int,
-        size: Int
-    ): Result<ViewingPartyListModel> = runCatching {
-        viewingPartyDataSource.fetchViewingPartyList(
-            page,
-            size
-        ).data.toViewingPartyListModel()
-    }
+
+    override suspend fun getViewingPartyWithReportList(page: Int, size: Int): Result<ViewingPartyWithReportListModel> =
+        runCatching { viewingPartyDataSource.getViewingPartyWithReportList(page, size).data.toViewingPartyWithReportListModel() }
 
     override suspend fun fetchViewingParty(viewingPartyId: Long): Result<ReadViewingPartyModel> =
         runCatching {
@@ -38,7 +33,7 @@ class ViewingPartyRepositoryImpl @Inject constructor(
             viewingPartyDataSource.deleteViewingParty(viewingPartyId)
         }
 
-    override fun fetchViewingPartyListPagingSource(): Flow<PagingData<ViewingPartyListModel.ViewingPartyElementModel>> =
+    override fun fetchViewingPartyListPagingSource(): Flow<PagingData<ViewingPartyWithReportListModel.ViewingPartyWithReportListElementModel>> =
         Pager(
             config = PagingConfig(
                 pageSize = 10,
