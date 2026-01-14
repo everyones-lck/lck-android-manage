@@ -31,9 +31,9 @@ data class ReadCommunityWithReportResponseDto(
         fun toCommentListElementModel(userNickname: String) =
             ReadCommunityWithReportResponseModel.CommentListElementModel(
                 profileImageUrl,
-                nickname.combineNicknameAndTeam(supportTeam),
+                nickname,
+                supportTeam,
                 content,
-                createdAt.slice(0..15).toListViewingPartyDateFormat(),
                 createdAt,
                 commentId,
                 reportCount
@@ -44,10 +44,10 @@ data class ReadCommunityWithReportResponseDto(
         ReadCommunityWithReportResponseModel(
             postType,
             writerProfileUrl,
-            writerNickname.combineNicknameAndTeam(writerTeam),
+            writerNickname,
             writerTeam,
             postTitle,
-            postCreatedAt.slice(0..15).toReadDateFormat(),
+            postCreatedAt,
             content,
             reportCount,
             fileList,

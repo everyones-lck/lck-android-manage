@@ -36,7 +36,19 @@
             style="@style/TextAppearance.LCK.Bold.Detail_10sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="모두의 LCK | KT"/>
+            tools:text="모두의 LCK"/>
+        <TextView
+            style="@style/TextAppearance.LCK.Bold.Detail_10sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="2dp"
+            tools:text="|"/>
+        <TextView
+            android:id="@+id/tv_comment_supportTeam"
+            style="@style/TextAppearance.LCK.Bold.Detail_10sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="KT"/>
         <View
             android:layout_width="5dp"
             android:layout_height="0dp"/>
@@ -54,7 +66,7 @@
         style="@style/TextAppearance.LCK.Light.Detail_10sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="모두의 마블\n모두의 마블"
+        tools:text="모두의 마블"
         android:layout_marginTop="4dp"
         app:layout_constrainedWidth="true"
         app:layout_constraintHorizontal_bias="0"

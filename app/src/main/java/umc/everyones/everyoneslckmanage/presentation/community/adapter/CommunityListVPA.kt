@@ -9,7 +9,7 @@ import umc.everyones.everyoneslckmanage.presentation.community.list.SmallTalkLis
 import umc.everyones.everyoneslckmanage.presentation.community.list.SupportListFragment
 import umc.everyones.everyoneslckmanage.presentation.community.list.TradeListFragment
 
-class PostListVPA(fragment: Fragment): FragmentStateAdapter(fragment) {
+class CommunityListVPA(fragment: Fragment): FragmentStateAdapter(fragment) {
     override fun getItemCount(): Int {
         return 6
     }

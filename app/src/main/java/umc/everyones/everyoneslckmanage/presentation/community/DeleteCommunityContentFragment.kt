@@ -11,15 +11,15 @@ import umc.everyones.everyoneslckmanage.R
 import umc.everyones.everyoneslckmanage.databinding.FragmentDeleteCommunityContentBinding
 import umc.everyones.everyoneslckmanage.presentation.base.BaseFragment
 import umc.everyones.everyoneslckmanage.util.extension.toCategoryPosition
-import umc.everyones.everyoneslckmanage.presentation.community.adapter.PostListVPA
+import umc.everyones.everyoneslckmanage.presentation.community.adapter.CommunityListVPA
 import umc.everyones.everyoneslckmanage.util.extension.setOnSingleClickListener
 
 @AndroidEntryPoint
 class DeleteCommunityContentFragment: BaseFragment<FragmentDeleteCommunityContentBinding>(R.layout.fragment_delete_community_content) {
     private val communityViewModel: CommunityViewModel by activityViewModels()
 
-    private var _postListVPA: PostListVPA? = null
-    private val postListVPA get() = _postListVPA
+    private var _communityListVPA: CommunityListVPA? = null
+    private val communityListVPA get() = _communityListVPA
 
     // 글 작성 시 선택한 카테고리 화면으로 이동
     private val resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){ result ->
@@ -28,7 +28,7 @@ class DeleteCommunityContentFragment: BaseFragment<FragmentDeleteCommunityConten
             binding.vpCommunityPostList.currentItem = category.toCategoryPosition()
             val isWriteDone = result.data?.getBooleanExtra("isWriteDone", false) ?: false
             if (isWriteDone){
-                communityViewModel.refreshCategoryPage(category)
+                communityViewModel.setFilter(category, true)
             }
         }
     }
@@ -37,6 +37,8 @@ class DeleteCommunityContentFragment: BaseFragment<FragmentDeleteCommunityConten
     }
 
     override fun initView() {
+        communityViewModel.setFilter("잡담", true)
+
         initPostListVPAdapter()
         binding.ivReadBackBtn.setOnSingleClickListener {
             findNavController().navigateUp()
@@ -44,9 +46,9 @@ class DeleteCommunityContentFragment: BaseFragment<FragmentDeleteCommunityConten
     }
 
     private fun initPostListVPAdapter(){
-        _postListVPA = PostListVPA(this)
+        _communityListVPA = CommunityListVPA(this)
         with(binding){
-            vpCommunityPostList.adapter = postListVPA
+            vpCommunityPostList.adapter = communityListVPA
 
             TabLayoutMediator(tabCommunityCategory, vpCommunityPostList) { tab, position ->
                 tab.text = tabTitles[position]
@@ -54,7 +56,7 @@ class DeleteCommunityContentFragment: BaseFragment<FragmentDeleteCommunityConten
 
             tabCommunityCategory.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
                 override fun onTabSelected(tab: TabLayout.Tab?) {
-                    communityViewModel.refreshCategoryPage(tab?.text?.toString() ?: "잡담")
+                    communityViewModel.setFilter(tab?.text?.toString() ?: "잡담", true)
                 }
 
                 override fun onTabUnselected(tab: TabLayout.Tab?) {
@@ -71,7 +73,7 @@ class DeleteCommunityContentFragment: BaseFragment<FragmentDeleteCommunityConten
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _postListVPA = null
+        _communityListVPA = null
     }
 
     companion object {
