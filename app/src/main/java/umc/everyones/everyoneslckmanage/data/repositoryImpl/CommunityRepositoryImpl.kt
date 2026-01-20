@@ -6,9 +6,11 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import kotlinx.coroutines.flow.Flow
 import umc.everyones.everyoneslckmanage.data.datasource.CommunityDataSource
+import umc.everyones.everyoneslckmanage.data.datasourceImpl.community.CommentListPagingSource
 import umc.everyones.everyoneslckmanage.data.datasourceImpl.community.CommunityListPagingSource
 import umc.everyones.everyoneslckmanage.data.service.CommunityService
 import umc.everyones.everyoneslckmanage.domain.model.request.community.PageableRequestModel
+import umc.everyones.everyoneslckmanage.domain.model.response.community.CommentWithReportListResponseModel
 import umc.everyones.everyoneslckmanage.domain.model.response.community.CommunityListModel
 import umc.everyones.everyoneslckmanage.domain.model.response.community.CommunityReportCauseResponseModel
 import umc.everyones.everyoneslckmanage.domain.model.response.community.CommunityWithReportListModel
@@ -22,11 +24,6 @@ class CommunityRepositoryImpl @Inject constructor(
     private val communityService: CommunityService,
     private val spf: SharedPreferences
 ): CommunityRepository {
-    override suspend fun fetchCommunityList(postType: String, page: Int, size: Int): Result<CommunityListModel> =
-        runCatching { communityDataSource.fetchCommunityList(postType, page, size).data.toCommunityListModel() }
-
-    override suspend fun fetchCommunityPost(postId: Long): Result<ReadCommunityResponseModel> =
-        runCatching { communityDataSource.fetchCommunityPost(postId).data.toReadCommunityResponseModel(spf.getString("nickname","")?:"") }
 
     override suspend fun getCommunityWithReportList(pageable: PageableRequestModel, postType: String): Result<CommunityWithReportListModel> =
         runCatching { communityDataSource.getCommunityWithReportList(pageable.toPageableRequestDto(), postType).data.toCommunityListModel() }
@@ -40,6 +37,9 @@ class CommunityRepositoryImpl @Inject constructor(
     override suspend fun deleteCommunityPost(postId: Long): Result<Unit> =
         runCatching { communityDataSource.deleteCommunityPost(postId) }
 
+    override suspend fun getCommentWithReportList(pageable: PageableRequestModel/*, postType: String*/): Result<CommentWithReportListResponseModel> =
+        runCatching { communityDataSource.getCommentWithReportList(pageable.toPageableRequestDto()/*, postType*/).data.toCommentWithReportListResponseModel() }
+
     override suspend fun deleteCommunityComment(commentId: Long): Result<Unit> =
         runCatching { communityDataSource.deleteCommunityComment(commentId) }
 
@@ -51,4 +51,14 @@ class CommunityRepositoryImpl @Inject constructor(
             ),
             pagingSourceFactory = { CommunityListPagingSource(communityService, category) }
         ).flow
+
+    override fun fetchCommentPagingSource(category: String): Flow<PagingData<CommentWithReportListResponseModel.CommentWithReportListResponseElementModel>>  =
+        Pager(
+            config = PagingConfig(
+                pageSize = 10,
+                enablePlaceholders = true,
+            ),
+            pagingSourceFactory = { CommentListPagingSource(communityService, category) }
+        ).flow
+
 }

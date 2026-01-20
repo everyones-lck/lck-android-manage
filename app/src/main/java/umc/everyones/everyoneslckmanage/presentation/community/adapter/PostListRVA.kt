@@ -39,7 +39,7 @@ class PostListRVA(val readPost: (Long) -> Unit) : PagingDataAdapter< CommunityWi
                 with(binding){
                     tvPostTitle.text = postListItem.postTitle
                     tvPostReportCount.text = postListItem.reportCounts.toString()
-                    tvPostDate.text = postListItem.postCreatedAt
+                    tvPostDate.text = postListItem.postCreatedAt.replace("-", ".")
                     tvPostNickname.text = postListItem.userNickname
                     tvPostFavoriteTeam.text = postListItem.supportTeamName
                     tvPostComment.text = postListItem.commentCounts.toString()

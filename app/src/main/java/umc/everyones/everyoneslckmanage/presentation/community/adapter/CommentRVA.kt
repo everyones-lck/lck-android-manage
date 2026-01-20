@@ -39,6 +39,7 @@ class CommentRVA(
                 tvCommentNickname.text = comment.nickname
                 tvCommentBody.text = comment.content
                 tvCommentReportCount.text = comment.reportCount.toString()
+                tvCommentSupportTeam.text = comment.supportTeam.toString()
                 tvCommentDate.text = comment.createdAt.toFormattedDate()
                 Glide.with(ivCommentProfile.context)
                     .load(comment.profileImageUrl)
@@ -62,8 +63,8 @@ class CommentRVA(
 
     fun String.toFormattedDate(): String {
         return try {
-            val datePart = this.substring(0, 16).replace("T", " ")
-            datePart.substring(2).replace("-", ".")
+            val datePart = this.substring(0, 10)
+            datePart.replace("-", ".")
         } catch (e: Exception) {
             this
         }

@@ -9,18 +9,17 @@ import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 import umc.everyones.everyoneslckmanage.R
 import umc.everyones.everyoneslckmanage.databinding.FragmentDeleteCommunityCommentBinding
-import umc.everyones.everyoneslckmanage.databinding.FragmentDeleteCommunityContentBinding
 import umc.everyones.everyoneslckmanage.presentation.base.BaseFragment
 import umc.everyones.everyoneslckmanage.util.extension.toCategoryPosition
-import umc.everyones.everyoneslckmanage.presentation.community.adapter.PostListVPA
+import umc.everyones.everyoneslckmanage.presentation.community.adapter.CommunityListVPA
 import umc.everyones.everyoneslckmanage.util.extension.setOnSingleClickListener
 
 @AndroidEntryPoint
 class DeleteCommunityCommentFragment: BaseFragment<FragmentDeleteCommunityCommentBinding>(R.layout.fragment_delete_community_comment) {
     private val communityViewModel: CommunityViewModel by activityViewModels()
 
-    private var _postListVPA: PostListVPA? = null
-    private val postListVPA get() = _postListVPA
+    private var _communityListVPA: CommunityListVPA? = null
+    private val communityListVPA get() = _communityListVPA
 
     // 글 작성 시 선택한 카테고리 화면으로 이동
     private val resultLauncher =
@@ -30,7 +29,7 @@ class DeleteCommunityCommentFragment: BaseFragment<FragmentDeleteCommunityCommen
                 binding.vpCommunityCommentList.currentItem = category.toCategoryPosition()
                 val isWriteDone = result.data?.getBooleanExtra("isWriteDone", false) ?: false
                 if (isWriteDone) {
-                    communityViewModel.refreshCategoryPage(category)
+                    communityViewModel.setFilter(category, false)
                 }
             }
         }
@@ -39,6 +38,8 @@ class DeleteCommunityCommentFragment: BaseFragment<FragmentDeleteCommunityCommen
     }
 
     override fun initView() {
+        communityViewModel.setFilter("잡담", false)
+
         initPostListVPAdapter()
         binding.ivReadBackBtn.setOnSingleClickListener {
             findNavController().navigateUp()
@@ -46,9 +47,9 @@ class DeleteCommunityCommentFragment: BaseFragment<FragmentDeleteCommunityCommen
     }
 
     private fun initPostListVPAdapter() {
-        _postListVPA = PostListVPA(this)
+        _communityListVPA = CommunityListVPA(this)
         with(binding) {
-            vpCommunityCommentList.adapter = postListVPA
+            vpCommunityCommentList.adapter = communityListVPA
 
             TabLayoutMediator(tabCommunityCategoryComment, vpCommunityCommentList) { tab, position ->
                 tab.text = tabTitles[position]
@@ -57,7 +58,7 @@ class DeleteCommunityCommentFragment: BaseFragment<FragmentDeleteCommunityCommen
             tabCommunityCategoryComment.addOnTabSelectedListener(object :
                 TabLayout.OnTabSelectedListener {
                 override fun onTabSelected(tab: TabLayout.Tab?) {
-                    communityViewModel.refreshCategoryPage(tab?.text?.toString() ?: "잡담")
+                    communityViewModel.setFilter(tab?.text?.toString() ?: "잡담", false)
                 }
 
                 override fun onTabUnselected(tab: TabLayout.Tab?) {
@@ -74,7 +75,7 @@ class DeleteCommunityCommentFragment: BaseFragment<FragmentDeleteCommunityCommen
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _postListVPA = null
+        _communityListVPA = null
     }
 
     companion object {
