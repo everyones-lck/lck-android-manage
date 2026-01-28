@@ -8,6 +8,7 @@ import retrofit2.Retrofit
 import umc.everyones.everyoneslckmanage.data.service.CommunityService
 import umc.everyones.everyoneslckmanage.data.service.UpdateTeamInfoService
 import umc.everyones.everyoneslckmanage.data.service.InputMatchService
+import umc.everyones.everyoneslckmanage.data.service.LoginService
 import umc.everyones.everyoneslckmanage.data.service.ViewingPartyService
 import javax.inject.Singleton
 
@@ -40,6 +41,12 @@ object ServiceModule {
     @Provides
     @Singleton
     fun provideInputMatchService(retrofit: Retrofit): InputMatchService {
+        return retrofit.buildService()
+    }
+
+    @Provides
+    @Singleton
+    fun provideLoginService(retrofit: Retrofit): LoginService {
         return retrofit.buildService()
     }
 }

@@ -5,7 +5,7 @@ import umc.everyones.everyoneslckmanage.util.extension.combineNicknameAndTeam
 import umc.everyones.everyoneslckmanage.util.extension.toListViewingPartyDateFormat
 
 data class ViewingPartyWithReportListResponseDto(
-    val partyList: List<ViewingPartyWithReportListElementDto>,
+    val viewingList: List<ViewingPartyWithReportListElementDto>,
     val size: Int,
     val isLast: Boolean
 ) {
@@ -23,20 +23,9 @@ data class ViewingPartyWithReportListResponseDto(
         val reportCount: Int
     ){
         fun toViewingPartyWithReportListElementModel() =
-            ViewingPartyWithReportListModel.ViewingPartyWithReportListElementModel(
-                id,
-                name,
-                userName.combineNicknameAndTeam(teamName),
-                photoURL,
-                partyDate.slice(0..15).toListViewingPartyDateFormat(),
-                latitude,
-                longitude,
-                location,
-                shortLocation,
-                reportCount
-            )
+            ViewingPartyWithReportListModel.ViewingPartyWithReportListElementModel(id, name, userName,teamName, photoURL,partyDate.toListViewingPartyDateFormat(), latitude, longitude, location, shortLocation, reportCount)
     }
 
     fun toViewingPartyWithReportListModel() =
-        ViewingPartyWithReportListModel(partyList.map { it.toViewingPartyWithReportListElementModel() }, size, isLast)
+        ViewingPartyWithReportListModel(viewingList.map { it.toViewingPartyWithReportListElementModel() }, size, isLast)
 }

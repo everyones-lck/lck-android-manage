@@ -37,7 +37,8 @@ class ViewingPartyRVA(val readViewingParty: (Long) -> Unit) :
         fun bind(viewingPartyItem: ViewingPartyWithReportListModel.ViewingPartyWithReportListElementModel) {
             with(binding){
                 tvViewingPartyTitle.text = viewingPartyItem.name
-                tvViewingPartyWriter.text = viewingPartyItem.writerInfo
+                tvViewingPartyWriter.text = "${viewingPartyItem.userName} | ${viewingPartyItem.teamName}"
+                tvViewingPartyReportCount.text = viewingPartyItem.reportCount.toString()
                 tvViewingPartyAddress.text = viewingPartyItem.shortLocation
                 tvViewingPartyDate.text = viewingPartyItem.partyDate
                 Glide.with(ivViewingPartyProfile.context)

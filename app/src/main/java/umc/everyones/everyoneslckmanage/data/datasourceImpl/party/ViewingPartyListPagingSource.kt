@@ -25,7 +25,7 @@ class ViewingPartyListPagingSource @Inject constructor(
         }.fold(
             onSuccess = { response ->
                 return LoadResult.Page(
-                    data = response.partyList,
+                    data = response.viewingList,
                     prevKey = if (page == 0) null else page - 1,
                     nextKey = if (response.isLast) null else page + 1
                 )

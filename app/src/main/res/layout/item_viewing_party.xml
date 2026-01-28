@@ -23,6 +23,17 @@
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginTop="18dp"
             android:layout_marginStart="12dp"/>
+
+        <TextView
+            android:id="@+id/tv_viewing_party_reportCount"
+            style="@style/TextAppearance.LCK.Bold.List_14sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/warning"
+            app:layout_constraintStart_toEndOf="@id/tv_viewing_party_title"
+            app:layout_constraintTop_toTopOf="@id/tv_viewing_party_title"
+            android:layout_marginStart="4dp"
+            android:text="0"/>
         
         <androidx.cardview.widget.CardView
             android:id="@+id/cv_viewing_party_profile_bg"
@@ -38,8 +49,8 @@
                 android:id="@+id/iv_viewing_party_profile"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                tools:src="@drawable/ic_t1"
-                android:scaleType="center"/>
+                android:scaleType="center"
+                tools:src="@drawable/ic_t1" />
 
         </androidx.cardview.widget.CardView>
 

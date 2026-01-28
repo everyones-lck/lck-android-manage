@@ -1,14 +1,15 @@
 package umc.everyones.everyoneslckmanage.domain.model.response.party
 
 data class ViewingPartyWithReportListModel(
-    val partyList: List<ViewingPartyWithReportListElementModel>,
+    val viewingList: List<ViewingPartyWithReportListElementModel>,
     val size: Int,
     val isLast: Boolean
 ) {
     data class ViewingPartyWithReportListElementModel(
         val id: Long,
         val name: String,
-        val writerInfo: String,
+        val userName: String,
+        val teamName: String,
         val photoURL: String,
         val partyDate: String,
         val latitude: Double,

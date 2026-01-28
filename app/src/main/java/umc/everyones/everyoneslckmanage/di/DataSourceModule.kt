@@ -8,8 +8,10 @@ import dagger.hilt.android.scopes.ViewModelScoped
 import umc.everyones.everyoneslckmanage.data.datasource.CommunityDataSource
 import umc.everyones.everyoneslckmanage.data.datasource.UpdateTeamInfoDataSource
 import umc.everyones.everyoneslckmanage.data.datasource.InputMatchDataSource
+import umc.everyones.everyoneslckmanage.data.datasource.LoginDataSource
 import umc.everyones.everyoneslckmanage.data.datasource.ViewingPartyDataSource
 import umc.everyones.everyoneslckmanage.data.datasourceImpl.community.CommunityDataSourceImpl
+import umc.everyones.everyoneslckmanage.data.datasourceImpl.login.LoginDataSourceImpl
 import umc.everyones.everyoneslckmanage.data.datasourceImpl.match.InputMatchDataSourceImpl
 import umc.everyones.everyoneslckmanage.data.datasourceImpl.party.ViewingPartyDataSourceImpl
 import umc.everyones.everyoneslckmanage.data.datasourceImpl.team.UpdateTeamInfoDataSourceImpl
@@ -37,4 +39,9 @@ object DataSourceModule {
     @ViewModelScoped
     fun provideInputMatchDataSource(inputMatchDataSourceImpl: InputMatchDataSourceImpl): InputMatchDataSource =
         inputMatchDataSourceImpl
+
+    @Provides
+    @ViewModelScoped
+    fun provideLoginDataSource(loginDataSourceImpl: LoginDataSourceImpl): LoginDataSource =
+        loginDataSourceImpl
 }
