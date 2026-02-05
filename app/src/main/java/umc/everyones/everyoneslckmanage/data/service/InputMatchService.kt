@@ -55,4 +55,9 @@ interface InputMatchService {
     suspend fun fetchCloseMatch(
         @Body request: CloseMatchRequestDto
     ): BaseResponse<InputMatchResponseDto>
+
+    @PATCH("admins/close/match-pog")
+    suspend fun fetchCloseMatchPog(
+        @Body request: CloseMatchRequestDto
+    ): BaseResponse<InputMatchResponseDto>
 }

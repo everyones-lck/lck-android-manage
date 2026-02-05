@@ -20,4 +20,5 @@ interface InputMatchDataSource {
     suspend fun fetchSetResultInfo(matchId: Long): BaseResponse<SetResultInfoResponseDto>
     suspend fun fetchCloseSets(request: CloseSetRequestDto): BaseResponse<InputMatchResponseDto>
     suspend fun fetchCloseMatch(request: CloseMatchRequestDto): BaseResponse<InputMatchResponseDto>
+    suspend fun fetchCloseMatchPog(request: CloseMatchRequestDto): BaseResponse<InputMatchResponseDto>
 }

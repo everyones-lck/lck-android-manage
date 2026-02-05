@@ -6,6 +6,7 @@ import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import umc.everyones.everyoneslckmanage.R
 import umc.everyones.everyoneslckmanage.databinding.FragmentManagePogTimeBinding
+import umc.everyones.everyoneslckmanage.domain.model.request.match.CloseMatchModel
 import umc.everyones.everyoneslckmanage.domain.model.request.match.CloseSetModel
 import umc.everyones.everyoneslckmanage.presentation.base.BaseFragment
 import umc.everyones.everyoneslckmanage.util.extension.repeatOnStarted
@@ -47,8 +48,11 @@ class ManagePogTimeFragment: BaseFragment<FragmentManagePogTimeBinding>(R.layout
                     lastClosedSetNumber = 5
                     viewModel.fetchCloseSets(CloseSetModel(5))
                 }
-
                 val matchId = match.matchId
+                binding.tvManagePogCloseMatch.setOnSingleClickListener {
+                    viewModel.fetchCloseMatchPog(CloseMatchModel(matchId))
+                }
+
                 binding.tvMatchIdTest.text = matchId.toString()
             }
         }
@@ -63,6 +67,20 @@ class ManagePogTimeFragment: BaseFragment<FragmentManagePogTimeBinding>(R.layout
                     viewModel.clearCloseResults()
                 }.onFailure { e ->
                     Toast.makeText(requireContext(), "투표 종료 실패: ${e.message}", Toast.LENGTH_SHORT).show()
+                    viewModel.clearCloseResults()
+                }
+            }
+        }
+
+        viewLifecycleOwner.repeatOnStarted {
+            viewModel.closeMatchPogResult.collect { result ->
+                result ?: return@collect
+
+                result.onSuccess {
+                    Toast.makeText(requireContext(), "매치 POG 투표가 종료되었습니다.", Toast.LENGTH_SHORT).show()
+                    viewModel.clearCloseResults()
+                }.onFailure { e ->
+                    Toast.makeText(requireContext(), "매치 POG 종료 실패: ${e.message}", Toast.LENGTH_SHORT).show()
                     viewModel.clearCloseResults()
                 }
             }

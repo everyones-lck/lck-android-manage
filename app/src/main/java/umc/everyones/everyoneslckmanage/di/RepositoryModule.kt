@@ -11,8 +11,6 @@ import umc.everyones.everyoneslckmanage.data.repositoryImpl.CommunityRepositoryI
 import umc.everyones.everyoneslckmanage.data.repositoryImpl.UpdateTeamInfoRepositoryImpl
 import umc.everyones.everyoneslckmanage.domain.repository.UpdateTeamInfoRepository
 import umc.everyones.everyoneslckmanage.data.repositoryImpl.InputMatchRepositoryImpl
-import umc.everyones.everyoneslckmanage.data.repositoryImpl.ViewingPartyRepositoryImpl
-import umc.everyones.everyoneslckmanage.domain.repository.CommunityRepository
 import umc.everyones.everyoneslckmanage.domain.repository.InputMatchRepository
 import umc.everyones.everyoneslckmanage.domain.repository.ViewingPartyRepository
 import javax.inject.Singleton

@@ -82,4 +82,15 @@ class InputMatchRepositoryImpl @Inject constructor(
             responseDto.data.toCommonResponseModel()
         }
     }
+
+    override suspend fun fetchCloseMatchPog(request: CloseMatchModel): Result<CommonResponseModel> = runCatching {
+        val responseDto = inputMatchDataSource.fetchCloseMatchPog(request.toCloseMatchRequestDto())
+
+        if (responseDto.data == null) {
+            // 서버 응답이 null이면 기본 응답을 생성하여 반환
+            CommonResponseModel(message = responseDto.message, data = null, success = responseDto.success)
+        } else {
+            responseDto.data.toCommonResponseModel()
+        }
+    }
 }
